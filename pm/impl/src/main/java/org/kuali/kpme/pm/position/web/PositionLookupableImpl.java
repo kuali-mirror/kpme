@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.position.web;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,17 +29,22 @@ import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.authorization.PositionDocumentAuthorizer;
-import org.kuali.rice.krad.lookup.LookupForm;
-import org.kuali.rice.krad.lookup.LookupView;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizer;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.DataObjectAuthorizationService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.element.Link;
+import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PositionLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableImpl {
 
 	private static final long serialVersionUID = 8658536323175048980L;
+
 
     protected List<PositionContract> filterLookupPositions(List<PositionContract> rawResults)
     {
@@ -56,20 +61,21 @@ public class PositionLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookup
 
         return results;
     }
-    
-    @Override
-    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
+
+	@SuppressWarnings("unchecked")
+	@Override
+    protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
 		List<PositionContract> retVal = new ArrayList<PositionContract>();
 		// read and remove the primary department from the field map
 		String primaryDepartment = searchCriteria.remove("primaryDepartment");  // KPME-3189
-        List<PositionContract> posContracts = (List<PositionContract>) super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
+        List<PositionContract> posContracts = (List<PositionContract>) super.getSearchResults(form, searchCriteria, unbounded);
 		
         if (StringUtils.isEmpty(primaryDepartment)) {
         	retVal = posContracts;
         }
         else {
 	        // clean out wildcards from user entered value for primary department - KPME-3189
-			// TODO: shouldn't this be doing wildcard based matching (using regexes perhaps) instead?
+			// TODO: shouldnt this be doing wilcard based matching (using regexes perhaps) instead? 
 			primaryDepartment = StringUtils.remove(StringUtils.remove(primaryDepartment, "*"), "%");
 			// check for each position if its primary department matches the user entered primary department 
 	        for (PositionContract posContract: posContracts) {
@@ -84,21 +90,28 @@ public class PositionLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookup
 	        	}
 	        }
         }
+
         List<PositionContract> results = filterLookupPositions(retVal);
 
         return results;
     }
-
+	
 
     @Override
-    public boolean allowsMaintenanceNewOrCopyAction() {
-        return false;
+    public void initSuppressAction(LookupForm lookupForm) {
+    /*
+     * lookupAuthorizer.canInitiateDocument(lookupForm, user) returns false in this instance, because no
+     * documentTypeName can be obtained within LookupViewAuthorizeBase.canInitiateDocument(LookupForm, Person).
+     */
+        ((LookupView) lookupForm.getView()).setSuppressActions(false);
     }
 
+
     @Override
-    public void buildMaintenanceActionLink(Link actionLink, Object model, String maintenanceMethodToCall) {
-        super.buildMaintenanceActionLink(actionLink, model, maintenanceMethodToCall);
-        if (StringUtils.equals(actionLink.getLinkText(), "copy"))
+    public void getMaintenanceActionLink(Action actionLink, Object model, String maintenanceMethodToCall)
+    {
+        super.getMaintenanceActionLink(actionLink, model, maintenanceMethodToCall);
+        if (StringUtils.equals(actionLink.getActionLabel(), "copy"))
         {
             DocumentDictionaryService documentDictionaryService = KRADServiceLocatorWeb.getDocumentDictionaryService();
             Map<String, Object> context = actionLink.getContext();

@@ -72,7 +72,7 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 		earnCode.setInflateFactor(BigDecimal.ZERO);
         earnCode.setUserPrincipalId("admin");
 
-		KRADServiceLocatorWeb.getLegacyDataAdapter().save(earnCode);
+		KRADServiceLocator.getBusinessObjectService().save(earnCode);	
 		hrEarnCodeId = earnCode.getHrEarnCodeId();
 		
 		TimeBlockBo timeBlock = new TimeBlockBo();
@@ -93,16 +93,16 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 		timeBlock.setClockLogCreated(true);
 		timeBlock.setDocumentId("10039");
 
-		KRADServiceLocatorWeb.getLegacyDataAdapter().save(timeBlock);
+		KRADServiceLocator.getBusinessObjectService().save(timeBlock);
         String timeBlockId = timeBlock.getTkTimeBlockId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		EarnCodeBo earnCodeObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(EarnCodeBo.class, hrEarnCodeId);
-		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(earnCodeObj);
-/*		TimeBlock timeBlockObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(TimeBlock.class, timeBlockId);
-		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(timeBlockObj);
+		EarnCodeBo earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCodeBo.class, hrEarnCodeId);
+		KRADServiceLocator.getBusinessObjectService().delete(earnCodeObj);
+/*		TimeBlock timeBlockObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(TimeBlock.class, timeBlockId);
+		KRADServiceLocator.getBusinessObjectService().delete(timeBlockObj);
 		super.tearDown();
 	}
 	

@@ -29,7 +29,6 @@ import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -41,17 +40,18 @@ public class EarnCodeGroupMaintainableImpl extends HrDataObjectMaintainableImpl 
 	private static final long serialVersionUID = 1L;
 	
 	@Override
-    protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId, String collectionPath) {
-        boolean isValid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+    protected boolean performAddLineValidation(View view,
+                                 CollectionGroup collectionGroup, Object model, Object addLine) {
+        boolean isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
         //if (collectionName.equals("earnCodeGroups")) {
-        if (viewModel instanceof MaintenanceDocumentForm) {
-            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) viewModel;
+        if (model instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
             MaintenanceDocument document = maintenanceForm.getDocument();
             if (document.getNewMaintainableObject().getDataObject() instanceof EarnCodeGroupBo) {
                 EarnCodeGroupBo earnCodeGroupBo = (EarnCodeGroupBo) document.getNewMaintainableObject().getDataObject();
 
-                if (newLine instanceof EarnCodeGroupDefinitionBo) {
-                    EarnCodeGroupDefinitionBo definition = (EarnCodeGroupDefinitionBo) newLine;
+                if (addLine instanceof EarnCodeGroupDefinitionBo) {
+                    EarnCodeGroupDefinitionBo definition = (EarnCodeGroupDefinitionBo) addLine;
                     if (definition != null) {
                         EarnCodeGroupBo earnGroup = (EarnCodeGroupBo) this.getDataObject();
                         Set<String> earnCodes = new HashSet<String>();

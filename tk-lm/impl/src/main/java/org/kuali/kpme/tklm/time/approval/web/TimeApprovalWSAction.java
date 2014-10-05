@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.assignment.Assignment;
@@ -59,7 +60,7 @@ public class TimeApprovalWSAction extends KPMEAction {
         List<Map<String, String>> results = new LinkedList<Map<String, String>>();
 
         List<String> workAreaList = new ArrayList<String>();
-        if(StringUtils.isEmpty(taaf.getSelectedWorkArea())) {
+        if(StringUtil.isEmpty(taaf.getSelectedWorkArea())) {
         	String principalId = HrContext.getTargetPrincipalId();
         	
         	Set<Long> workAreas = new HashSet<Long>();

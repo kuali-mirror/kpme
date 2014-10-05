@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+
+	
+	<changeSet id="1" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Assigning view permission to roles for Position Maintenance Document</comment>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0759" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0760" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System View Only')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0761" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Institution Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0762" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Academic HR Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0763" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Location Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0764" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Organization Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0765" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Department Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0766" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Institution Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0767" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Academic HR Institution Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0768" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Budget Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0769" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Payroll Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0770" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0771" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Academic HR Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0772" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Fiscal Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0773" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Organization Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0774" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Fiscal Organization Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0775" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Department Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0776" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Fiscal Department Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'View Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="2" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Assigning edit saved permission to roles for Position Document</comment>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0777" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0778" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Institution Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0779" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Academic HR Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0780" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Location Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0781" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Organization Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0782" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Department Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0783" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Institution Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0784" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Academic HR Institution Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0785" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Budget Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0786" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Payroll Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0787" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0788" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Academic HR Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0789" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Fiscal Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0790" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Organization Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0791" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Fiscal Organization Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0792" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Department Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0793" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Fiscal Department Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Saved Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="3" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Assigning edit enroute permission to roles for Position Document</comment>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0794" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0795" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Institution Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0796" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Academic HR Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0797" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Location Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0798" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Organization Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0799" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Institution Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0800" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Academic HR Institution Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0801" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Budget Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0802" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Payroll Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0803" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0804" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Academic HR Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert> 
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0805" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Fiscal Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0806" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Organization Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0807" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Fiscal Organization Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0808" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Fiscal Department Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Enroute Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet> 
+    
+    <changeSet id="4" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Assigning edit final permission to roles for Position Document</comment>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0809" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Edit Final Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert> 
+        
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="5" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Assigning create permission to roles for Position Document</comment>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0810" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0811" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Institution Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0812" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Academic HR Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0813" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Location Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0814" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Organization Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0815" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Department Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0816" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Institution Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0817" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Academic HR Institution Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0818" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Budget Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0819" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Payroll Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0820" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0821" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Academic HR Location Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0822" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'HR Organization Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0823" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Department Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Create Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="6" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Assigning super user permission to roles for Position Document</comment>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0824" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Super User Administer Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0825" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Institution Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Super User Administer Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0826" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Academic HR Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-PM' AND NM = 'Super User Administer Position')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+
+</databaseChangeLog>

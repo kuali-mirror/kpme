@@ -26,18 +26,16 @@ import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
 
 @IntegrationTest
 public class BalanceTransferValidationTest extends TKLMIntegrationTestCase {
 
-	private LegacyDataAdapter boService;
+	private BusinessObjectService boService;
 	
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-    	boService = KRADServiceLocatorWeb.getLegacyDataAdapter();
+    	boService = KRADServiceLocator.getBusinessObjectService();
     	clearBusinessObjects(BalanceTransfer.class);
 	}
 	

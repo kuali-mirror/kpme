@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.core.position.web;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -23,13 +22,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PositionBaseLookupableImpl extends KPMELookupableImpl {
 	
 	private static final long serialVersionUID = -131891943631454679L;
-
+	
     @Override
-    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
+    protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
     	String positionNum = searchCriteria.get("positionNumber");
         String description = searchCriteria.get("description");
         String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));

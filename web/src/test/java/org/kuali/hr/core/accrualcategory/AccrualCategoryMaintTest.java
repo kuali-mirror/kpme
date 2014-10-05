@@ -27,7 +27,6 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @FunctionalTest
 public class AccrualCategoryMaintTest extends KPMEWebTestCase {
@@ -61,15 +60,16 @@ public class AccrualCategoryMaintTest extends KPMEWebTestCase {
         accrualCategory.setUnitOfTime("");
         accrualCategory.setEarnCode("OC1");
         accrualCategory.setUserPrincipalId("admin");
-		KRADServiceLocatorWeb.getLegacyDataAdapter().save(accrualCategory);
+		KRADServiceLocator.getBusinessObjectService().save(accrualCategory);
 		accrualCategoryId = accrualCategory.getLmAccrualCategoryId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		AccrualCategoryBo accrualCategory = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(
+		AccrualCategoryBo accrualCategory = KRADServiceLocator
+				.getBusinessObjectService().findBySinglePrimaryKey(
 						AccrualCategoryBo.class, accrualCategoryId);
-		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(accrualCategory);
+		KRADServiceLocator.getBusinessObjectService().delete(accrualCategory);
 		super.tearDown();
 	}
 

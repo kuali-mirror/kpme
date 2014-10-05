@@ -25,7 +25,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -37,7 +36,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 	@Before
     public void setUp() throws Exception {
            super.setUp();
-           boService = KNSServiceLocator.getBusinessObjectService();
+           boService = KRADServiceLocator.getBusinessObjectService();
     }
 	
 	
@@ -67,7 +66,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		
 		
 		
-		payTypeBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "5"));
+		payTypeBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "4"));
 		Assert.assertNotNull(payTypeBo);
 		
 		effectiveKeyList = payTypeBo.getEffectiveKeyList();
@@ -79,7 +78,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		Assert.assertEquals(effectiveKeySet.size(), 2);		
 		idSet = new HashSet<String>();
 		for(PayTypeKeyBo keyBo: effectiveKeySet) {
-			Assert.assertEquals(keyBo.getOwnerId(), "5");
+			Assert.assertEquals(keyBo.getOwnerId(), "4");
 			idSet.add(keyBo.getId());
 			Assert.assertTrue(effectiveKeyList.contains(keyBo));
 			Assert.assertTrue( ( (keyBo.getId().equals("kpme_paytype_test_1002")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("UGA-GA")) ) ||
@@ -99,7 +98,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		effectiveKeySet = payTypeBo.getEffectiveKeySet();
 		Assert.assertTrue( (effectiveKeySet == null) || effectiveKeySet.isEmpty() );
 		
-		payTypeBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "4"));
+		payTypeBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "3"));
 		Assert.assertNotNull(payTypeBo);
 		effectiveKeyList = payTypeBo.getEffectiveKeyList();
 		Assert.assertTrue( (effectiveKeyList == null) || effectiveKeyList.isEmpty() );
@@ -125,7 +124,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		Assert.assertTrue(extractedGroupKeyCodeWithIdSet.contains("UGA-GA-7"));
 		
 		
-		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "5"));
+		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "4"));
 		Assert.assertFalse(pstnRptGrpBo.getGroupKeySet().isEmpty());
 		extractedGroupKeyCodeWithIdSet = new HashSet<String>();
 		extractedGroupKeySet = pstnRptGrpBo.getGroupKeySet();
@@ -140,7 +139,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "2"));
 		extractedGroupKeySet = pstnRptGrpBo.getGroupKeySet();
 		Assert.assertTrue( (extractedGroupKeySet == null) || extractedGroupKeySet.isEmpty() );		
-		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "4"));
+		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "3"));
 		extractedGroupKeySet = pstnRptGrpBo.getGroupKeySet(); 
 		Assert.assertTrue( (extractedGroupKeySet == null) || extractedGroupKeySet.isEmpty() );
 	}
@@ -157,7 +156,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		Assert.assertTrue(extractedGroupKeyCodeWithIdSet.contains("UGA-GA"));
 		
 		
-		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "5"));
+		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "4"));
 		extractedGroupKeyCodeWithIdSet = pstnRptGrpBo.getGroupKeyCodeSet();
 		Assert.assertEquals(2, extractedGroupKeyCodeWithIdSet.size());
 		Assert.assertTrue(extractedGroupKeyCodeWithIdSet.contains("IU-IN"));
@@ -167,7 +166,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "2"));
 		extractedGroupKeyCodeWithIdSet = pstnRptGrpBo.getGroupKeyCodeSet();
 		Assert.assertTrue( (extractedGroupKeyCodeWithIdSet == null) || extractedGroupKeyCodeWithIdSet.isEmpty() );		
-		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "4"));
+		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "3"));
 		extractedGroupKeyCodeWithIdSet = pstnRptGrpBo.getGroupKeyCodeSet(); 
 		Assert.assertTrue( (extractedGroupKeyCodeWithIdSet == null) || extractedGroupKeyCodeWithIdSet.isEmpty() );
 	}
@@ -183,9 +182,9 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		}
 		
 		
-		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "5"));
+		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "4"));
 		for(PayTypeKeyBo keyBo: pstnRptGrpBo.getEffectiveKeySet()) {
-			Assert.assertEquals(keyBo.getOwnerId(), "5");
+			Assert.assertEquals(keyBo.getOwnerId(), "4");
 		}		
 	}
 

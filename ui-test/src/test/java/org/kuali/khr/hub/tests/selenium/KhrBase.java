@@ -22,10 +22,11 @@ import org.kuali.khr.hub.util.SeleniumBase;
 
 public class KhrBase {
 	private static WebDriver driver = SeleniumBase.getDriver();
-
-    public static void login(String username)
+	private static LoginPage login;
+	
+	public static void login(String username)
 	{
-        LoginPage login = PageFactory.initElements(driver, LoginPage.class);
+		login = PageFactory.initElements(driver, LoginPage.class);
 		login.gotoPage();
 		login.login(username);
 	}

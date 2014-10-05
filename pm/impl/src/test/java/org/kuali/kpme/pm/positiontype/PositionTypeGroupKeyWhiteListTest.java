@@ -23,7 +23,6 @@ import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.pm.PMIntegrationTestCase;
 import org.kuali.kpme.pm.api.positiontype.PositionType;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -43,7 +42,7 @@ public class PositionTypeGroupKeyWhiteListTest extends PMIntegrationTestCase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        boService = KNSServiceLocator.getBusinessObjectService();
+        boService = KRADServiceLocator.getBusinessObjectService();
     }
 
     @Test

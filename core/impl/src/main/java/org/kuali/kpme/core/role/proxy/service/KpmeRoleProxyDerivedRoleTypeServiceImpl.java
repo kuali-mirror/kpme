@@ -304,7 +304,7 @@ public class KpmeRoleProxyDerivedRoleTypeServiceImpl extends DerivedRoleTypeServ
                 }
 
                 LookupCustomizer.Builder<RoleMemberBo> builder = LookupCustomizer.Builder.create();
-                //builder.setPredicateTransform(AttributeTransform.getInstance());
+                builder.setPredicateTransform(AttributeTransform.getInstance());
                 LookupCustomizer<RoleMemberBo> lookupCustomizer = builder.build();
                 // guard for default type roles
                 if(roleTypeService != null) {

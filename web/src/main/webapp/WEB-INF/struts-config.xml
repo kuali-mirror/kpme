@@ -56,10 +56,6 @@
         <form-bean name="LeavePayoutForm" type="org.kuali.kpme.tklm.leave.payout.web.LeavePayoutForm"/>
         <form-bean name="TkForm" type="org.kuali.kpme.core.web.KPMEForm"/>
         <form-bean name="ProcessMaintForm" type="org.kuali.kpme.pm.web.ProcessMaintForm"/>
-        
-        <!--  eDossier forms -->
-        <form-bean name="EdoDossierHomeForm" type="org.kuali.kpme.edo.dossier.web.EdoDossierHomeForm"/>
-        
     </form-beans>
 
     <global-exceptions>
@@ -292,12 +288,6 @@
                 type="org.kuali.kpme.pm.web.ProcessMaintAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/processMaint.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/clockWebService.jsp"/>
-        </action>
-        
-        <action path="/EdoDossierHome" name="EdoDossierHomeForm"
-                type="org.kuali.kpme.edo.dossier.web.EdoDossierHomeAction" scope="request" attribute="EdoForm"
-                parameter="methodToCall">
-            <forward name="basic" path="/WEB-INF/jsp/edoDossierHome.jsp"/>
         </action>
     </action-mappings>
 

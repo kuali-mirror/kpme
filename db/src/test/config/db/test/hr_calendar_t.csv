@@ -1,0 +1,4 @@
+hr_calendar_id,calendar_name,flsa_begin_day,flsa_begin_time,calendar_types,calendar_descriptions
+1,BW-CAL,Sun,00:00:00,Pay,Test Description
+2,BWS-CAL,Sun,00:00:00,Pay,Test Description
+3,BWS-LM,NULL,NULL,Leave,Test Leave Management

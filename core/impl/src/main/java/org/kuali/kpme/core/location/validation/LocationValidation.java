@@ -93,7 +93,7 @@ public class LocationValidation extends MaintenanceDocumentRuleBase {
 
 	@Override
 	public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName,
-			Object line) {
+			PersistableBusinessObject line) {
 		boolean valid = true;
 		
 		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...

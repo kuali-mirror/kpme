@@ -33,13 +33,21 @@ import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.actionitem.ActionItemActionListExtension;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.quartz.*;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
 
+import java.util.Collection;
 import java.util.List;
 
 public class SupervisorApprovalJob extends BatchJob {
@@ -163,6 +171,20 @@ public class SupervisorApprovalJob extends BatchJob {
 		}
 		
 		return missedPunchDocumentsEnroute;
+	}
+	
+	private boolean documentNotEnroute(String documentId) {
+		boolean documentNotInAStateToBeApproved = false;
+		
+		Collection<ActionItemActionListExtension> actionItems = KEWServiceLocator.getActionListService().getActionListForSingleDocument(documentId);
+		for (ActionItemActionListExtension actionItem : actionItems) {
+			if (!actionItem.getRouteHeader().isEnroute()) {
+				documentNotInAStateToBeApproved = true;
+				break;
+			}
+		}
+		
+		return documentNotInAStateToBeApproved;
 	}
 	
 	private void rescheduleJob(JobExecutionContext context) throws JobExecutionException {

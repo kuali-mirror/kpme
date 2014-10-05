@@ -19,18 +19,14 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
-import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.api.position.funding.PositionFunding;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 import org.kuali.kpme.pm.position.PositionDerived;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
 
 public class PositionFundingBo extends PositionDerived implements PositionFundingContract {
 	
@@ -74,21 +70,19 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 		this.source = source;
 	}
 
-    public String getChart() {
-        if (StringUtils.isEmpty(this.chart)) {
-            Map<String, String> fields = new HashMap<String, String>();
-            fields.put("accountNumber", this.account);
-            fields.put("active", "true");
-            Account account = (Account) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class,
-                    fields);
-            if (account != null && !account.isClosed()) {
-                this.setChart(account.getChartOfAccountsCode());
-            } else {
-                this.setChart(null);
-            }
-        }
-        return chart;
-    }
+	public String getChart() {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("accountNumber", this.account);
+		fields.put("active", "true");
+		Account account = (Account) getBusinessObjectService().findByPrimaryKey(Account.class,
+						fields);
+		if (account != null && !account.isClosed()) {
+			this.setChart(account.getChartOfAccountsCode());
+		} else {
+			this.setChart(null);
+		}
+		return chart;
+	}
 
 	public void setChart(String chart) {
 		this.chart = chart;
@@ -235,6 +229,17 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 			return PositionFundingBo.from(input);
 		};
 	};
+
+	public BusinessObjectService getBusinessObjectService() {
+		if(businessObjectService == null) {
+			businessObjectService = KRADServiceLocator.getBusinessObjectService();
+		}
+		return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
 	
 	@Override
 	public String getId() {

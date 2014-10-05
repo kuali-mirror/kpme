@@ -33,7 +33,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.web.form.LookupForm;
 
 import java.util.*;
 
@@ -55,9 +55,11 @@ public class EarnCodeSecurityLookupableImpl extends KpmeHrGroupKeyedBusinessObje
 
 
 //    protected List<AssignmentBo> filterLookupAssignments(List<AssignmentBo> rawResults, String userPrincipalId) {
-    protected List<EarnCodeSecurityBo> filterLookupEarnCodeSecurities(List<EarnCodeSecurityBo> rawResults, String earnCodeType, String userPrincipalId) {
+    protected List<EarnCodeSecurityBo> filterLookupEarnCodeSecurities(List<EarnCodeSecurityBo> rawResults, String earnCodeType, String userPrincipalId)
+    {
         List<EarnCodeSecurityBo> searchResults = new ArrayList<EarnCodeSecurityBo>();
-        for (EarnCodeSecurityBo ecs : rawResults) {
+        for (EarnCodeSecurityBo ecs : rawResults)
+        {
             if (StringUtils.equals(ecs.getEarnCodeType(), earnCodeType) || StringUtils.equals(earnCodeType, "A") || StringUtils.isBlank(earnCodeType)) {
                 String department = StringUtils.equals("%", ecs.getDept().trim()) ? "*" : ecs.getDept();
                 String grpKeyCode = StringUtils.equals("%", ecs.getGroupKeyCode().trim()) ? "*" : ecs.getGroupKeyCode();
@@ -82,23 +84,44 @@ public class EarnCodeSecurityLookupableImpl extends KpmeHrGroupKeyedBusinessObje
                 }
             }
         }
+
         return searchResults;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
-        List<EarnCodeSecurityBo> searchResults = new ArrayList<EarnCodeSecurityBo>();
-        Collection<EarnCodeSecurityBo> rawSearchResults = (Collection<EarnCodeSecurityBo>)super.executeSearch(adjustedSearchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
+    protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+        String earnCodeType = searchCriteria.get("earnCodeType");
+        searchCriteria.remove("earnCodeType");
 
-        if(rawSearchResults != null && !rawSearchResults.isEmpty()) {
-            for(EarnCodeSecurityBo ecs : rawSearchResults) {
-                ecs.setEarnCodeType(HrConstants.EARN_CODE_SECURITY_TYPE.get(ecs.getEarnCodeType()));
-                searchResults.add(ecs);
-            }
+        Integer searchResultsLimit = null;
+
+        Collection<?> rawSearchResults;
+
+        // removed blank search values and decrypt any encrypted search values
+        Map<String, String> nonBlankSearchCriteria = processSearchCriteria(form, searchCriteria);
+
+        if (nonBlankSearchCriteria == null) {
+            return new ArrayList<Object>();
         }
 
+        if (!unbounded) {
+            searchResultsLimit = LookupUtils.getSearchResultsLimit(getDataObjectClass(), form);
+        }
+
+        rawSearchResults = getLookupService().findCollectionBySearchHelper(getDataObjectClass(),
+                nonBlankSearchCriteria, unbounded, searchResultsLimit);
+
+        if (rawSearchResults == null) {
+            rawSearchResults = new ArrayList<Object>();
+        } else {
+            sortSearchResults(form, (List<?>) rawSearchResults);
+        }
+
+        List<EarnCodeSecurityBo> searchResults = filterLookupEarnCodeSecurities((List<EarnCodeSecurityBo>)rawSearchResults, earnCodeType, GlobalVariables.getUserSession().getPrincipalId());
+
+        generateLookupResultsMessages(form, nonBlankSearchCriteria, searchResults, unbounded);
+
         return searchResults;
     }
-
-
 }

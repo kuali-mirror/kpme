@@ -172,11 +172,9 @@
 						<c:set var="error" value="block-error" />
 					</c:if>
 				</c:forEach>
-				
 				<tk:timeApprovalSummary error="${error}"
 					timeApprovalSummary="${row.timeSummary}"
-					principalId="${row.principalId}" 
-					clockStatusMessage="${row.clockStatusMessage}"/>
+					principalId="${row.principalId}" />
 			</c:if>
 
 		</display:column>

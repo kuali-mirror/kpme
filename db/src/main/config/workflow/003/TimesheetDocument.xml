@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType"
+                   xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+            <name>TimesheetDocument</name>
+			<parent>KpmeDocument</parent>
+			<applicationId>KPME</applicationId>
+			<superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
+			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
+			<description>Timesheet Document</description>
+			<label>Timesheet Document</label>
+            <docHandler>${kuali.docHandler.url.prefix}/Timesheet.do?methodToCall=docHandler</docHandler>
+            <postProcessorName>org.kuali.kpme.tklm.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
+            <active>true</active>
+            <routingVersion>1</routingVersion>
+			<attributes>
+				<attribute>
+					<name>TimesheetWorkAreaSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>TimesheetDepartmentSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>TimesheetSalGroupSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>TimesheetPayCalEndSearchAttribute</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" nextNode="PeopleFlows" />
+					<requests name="PeopleFlows" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<!--<start name="adhoc">
+					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
+					<activationType>S</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>-->
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kpme.tklm.time.timesheet.rules.TimesheetRulesEngineExecutor"/>
+                </requests>
+				<!--<requests name="Timesheet Attribute">
+					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
+					<activationType>S</activationType>
+					<ruleTemplate>TimesheetRuleTemplate</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+					<finalApproval>true</finalApproval>
+				</requests>-->
+			</routeNodes>
+			<policies>
+				<policy>
+					<name>INITIATOR_MUST_CANCEL</name>
+					<value>false</value>
+				</policy>
+				<policy>
+					<name>INITIATOR_MUST_ROUTE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+		</documentType>
+	</documentTypes>
+    
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute" 
+                    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        <ruleAttribute>
+            <name>TimesheetWorkAreaSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>TimesheetWorkAreaSearchAttribute</label>
+            <description>TimesheetWorkAreaSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="workarea" title="Work Area">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//WORKAREA/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>TimesheetPrincipalNameSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>TimesheetPrincipalNameSearchAttribute</label>
+            <description>TimesheetPrincipalNameSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="principalName" title="Principal Name">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//PRINCIPALNAME/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>TimesheetCalendarEntrySearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>TimesheetCalendarEntrySearchAttribute</label>
+            <description>TimesheetCalendarEntrySearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="calendarEntryId" title="Calendar Entry Id">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//CALENTRYID/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>TimesheetGroupKeySearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>TimesheetGroupKeySearchAttribute</label>
+            <description>TimesheetGroupKeySearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="groupKey" title="Group Key Code">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//GROUPKEY/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>TimesheetDepartmentSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>TimesheetDepartmentSearchAttribute</label>
+            <description>TimesheetDepartmentSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="department" title="Department">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//DEPARTMENT/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>TimesheetSalGroupSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>TimesheetSalGroupSearchAttribute</label>
+            <description>TimesheetSalGroupSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="salGroup" title="Salary Group">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//SALGROUP/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>TimesheetPayCalEndSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>TimesheetPayCalEndSearchAttribute</label>
+            <description>TimesheetPayCalEndSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="payCalendarEnd" title="Pay Calendar End Date">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//PAYENDDATE/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+	        </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>TimesheetRoleAttribute</name>
+            <className>org.kuali.kpme.tklm.time.workflow.TimesheetRoleAttribute</className>
+            <label>TimesheetRoleAttribute</label>
+            <description>TimesheetRoleAttribute</description>
+            <type>RuleAttribute</type>
+            <applicationId>KPME</applicationId>
+        </ruleAttribute>
+    </ruleAttributes>
+    
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate" 
+                   xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate allowOverwrite="true">
+            <name>TimesheetRuleTemplate</name>
+            <description>TimesheetRuleTemplate</description>
+            <attributes>
+                <attribute>
+                    <name>TimesheetRoleAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+    </ruleTemplates>
+    
+    <rules xmlns="ns:workflow/Rule" 
+           xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <rule>
+            <name>TimesheetRule</name>
+            <documentType>TimesheetDocument</documentType>
+            <ruleTemplate>TimesheetRuleTemplate</ruleTemplate>
+            <description>TimesheetRule</description>
+            <forceAction>true</forceAction>
+            <responsibilities>
+                <responsibility>
+                    <role>org.kuali.kpme.tklm.time.workflow.TimesheetRoleAttribute!Approver</role>
+                    <approvePolicy>F</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+                <responsibility>
+                    <role>org.kuali.kpme.tklm.time.workflow.TimesheetRoleAttribute!Approver Delegate</role>
+                    <approvePolicy>F</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>2</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+    </rules>
+</data>

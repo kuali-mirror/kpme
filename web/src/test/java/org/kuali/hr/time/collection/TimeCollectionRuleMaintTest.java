@@ -34,7 +34,6 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @FunctionalTest
 public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
@@ -123,12 +122,12 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 		timeCollectionRuleLookup = HtmlUnitUtil.clickInputContainingText(
 				timeCollectionRuleLookup, "search");
 		Assert.assertTrue("Page contains test timeCollectionRule",
-				timeCollectionRuleLookup.asText().contains(TEST_CODE_DEPARTMENT_VALID));
+				timeCollectionRuleLookup.asText().contains(TEST_CODE));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
 				timeCollectionRuleLookup, "edit",
 				timeCollectionRuleId);
 		Assert.assertTrue("Maintenance Page contains test timeCollectionRule",
-				maintPage.asText().contains(TEST_CODE_DEPARTMENT_VALID));
+				maintPage.asText().contains(TEST_CODE));
 	}
 
 	@Override
@@ -144,7 +143,7 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 		department.setEffectiveLocalDate(TEST_DATE);
         department.setActive(Boolean.TRUE);
         department.setUserPrincipalId(TEST_CODE);
-		department = KRADServiceLocatorWeb.getLegacyDataAdapter().save(department);
+		department = KRADServiceLocator.getBusinessObjectService().save(department);
 		
 		TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
 		timeCollectionRule.setDept(TEST_CODE_DEPARTMENT_VALID);
@@ -154,7 +153,7 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
         timeCollectionRule.setActive(true);
         timeCollectionRule.setPayType("%");
         timeCollectionRule.setGroupKeyCode(TEST_GRP_KEY_CD);
-        timeCollectionRule = KRADServiceLocatorWeb.getLegacyDataAdapter().save(timeCollectionRule);
+        timeCollectionRule = KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
 		timeCollectionRuleId = timeCollectionRule.getTkTimeCollectionRuleId();
 
 		TimeCollectionRule timeCollectionRuleWIthInvalidWorkArea = new TimeCollectionRule();
@@ -179,7 +178,7 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 		timeCollectionRuleWIthInvalidWorkArea.setUserPrincipalId(TEST_CODE);
 		timeCollectionRuleWIthInvalidWorkArea
 				.setWorkArea(TEST_CODE_INVALID_WORKAREA);
-        timeCollectionRuleWIthInvalidWorkArea = KRADServiceLocatorWeb.getLegacyDataAdapter().save(
+        timeCollectionRuleWIthInvalidWorkArea = KRADServiceLocator.getBusinessObjectService().save(
 				timeCollectionRuleWIthInvalidWorkArea);
 		timeCollectionRuleIdWithInvalidWorkArea = timeCollectionRuleWIthInvalidWorkArea
 				.getTkTimeCollectionRuleId();
@@ -189,22 +188,22 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 	@Override
 	public void tearDown() throws Exception {
 		// cleaning up
-		TimeCollectionRule timeCollectionRuleObj = KRADServiceLocatorWeb.getLegacyDataAdapter()
+		TimeCollectionRule timeCollectionRuleObj = KRADServiceLocator.getBusinessObjectService()
                 .findByPrimaryKey(TimeCollectionRule.class, Collections.singletonMap("tkTimeCollectionRuleId", timeCollectionRuleId));
         //Map<String, String> criteria = new (Collections()).singletonMap("dept")
-        //Collection<TimeCollectionRule> rules = KRADServiceLocatorWeb.getLegacyDataAdapter().findMatching(TimeCollectionRule.class, )
-		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(
+        //Collection<TimeCollectionRule> rules = KRADServiceLocator.getBusinessObjectService().findMatching(TimeCollectionRule.class, )
+		KRADServiceLocator.getBusinessObjectService().delete(
 				timeCollectionRuleObj);
 
 		timeCollectionRuleObj = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(TEST_CODE_DEPARTMENT_VALID,
 									TEST_CODE_INVALID_WORKAREA, "%", TEST_GRP_KEY_CD, LocalDate.now());
-		//timeCollectionRuleObj = KRADServiceLocatorWeb.getLegacyDataAdapter()
+		//timeCollectionRuleObj = KRADServiceLocator.getBusinessObjectService()
         //        .findByPrimaryKey(TimeCollectionRule.class, Collections.singletonMap("tkTimeCollectionRuleId", timeCollectionRuleIdWithInvalidWorkArea));
-		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(
+		KRADServiceLocator.getBusinessObjectService().delete(
 				timeCollectionRuleObj);
 
 		DepartmentBo deptObj = DepartmentBo.from(HrServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, TEST_GRP_KEY_CD, LocalDate.now()));
-		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(deptObj);
+		KRADServiceLocator.getBusinessObjectService().delete(deptObj);
 		super.tearDown();
 	}
 

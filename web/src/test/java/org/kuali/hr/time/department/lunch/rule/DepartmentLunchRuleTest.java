@@ -34,7 +34,6 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @FunctionalTest
 public class DepartmentLunchRuleTest extends KPMEWebTestCase {
@@ -55,7 +54,7 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
         deptLunchRule.setUserPrincipalId("admin");
         deptLunchRule.setGroupKeyCode("IU-BL");
         
-		KRADServiceLocatorWeb.getLegacyDataAdapter().save(deptLunchRule);
+		KRADServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST",
 											1234L, "admin", 0L, "IU-BL", JAN_AS_OF_DATE.toLocalDate());
@@ -83,7 +82,7 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
         deptLunchRule.setUserPrincipalId("admin");
         deptLunchRule.setGroupKeyCode("IU-BL");
         
-		KRADServiceLocatorWeb.getLegacyDataAdapter().save(deptLunchRule);
+		KRADServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST-DEPT",
 											1234L, "edna", 1L, "IU-BL", JAN_AS_OF_DATE.toLocalDate());

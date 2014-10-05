@@ -149,8 +149,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 	
 	public void createNewEarnCodeSecurity() {
         //clear old earncode securitys:
-        Collection<EarnCodeSecurity> earnCodeSecurities = KRADServiceLocatorWeb.getLegacyDataAdapter().findMatching(EarnCodeSecurity.class, Collections.singletonMap("earnCode", EARN_CODE));
-        KRADServiceLocatorWeb.getLegacyDataAdapter().deleteMatching(EarnCodeSecurity.class, Collections.singletonMap("earnCode", EARN_CODE));
+        Collection<EarnCodeSecurity> earnCodeSecurities = KRADServiceLocator.getBusinessObjectService().findMatching(EarnCodeSecurity.class, Collections.singletonMap("earnCode", EARN_CODE));
+        KRADServiceLocator.getBusinessObjectService().deleteMatching(EarnCodeSecurity.class, Collections.singletonMap("earnCode", EARN_CODE));
 		EarnCodeSecurity deptEarnCode = new EarnCodeSecurity();
 		deptEarnCode.setActive(true);
 		deptEarnCode.setEarnCode(EARN_CODE);
@@ -161,7 +161,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 		deptEarnCode.setLocation("BL");
 		deptEarnCode.setEarnCodeType("T");
         deptEarnCode.setUserPrincipalId("admin");
-		deptEarnCode = KRADServiceLocatorWeb.getLegacyDataAdapter().save(deptEarnCode);
+		deptEarnCode = KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);
 		hrDeptEarnCodeId = deptEarnCode.getHrEarnCodeSecurityId();
 	}
 	
@@ -176,17 +176,17 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 		deptEarnCode.setLocation("test");
 		deptEarnCode.setEarnCodeType("T");
         deptEarnCode.setUserPrincipalId("admin");
-        deptEarnCode = KRADServiceLocatorWeb.getLegacyDataAdapter().save(deptEarnCode);
+        deptEarnCode = KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);
 		dupTkDeptEarnCodeId = deptEarnCode.getHrEarnCodeSecurityId();
 	}
 	
 	@Override
 	public void tearDown() throws Exception {
-		EarnCodeSecurity deptEarnCodeObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(EarnCodeSecurity.class, hrDeptEarnCodeId);
-		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(deptEarnCodeObj);
+		EarnCodeSecurity deptEarnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCodeSecurity.class, hrDeptEarnCodeId);
+		KRADServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);
         if (StringUtils.isNotBlank(dupTkDeptEarnCodeId)) {
-		    deptEarnCodeObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(EarnCodeSecurity.class, dupTkDeptEarnCodeId);
-		    KRADServiceLocatorWeb.getLegacyDataAdapter().delete(deptEarnCodeObj);
+		    deptEarnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCodeSecurity.class, dupTkDeptEarnCodeId);
+		    KRADServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);
         }
 		super.tearDown();
 	}

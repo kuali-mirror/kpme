@@ -39,7 +39,6 @@ import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.payout.dao.LeavePayoutDao;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -346,7 +345,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 
 	@Override
 	public void saveOrUpdate(LeavePayout payout) {
-        KNSServiceLocator.getBusinessObjectService().save(payout);
+        KRADServiceLocator.getBusinessObjectService().save(payout);
 	}
 
 	@Override
