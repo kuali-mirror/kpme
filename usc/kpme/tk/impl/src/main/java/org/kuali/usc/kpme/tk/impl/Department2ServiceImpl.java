@@ -15,10 +15,20 @@
  */
 package org.kuali.usc.kpme.tk.impl;
 
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.department.service.DepartmentServiceImpl;
-import org.kuali.kpme.core.api.department.DepartmentService;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+import org.kuali.usc.kpme.tk.api.Department2Service;
 
 public class Department2ServiceImpl extends DepartmentServiceImpl
-	implements DepartmentService {
+	implements Department2Service {
 
+    public String getDepartmentByCode(String code) throws RiceIllegalArgumentException
+    {
+    	DepartmentBo departmentBo = this.getDepartmentDao().getDepartment(code);
+    	if (departmentBo == null)
+    		return "";
+    	return departmentBo.getDescription();
+    }
+	
 }

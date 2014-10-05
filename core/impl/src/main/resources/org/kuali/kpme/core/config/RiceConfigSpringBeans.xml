@@ -61,53 +61,13 @@
         <property name="userTransaction" ref="jtaUserTransaction" />
     </bean>
 
-    <!-- bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-        <property name="registryDataSource" ref="riceDataSource" />
-        <property name="messageDataSource" ref="kpmeDataSource" />
-        <property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
-        <property name="bamDataSource" ref="riceDataSource" / -->
-        <!--<property name="properties" ref="configProperties" />-->
-    <!-- /bean -->
-
- <bean id="campusService2" class="org.kuali.usc.kpme.tk.impl.CampusService2Impl">
-   </bean>
-
-
     <bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
         <property name="registryDataSource" ref="riceDataSource" />
         <property name="messageDataSource" ref="kpmeDataSource" />
         <property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
         <property name="bamDataSource" ref="riceDataSource" />
-        <!--<property name="properties" ref="configProperties" />-->
-        
-        <!-- <property name="endpointUrl" value="${application.url}/MYAPP/remoting/" /> -->
-         <property name="services">
-          <list>
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                  <property name="service">
-                     <ref bean="campusService2" />
-                </property> 
-               <property name="serviceInterface"><value>org.kuali.usc.kpme.tk.api.CampusService2</value></property>
-               <property name="localServiceName" value="campusService2" />
-                 <property name="serviceNameSpaceURI" value="campusService2" />
-                   <!-- property name="busSecurity" value="false"></property -->
-               
-            </bean>
-           <!--  <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
-                <property name="service">
-                    <ref bean="myJavaService" />
-                </property>
-                <property name="serviceInterface">
-                   <value>org.myapp.services.MyJavaService</value></property>
-                <property name="localServiceName" value="myExposedJavaService" />
-            </bean> -->
-            </list>
-         </property>
+        <!-- property name="properties" ref="configProperties" / -->
     </bean>
-    
-
-
-
 
 
     <bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer">

@@ -661,4 +661,7 @@
             </list>
         </property>
     </bean>
+    
+        <import resource="classpath:org/kuali/usc/kpme/tk/impl/USCSpringBeans.xml" />
+    
 </beans>
