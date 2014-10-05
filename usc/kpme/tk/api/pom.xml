@@ -23,5 +23,5 @@
         <version>2.1.0</version>
     </parent>
     <name>USC KPME Timekeeping API</name>
-    <artifactId>usc-kpme-tk-api</artifactId>
+    <artifactId>usc-kpme-pm-api</artifactId>
 </project>
