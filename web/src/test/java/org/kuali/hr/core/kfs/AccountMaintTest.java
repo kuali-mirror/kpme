@@ -30,6 +30,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class AccountMaintTest extends KPMEWebTestCase {
 	
@@ -148,10 +149,10 @@ public class AccountMaintTest extends KPMEWebTestCase {
 		keys.put("chartOfAccountsCode", "UA");
 		keys.put("accountNumber", "4444");
 		
-		Account account = (Account) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, keys);
+		Account account = (Account) KRADServiceLocatorWeb.getLegacyDataAdapter().findByPrimaryKey(Account.class, keys);
 		assertNotNull("newly created sub-object code should exist", account);
 		//clean up after assertion.
-		KRADServiceLocator.getBusinessObjectService().delete(account);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(account);
 	}
 	
 	@Override

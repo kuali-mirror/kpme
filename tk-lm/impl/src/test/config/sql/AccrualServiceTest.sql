@@ -28,7 +28,7 @@ delete from lm_leave_plan_t where lm_leave_plan_id >= 8000;
 delete from lm_leave_document_header_t where document_id >= 5000;
 delete from hr_calendar_t where hr_calendar_id >= 1000;
 delete from hr_calendar_entries_t where hr_calendar_entry_id >= 5000;
-delete from tk_assignment_t where tk_assignment_id >= 5000;
+delete from tk_assignment_t where CAST(tk_assignment_id as UNSIGNED) >= 5000;
 
 insert into lm_leave_plan_t (`lm_leave_plan_id`, `LEAVE_PLAN`, `DESCR`, `CAL_YEAR_START`, `EFFDT`, `OBJ_ID`, `VER_NBR`, `ACTIVE`, `TIMESTAMP`, `PLANNING_MONTHS`) values ('8000', 'testLP', 'Test Leave Plan', '02/01', '2012-02-01', '', '1', 'Y', '2012-02-06 11:59:46', '12');
 insert into hr_principal_attributes_t (`hr_principal_attribute_id`, `principal_id`, `pay_calendar`, `leave_plan`, `service_date`, `fmla_eligible`, `workers_eligible`, `timezone`, `EFFDT`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `active`, `leave_calendar`) values('5001', 'testUser', 'BWS-CAL', 'testLP', '2012-03-01', 'Y', 'Y', null, '2012-03-01', now(), uuid(), '1', 'Y', 'LM');

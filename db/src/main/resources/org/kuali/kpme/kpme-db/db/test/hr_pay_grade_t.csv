@@ -1,0 +1,34 @@
+HR_PAY_GRADE_ID,PAY_GRADE,SAL_GROUP,DESCRIPTION,LOCATION,EFFDT,ACTIVE,USER_PRINCIPAL_ID
+1,EX1,EX,Pay Grade 1 Exempt,*,2010-01-01,Y,admin
+2,EX2,EX,Pay Grade 2 Exempt,*,2010-01-01,Y,admin
+3,EX3,EX,Pay Grade 3 Exempt,*,2010-01-01,Y,admin
+4,HR1,HR,Pay Grade 1 Hourly,*,2010-01-01,Y,admin
+5,HR2,HR,Pay Grade 2 Hourly,*,2010-01-01,Y,admin
+6,HR3,HR,Pay Grade 3 Hourly,*,2010-01-01,Y,admin
+7,NE1,NE,Pay Grade 1 Non-Exempt,*,2010-01-01,Y,admin
+8,NE2,NE,Pay Grade 2 Non-Exempt,*,2010-01-01,Y,admin
+9,NE3,NE,Pay Grade 3 Non-Exempt,*,2010-01-01,Y,admin
+10,F,Staff,Grade F,UT,2010-01-01,Y,admin
+11,PS1,PROSTAFF,Professional Staff 1,*,2010-01-01,Y,admin
+12,PS2,PROSTAFF,Professional Staff 2,*,2010-01-01,Y,admin
+13,PS3,PROSTAFF,Professional Staff 3,*,2010-01-01,Y,admin
+14,PS4,PROSTAFF,Professional Staff 4,*,2010-01-01,Y,admin
+15,PS5,PROSTAFF,Professional Staff 5,*,2010-01-01,Y,admin
+16,PS6,PROSTAFF,Professional Staff 6,*,2010-01-01,Y,admin
+17,CL1,CL,Pay Grade 1,*,2010-01-01,Y,admin
+18,TE1,TE,Pay Grade 1,*,2010-01-01,Y,admin
+19,CL2,CL,Pay Grade 2,*,2010-01-01,Y,admin
+20,TE2,TE,Pay Grade 2,*,2010-01-01,Y,admin
+21,CL3,CL,Pay Grade 3,*,2010-01-01,Y,admin
+22,TE3,TE,Pay Grade 3,*,2010-01-01,Y,admin
+23,CL4,CL,Pay Grade 4,*,2010-01-01,Y,admin
+24,TE4,TE,Pay Grade 4,*,2010-01-01,Y,admin
+25,CL5,CL,Pay Grade 5,*,2010-01-01,Y,admin
+26,TE5,TE,Pay Grade 5,*,2010-01-01,Y,admin
+27,CL6,CL,Pay Grade 6,*,2010-01-01,Y,admin
+28,CL7,CL,Pay Grade 7,*,2010-01-01,Y,admin
+29,CL8,CL,Pay Grade 8,*,2010-01-01,Y,admin
+30,CL9,CL,Pay Grade 9,*,2010-01-01,Y,admin
+31,CL10,CL,Pay Grade 10,*,2010-01-01,Y,admin
+32,CL11,CL,Pay Grade 11,*,2010-01-01,Y,admin
+33,CL12,CL,Pay Grade 12,*,2010-01-01,Y,admin

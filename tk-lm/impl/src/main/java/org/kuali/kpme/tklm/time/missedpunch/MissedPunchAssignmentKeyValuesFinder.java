@@ -16,15 +16,19 @@
 package org.kuali.kpme.tklm.time.missedpunch;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.util.KpmeUtils;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -62,6 +66,16 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 
 				Map<LocalDate, List<Assignment>> assignmentMap = timesheetDocument.getAssignmentMap();
 				List<Assignment> assignments = assignmentMap.get(mpDate);
+
+                Interval calEntryInterval = new Interval(timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime());
+                if (CollectionUtils.isEmpty(assignments)
+                    && !calEntryInterval.contains(mpDate.toDateTimeAtStartOfDay())) {
+                    assignments = KpmeUtils.getUniqueAssignments(HrServiceLocator.getAssignmentService().getAssignmentHistoryBetweenDays(timesheetDocument.getPrincipalId(), mpDate, mpDate));
+                }
+
+                if (CollectionUtils.isEmpty(assignments)) {
+                    assignments = Collections.emptyList();
+                }
 				
 //				if (assignments.size() > 1) {
 //					labels.add(new ConcreteKeyValue("", ""));
@@ -70,15 +84,15 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 				if(missedPunchForm.getIpAddress()!=null){
 					String ipAddress = TKUtils.getIPAddressFromRequest(missedPunchForm.getIpAddress());
 
-					Map<String, String> assignmentDescMap = timesheetDocument.getAssignmentDescriptions(true, mpDate);
+					//Map<String, String> assignmentDescMap = timesheetDocument.getAssignmentDescriptions(true, mpDate);
 					String targetPrincipalId = HrContext.getTargetPrincipalId(); 	            
 					String principalId = HrContext.getPrincipalId();
 					if(targetPrincipalId.equals(principalId)){
 						DateTime currentDateTime = new DateTime();
-						for (Map.Entry<String, String> entry : assignmentDescMap.entrySet()) {
-							Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(entry.getKey()), LocalDate.now());
-							String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
-							if(StringUtils.equals(allowActionFromInvalidLocaiton, "false")) {
+						for (Assignment assignment : assignments) {
+							//Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(entry.getKey()), LocalDate.now());
+							String allowActionFromInvalidLocation = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
+							if(StringUtils.equals(allowActionFromInvalidLocation, "false")) {
 								boolean isInvalid = TkServiceLocator.getClockLocationRuleService().isInvalidIPClockLocation(assignment.getGroupKeyCode(), assignment.getDept(), assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), ipAddress, currentDateTime.toLocalDate());
 								if(!isInvalid){
 									labels.add(new ConcreteKeyValue(assignment.getAssignmentKey(),assignment.getAssignmentDescription()));
@@ -86,8 +100,7 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 							}
 						}
 					}else{
-						for (Map.Entry<String, String> entry : assignmentDescMap.entrySet()) {
-							Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(entry.getKey()), LocalDate.now());
+						for (Assignment assignment : assignments) {
 							labels.add(new ConcreteKeyValue(assignment.getAssignmentKey(),assignment.getAssignmentDescription()));
 						}
 					}

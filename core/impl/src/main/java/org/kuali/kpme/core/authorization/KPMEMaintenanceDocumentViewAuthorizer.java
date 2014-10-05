@@ -18,6 +18,9 @@ package org.kuali.kpme.core.authorization;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -62,6 +65,29 @@ public class KPMEMaintenanceDocumentViewAuthorizer extends MaintenanceDocumentAu
 
     protected String cleanAttributeValue(String value) {
         return StringUtils.equals("%", value) ? StringUtils.EMPTY : value;
+    }
+     
+    @Override
+    protected void addRoleQualification(Object dataObject, Map<String, String> attributes) {
+    	super.addRoleQualification(dataObject, attributes);		
+		
+    	// put in the wildcards for various possible qualifiers 
+    	attributes.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), "%");
+    	attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), "%");
+		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
+		attributes.put(KPMERoleMemberAttribute.INSTITUION.getRoleMemberAttributeName(), "%");
+		attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), "%");
+		
+		// if keyed object then replace institution and location qualifiers
+		if (dataObject instanceof HrKeyedBusinessObject && dataObject != null) {
+			// get location, institution and grp key code from the object's group key and replace them in the qualification attributes
+			HrGroupKeyBo groupKey = ((HrKeyedBusinessObject) dataObject).getGroupKey();
+			if(groupKey != null) {
+				attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), groupKey.getLocationId());
+				attributes.put(KPMERoleMemberAttribute.INSTITUION.getRoleMemberAttributeName(), groupKey.getInstitutionCode());
+				attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKey.getGroupKeyCode());
+			}
+		}
     }
 
 }

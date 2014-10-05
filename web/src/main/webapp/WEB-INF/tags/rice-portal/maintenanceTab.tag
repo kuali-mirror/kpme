@@ -64,6 +64,7 @@
 </c:if>
 
 
+
 <c:if test="${not allowed}">
     <jsp:forward page="portal.do?selectedTab=main"/>
 </c:if>
@@ -74,6 +75,7 @@
 </td>
 <td class="content" valign="top">
     <admin:positionManagement />
+    <admin:eDossierMaint />
     <%--<admin:personManagement/>--%>
 </td>
 <td class="content" valign="top">

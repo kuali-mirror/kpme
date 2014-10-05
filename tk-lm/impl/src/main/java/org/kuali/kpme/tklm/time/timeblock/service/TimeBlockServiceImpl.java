@@ -51,7 +51,12 @@ import org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockDao;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.note.Note;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.math.BigDecimal;
@@ -183,7 +188,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     @Override
     public List<TimeBlock> saveOrUpdateTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId) {
         List<TimeBlockBo> alteredTimeBlocks = new ArrayList<TimeBlockBo>();
-
+        
         List<TimeBlockBo> oldTimeBlockBos = ModelObjectUtils.transform(oldTimeBlocks, toTimeBlockBo);
         List<TimeBlockBo> newTimeBlockBos = ModelObjectUtils.transform(newTimeBlocks, toTimeBlockBo);
         for (TimeBlockBo tb : newTimeBlockBos) {
@@ -211,15 +216,19 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
 
         //List<TimeBlockBo> savedTimeBlocks = timeBlockDao.saveOrUpdate(alteredTimeBlocks);
-        List<TimeBlockBo> savedTimeBlocks = (List<TimeBlockBo>) KRADServiceLocator.getBusinessObjectService().save(alteredTimeBlocks);
+        List<TimeBlockBo> savedTimeBlocks = (List<TimeBlockBo>) KNSServiceLocator.getBusinessObjectService().save(alteredTimeBlocks);
 
         for (TimeBlockBo timeBlock : savedTimeBlocks) {
         	if(!timeBlockIds.contains(timeBlock.getTkTimeBlockId())) {
 	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.ADD_TIME_BLOCK));
-	            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
+                //Add a note to timesheet if approver has added the timeblock
+                addNote(timeBlock, "added");
+	            KNSServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
         	} else {
 	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.UPDATE_TIME_BLOCK));
-	            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
+                //Add a note to timesheet if approver has updated the timeblock
+                addNote(timeBlock, "updated");
+                KNSServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
         	}
         }
         return ModelObjectUtils.transform(savedTimeBlocks, toTimeBlock);
@@ -234,7 +243,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
                  HrServiceLocator.getHRPermissionService().updateTimeBlockPermissions(CalendarBlockPermissions.newInstance(tb.getTkTimeBlockId()));
              }
 	         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
-             savedTimeBlocks.add(KRADServiceLocator.getBusinessObjectService().save(tbBo));
+             savedTimeBlocks.add(KNSServiceLocator.getBusinessObjectService().save(tbBo));
 	         for(TimeBlockHistory tbh : tbBo.getTimeBlockHistories()){
 	        	 TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 	         }
@@ -248,7 +257,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         if (tb == null) {
             return null;
         }
-	    return TimeBlockBo.to(KRADServiceLocator.getBusinessObjectService().save(TimeBlockBo.from(tb)));
+	    return TimeBlockBo.to(KNSServiceLocator.getBusinessObjectService().save(TimeBlockBo.from(tb)));
     }
 
 
@@ -314,7 +323,21 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     @Override
     public void deleteTimeBlock(TimeBlock timeBlock) {
-        KRADServiceLocator.getBusinessObjectService().delete(TimeBlockBo.from(timeBlock));
+    	TimeBlockBo timeBlockBo = TimeBlockBo.from(timeBlock);
+    	//Add note to timesheet if approver deleted the timeblock.
+    	addNote(timeBlockBo, "deleted");
+        KNSServiceLocator.getBusinessObjectService().delete(TimeBlockBo.from(timeBlock));
+    }
+    
+    //Add a note to timesheet for approver's actions
+    public void addNote(TimeBlockBo timeBlock, String actionMessage){
+    	if(!HrContext.getPrincipalId().equals(timeBlock.getPrincipalId())){
+    		Note.Builder builder = Note.Builder.create(timeBlock.getDocumentId(), timeBlock.getUserPrincipalId());
+    		builder.setCreateDate(new DateTime());
+    		String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
+    		builder.setText("Timeblock on " + timeBlock.getBeginDateTime() + " was " + actionMessage + " on this timesheet by " + principalName + " on your behalf");
+    		KewApiServiceLocator.getNoteService().createNote(builder.build());
+    	}
     }
 
     @Override
@@ -439,15 +462,17 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     
     // This method now translates time based on timezone settings.
     //
-    public List<TimeBlock> getTimeBlocks(String documentId) {
+    public List<TimeBlockBo> getInitialTimeBlocks(String documentId) {
     	List<TimeBlockBo> timeBlocks = timeBlockDao.getTimeBlocks(documentId);
         TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-            DateTimeZone timezone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(tdh.getPrincipalId()));
-            if (timezone == null)
-             timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+        DateTimeZone timezone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(tdh.getPrincipalId()));
+        if (timezone == null) {
+            timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+        }
         for(TimeBlockBo tb : timeBlocks) {
             String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
             tb.setEarnCodeType(earnCodeType);
+//            tb.assignClockedByMissedPunch();
 			if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone())){
 				tb.setBeginTimeDisplay(tb.getBeginDateTime());
 				tb.setEndTimeDisplay(tb.getEndDateTime());
@@ -457,8 +482,21 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				tb.setEndTimeDisplay(tb.getEndDateTime().withZone(timezone));
 			}
         }
+        return timeBlocks;
+    }
 
-        return ModelObjectUtils.transform(timeBlocks, toTimeBlock);
+
+    public List<TimeBlock> getTimeBlocks(String documentId) {
+        return ModelObjectUtils.transform(getInitialTimeBlocks(documentId), toTimeBlock);
+    }
+
+    public List<TimeBlock> getTimeBlocksWithMissedPunchInfo(String documentId) {
+        List<TimeBlockBo> tbs = getInitialTimeBlocks(documentId);
+        for (TimeBlockBo tb: tbs)
+        {
+            tb.assignClockedByMissedPunch();
+        }
+        return ModelObjectUtils.transform(tbs, toTimeBlock);
     }
 
 /*    @Override
@@ -574,7 +612,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         // mark the lunch deleted as Y
         tb.setLunchDeleted(true);
         // save the change
-        KRADServiceLocator.getBusinessObjectService().save(tb);
+        KNSServiceLocator.getBusinessObjectService().save(tb);
         // remove the related time hour detail row with the lunch deduction
         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetail(thd.getTkTimeHourDetailId());
     }

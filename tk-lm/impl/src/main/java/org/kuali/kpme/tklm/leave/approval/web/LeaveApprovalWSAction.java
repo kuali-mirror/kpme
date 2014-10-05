@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
@@ -60,7 +59,7 @@ public class LeaveApprovalWSAction extends KPMEAction {
 		  List<Map<String, String>> results = new LinkedList<Map<String, String>>();
 
 		  List<String> workAreaList = new ArrayList<String>();
-		  if (StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
+		  if (StringUtils.isEmpty(laaf.getSelectedWorkArea())) {
 			  String principalId = GlobalVariables.getUserSession().getPrincipalId();
 			
 			  Set<Long> workAreas = new HashSet<Long>();

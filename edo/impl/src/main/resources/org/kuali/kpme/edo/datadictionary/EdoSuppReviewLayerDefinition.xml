@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+	<bean id="EdoSuppSuppReviewLayerDefinition" parent="EdoSuppReviewLayerDefinition-parentBean" />
+	<bean id="EdoSuppReviewLayerDefinition-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo" />
+		<property name="objectLabel" value="EdoSuppReviewLayerDefinition" />
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="EdoSuppReviewLayerDefinition-edoSuppReviewLayerDefinitionId" />
+				<ref bean="EdoSuppReviewLayerDefinition-edoReviewLayerDefinitionId" />
+				<ref bean="EdoSuppReviewLayerDefinition-suppNodeName" />
+				<ref bean="EdoSuppReviewLayerDefinition-acknowledgeFlag" />
+			</list>
+		</property>
+	</bean>
+
+    <!-- Attribute Definitions -->
+
+	<bean id="EdoSuppReviewLayerDefinition-edoSuppReviewLayerDefinitionId" parent="EdoSuppReviewLayerDefinition-edoSuppReviewLayerDefinitionId-parentBean" />
+	<bean id="EdoSuppReviewLayerDefinition-edoSuppReviewLayerDefinitionId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="shortLabel" value="id"/>
+	    <property name="maxLength" value="60" />
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="60"/>
+	    </property>
+		<property name="name" value="edoSuppReviewLayerDefinitionId" />
+		<property name="label" value="Supplement ReviewLayer Definition Id" />
+	</bean>
+	
+	<bean id="EdoSuppReviewLayerDefinition-edoReviewLayerDefinitionId" parent="EdoSuppReviewLayerDefinition-edoReviewLayerDefinitionId-parentBean" />
+	<bean id="EdoSuppReviewLayerDefinition-edoReviewLayerDefinitionId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="shortLabel" value="id"/>
+	    <property name="maxLength" value="60" />
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="60"/>
+	    </property>
+		<property name="name" value="edoReviewLayerDefinitionId" />
+		<property name="label" value="ReviewLayer Definition Id" />
+	</bean>
+	
+    <bean id="EdoSuppReviewLayerDefinition-suppNodeName" parent="EdoSuppReviewLayerDefinition-suppNodeName-parentBean"/>
+    <bean id="EdoSuppReviewLayerDefinition-suppNodeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Supp Node Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="controlField">
+			<bean parent="Uif-TextControl" p:size="30" />
+		</property>
+        <property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint" >
+				<property name="allowWhitespace" value="false" />
+            </bean>
+		</property>
+        <property name="name" value="suppNodeName"/>
+        <property name="label" value="Supplement Node Name"/>
+    </bean>
+    
+    <bean id="EdoSuppReviewLayerDefinition-acknowledgeFlag" parent="EdoSuppReviewLayerDefinition-acknowledgeFlag-parentBean"/>
+ 	<bean id="EdoSuppReviewLayerDefinition-acknowledgeFlag-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
+    	<property name="name" value="acknowledgeFlag" />
+ 		<property name="label" value="Acknowledge Flag" />
+  	</bean>
+
+    <!-- Inquiry -->
+    <bean id="EdoReviewLayerDefinition-suppReviewLayerDefinitionsInquiry" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Supplement Review Layer Definitions"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo"/>
+        <property name="propertyName" value="suppReviewLayerDefinitions"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="suppNodeName"/>
+                <bean parent="Uif-InputField" p:propertyName="acknowledgeFlag"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Maintenance -->
+   	<bean id="EdoReviewLayerDefinition-SuppReviewLayerDefinitions" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Supplement Review Layer Definitions"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo"/>
+        <property name="propertyName" value="suppReviewLayerDefinitions"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="showInactiveLines" value = "true"/>
+        <property name="renderInactiveToggleButton" value="false"/>
+        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.objectId eq null}"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="suppNodeName"/>
+                <bean parent="Uif-InputField" p:propertyName="acknowledgeFlag" />
+            </list>
+        </property>
+    </bean>
+	
+  
+</beans>

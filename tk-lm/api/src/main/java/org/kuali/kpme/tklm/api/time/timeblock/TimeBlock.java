@@ -323,7 +323,7 @@ public final class TimeBlock
 
     @Override
     public Boolean isClockLogCreated() {
-        return this.clockLogCreated;
+        return this.clockLogCreated == null ? false : this.clockLogCreated;
     }
 
     @Override

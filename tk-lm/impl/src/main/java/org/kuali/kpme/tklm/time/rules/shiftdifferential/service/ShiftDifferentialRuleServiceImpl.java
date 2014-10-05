@@ -252,7 +252,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
             return null;
         }
 
-        DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         List<ShiftCalendarInterval> shiftCalendars = getShiftCalendarIntervals(timesheetDocument, zone);
         for (ShiftCalendarInterval sci : shiftCalendars) {
             for (List<TimeBlock> blocks : blockDays) {
@@ -285,14 +285,14 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                     for (TimeBlock.Builder tb : dayTimeBlocks) {
                         if (isPreviousTimesheet(tb, timesheetDocument)) {
                             if (allowPriorPayPeriodChange) {
-                                List<ShiftBlock> shiftBlocks = timeBlocksForShift.get(tb.build());
+                                List<ShiftBlock> shiftBlocks = timeBlocksForShift.get(getTimeBlockKey(tb));
                                 boolean applied = computeAndApplyPremium(tb, shiftBlocks, sci);
                                 if (applied) {
                                     addToMap(previousDocIdChanges, tb.getDocumentId(), tb.getTkTimeBlockId());
                                 }
                             }
                         } else {
-                            List<ShiftBlock> shiftBlocks = timeBlocksForShift.get(tb.build());
+                            List<ShiftBlock> shiftBlocks = timeBlocksForShift.get(getTimeBlockKey(tb));
                             computeAndApplyPremium(tb, shiftBlocks, sci);
                         }
                     }
@@ -309,6 +309,12 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
         sendFYIForPreviousTimeSheets(previousDocIdChanges, shiftedBlockDays);
         return shiftedBlockDays;
 	}
+
+    protected TimeBlock getTimeBlockKey(TimeBlock.Builder tb) {
+        TimeBlock.Builder builder = TimeBlock.Builder.create(tb);
+        builder.setTimeHourDetails(Collections.<TimeHourDetail.Builder>emptyList());
+        return builder.build();
+    }
 
 
     protected void addToMap(Map<String, Set<String>> map, String docId, String timeBlockId) {
@@ -364,9 +370,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
         	Map<String, String> roleQualification = new HashMap<>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
         	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), shiftDifferentialRuleObj.getLocation());
-        	
-        	Map<String, String> permissionDetails = new HashMap<>();
-        	permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KRADServiceLocatorWeb.getDocumentDictionaryService().getMaintenanceDocumentTypeName(ShiftDifferentialRule.class));
+
+            Map<String, String> permissionDetails = new HashMap<>();
+        	//permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KRADServiceLocatorWeb.getDocumentDictionaryService().getMaintenanceDocumentTypeName(ShiftDifferentialRule.class));
         	
         	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
     				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), permissionDetails)

@@ -72,6 +72,7 @@ public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 		Long jobNumber = 30L;
 		Long workArea = 30L;
 		Long task = 30L;
+        String groupKey = "IU-IN";
 		createDailyOvertimeRule("IU-IN", "REG", "OVT", 
 				//"IN", // 05/08 remove location because adding groupkeycode to DailyOvertimeRule // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				"BW", "TEST-DEPT", workArea,
@@ -80,23 +81,24 @@ public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 		// Should end up with 2 hours total OVT.
         DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
 		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
         DateTime tbStart = new DateTime(2010, 3, 29, 14, 0, 0, 0, zone);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart, 2, new BigDecimal("4"), "REG", jobNumber, workArea, task));
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart.plusHours(4).plusMinutes(15), 2, new BigDecimal("5"), "REG", jobNumber, workArea, task));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart, 2, new BigDecimal("4"), "REG", jobNumber, workArea, task, groupKey, tdoc.getDocumentId()));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart.plusHours(4).plusMinutes(15), 2, new BigDecimal("5"), "REG", jobNumber, workArea, task, groupKey, tdoc.getDocumentId()));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
 		// Verify pre-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(18));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(18));}},aggregate,2);
 
 		// Run Rule
-		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
+
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getDailyOvertimeRuleService().processDailyOvertimeRules(tdoc, aggregate);
 
 		// Verify post-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(0));put("REG", new BigDecimal(18));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(0));put("REG", new BigDecimal(18));}},aggregate,2);
 	}
 
 
@@ -106,6 +108,7 @@ public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 		Long jobNumber = 30L;
 		Long workArea = 30L;
 		Long task = 30L;
+        String groupKey = "IU-IN";
 		createDailyOvertimeRule("IU-IN", "REG", "OVT", 
 				//"IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				"BW", "TEST-DEPT", workArea,
@@ -115,23 +118,24 @@ public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 		// Should end up with 2 hours total OVT.
         DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
 		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
         DateTime tbStart = new DateTime(2010, 3, 29, 14, 0, 0, 0, zone);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart, 2, new BigDecimal("4"), "REG", jobNumber, workArea, task));
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart.plusHours(4).plusMinutes(15), 2, new BigDecimal("5"), "REG", jobNumber, workArea, task));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart, 2, new BigDecimal("4"), "REG", jobNumber, workArea, task, groupKey, tdoc.getDocumentId()));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart.plusHours(4).plusMinutes(15), 2, new BigDecimal("5"), "REG", jobNumber, workArea, task, groupKey, tdoc.getDocumentId()));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
 		// Verify pre-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(18));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(18));}},aggregate,2);
 
 		// Run Rule
-		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
+
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getDailyOvertimeRuleService().processDailyOvertimeRules(tdoc, aggregate);
 
 		// Verify post-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(2));put("REG", new BigDecimal(16));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(2));put("REG", new BigDecimal(16));}},aggregate,2);
 	}
 
 	@Test

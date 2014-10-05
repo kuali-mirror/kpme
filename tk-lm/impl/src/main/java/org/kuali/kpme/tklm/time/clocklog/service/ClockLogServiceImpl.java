@@ -31,6 +31,7 @@ import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLogService;
 import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDao;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -39,6 +40,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetUtils;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -48,17 +50,31 @@ import java.util.List;
 import java.util.Set;
 
 public class ClockLogServiceImpl implements ClockLogService {
-	
+
 	private static final Logger LOG = Logger.getLogger(ClockLogServiceImpl.class);
-	
+
     private ClockLogDao clockLogDao;
+
+    void invalidIpCheck(ClockLog clockLog)
+    {
+        String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
+        if ( (StringUtils.equals(allowActionFromInvalidLocaiton, "false") ) && (clockLog.isUnapprovedIP() ) )
+        {
+            //throw exception here.
+        }
+        return;
+    }
+
 
     public ClockLog saveClockLog(ClockLog clockLog) {
         if (clockLog == null) {
             return null;
         }
+
+        invalidIpCheck(clockLog);
+
         ClockLogBo bo = ClockLogBo.from(clockLog);
-    	bo = KRADServiceLocator.getBusinessObjectService().save(bo);
+    	bo = KRADServiceLocatorWeb.getLegacyDataAdapter().save(bo);
         return ClockLogBo.to(bo);
     }
 
@@ -103,7 +119,9 @@ public class ClockLogServiceImpl implements ClockLogService {
             processTimeBlock(principalId, documentId, clockLog, assignment, pe, clockAction, userPrincipalId);
         } else {
             //Save current clock log to get id for timeblock building
-            clockLog = KRADServiceLocator.getBusinessObjectService().save(clockLog);
+
+            invalidIpCheck(ClockLogBo.to(clockLog));
+            clockLog = KRADServiceLocatorWeb.getLegacyDataAdapter().save(clockLog);
         }
         return ClockLogBo.to(clockLog);
     }
@@ -124,7 +142,9 @@ public class ClockLogServiceImpl implements ClockLogService {
             beginClockLogId = lastLog.getTkClockLogId();
         }
         //Save current clock log to get id for timeblock building
-        KRADServiceLocator.getBusinessObjectService().save(clockLog);
+        invalidIpCheck(ClockLogBo.to(clockLog));
+
+        KRADServiceLocatorWeb.getLegacyDataAdapter().save(clockLog);
         endClockLogId = clockLog.getTkClockLogId();
 
         DateTime beginDateTime = lastClockDateTime;
@@ -184,11 +204,11 @@ public class ClockLogServiceImpl implements ClockLogService {
     }
 
     @Override
-    public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry) {
+    public ClockLog getLastClockLog(String groupKeyCode, String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry) {
         TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
         if(tdh == null)
         	return null;
-        return ClockLogBo.to(clockLogDao.getLastClockLog(principalId, jobNumber, workArea, task, tdh.getDocumentId()));
+        return ClockLogBo.to(clockLogDao.getLastClockLog(groupKeyCode, principalId, jobNumber, workArea, task, tdh.getDocumentId()));
     }
 
     @Override

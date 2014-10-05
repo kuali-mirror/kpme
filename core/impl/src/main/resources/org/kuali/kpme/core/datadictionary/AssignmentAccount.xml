@@ -218,7 +218,7 @@
 	<!--  Lookup View -->
 	<bean id="AssignmentAccount-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Assignment Account Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.assignment.AssignmentAccount" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.assignment.account.AssignmentAccountBo" />
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="tkAssignmentId" />

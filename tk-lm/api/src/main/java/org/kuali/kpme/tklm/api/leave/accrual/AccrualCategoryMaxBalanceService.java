@@ -16,13 +16,13 @@
 package org.kuali.kpme.tklm.api.leave.accrual;
 
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 
 import java.util.Map;
 import java.util.Set;
 
 public interface AccrualCategoryMaxBalanceService {
 
-	public Map<String, Set<LeaveBlockContract>> getMaxBalanceViolations(CalendarEntry entry, String principalId);
+	public Map<String, Set<LeaveBlock>> getMaxBalanceViolations(CalendarEntry entry, String principalId);
 	
 }

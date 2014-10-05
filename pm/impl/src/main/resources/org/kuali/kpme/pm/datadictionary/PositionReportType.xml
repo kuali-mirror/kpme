@@ -162,20 +162,9 @@
               <bean parent="Uif-MaintenanceGridSection">
                  <property name="items">
                   <list merge="true">
-<!--                       <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"> -->
-<!--                           <property name="validCharactersConstraint"> -->
-<!--                               <bean parent="BasicDatePatternConstraint"/> -->
-<!--                           </property> -->
-<!--                       </bean> -->
 					  <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
                       <bean parent="Uif-InputField" p:propertyName="description" p:required="false"/>
                       <bean parent="Uif-InputField" p:propertyName="positionReportType" p:required="true"/>
-<!--                       <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true"> -->
-<!--                         <property name="quickfinder"> -->
-<!--                             <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo" -->
-<!--                                   p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/> -->
-<!--                         </property> -->
-<!--                       </bean> -->
                       <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
                   </list>
                  </property>

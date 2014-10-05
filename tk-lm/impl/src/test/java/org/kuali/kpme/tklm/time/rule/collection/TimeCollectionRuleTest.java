@@ -24,6 +24,7 @@ import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @IntegrationTest
 public class TimeCollectionRuleTest extends TKLMIntegrationTestCase{
@@ -59,7 +60,7 @@ public class TimeCollectionRuleTest extends TKLMIntegrationTestCase{
 		timeCollectionRule.setTimestamp(TKUtils.getCurrentTimestamp());
         timeCollectionRule.setUserPrincipalId("admin");
         timeCollectionRule.setGroupKeyCode("IU-BL");
-		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(timeCollectionRule);
 
 		TimeCollectionRule timeCollectionRule2 = new TimeCollectionRule();
 		timeCollectionRule2.setDept("TEST-ME");
@@ -70,6 +71,6 @@ public class TimeCollectionRuleTest extends TKLMIntegrationTestCase{
 		timeCollectionRule2.setTimestamp(TKUtils.getCurrentTimestamp());
         timeCollectionRule2.setUserPrincipalId("admin");
         timeCollectionRule2.setGroupKeyCode("IU-BL");
-		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule2);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(timeCollectionRule2);
 	}
 }

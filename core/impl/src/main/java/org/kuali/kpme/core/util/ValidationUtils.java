@@ -43,7 +43,9 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 
@@ -137,7 +139,7 @@ public class ValidationUtils {
         } else {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("earnCode", earnCode);
-            int matches = KRADServiceLocator.getBusinessObjectService().countMatching(EarnCodeBo.class, fieldValues);
+            int matches = KNSServiceLocator.getBusinessObjectService().countMatching(EarnCodeBo.class, fieldValues);
 
             valid = matches > 0;
         }
@@ -154,7 +156,7 @@ public class ValidationUtils {
 		} else {
 			Map<String, String> fieldValues = new HashMap<String, String>();
 			fieldValues.put("accrualCategory", accrualCategory);
-			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(AccrualCategoryBo.class, fieldValues);
+			int matches = KNSServiceLocator.getBusinessObjectService().countMatching(AccrualCategoryBo.class, fieldValues);
 			
 			valid = matches > 0;
 		}
@@ -181,7 +183,7 @@ public class ValidationUtils {
 		} else {
 			Map<String, String> fieldValues = new HashMap<String, String>();
 			fieldValues.put("accrualCategory", accrualCategory);
-			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(AccrualCategoryBo.class, fieldValues);
+			int matches = KNSServiceLocator.getBusinessObjectService().countMatching(AccrualCategoryBo.class, fieldValues);
 			
 			valid = matches > 0;
 		}
@@ -284,7 +286,7 @@ public class ValidationUtils {
         boolean valid = false;
 
         if (!StringUtils.isEmpty(chart)) {
-            Object o = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
+            Object o = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(Chart.class, chart);
             if(o instanceof Chart) {
             	Chart chartObj = (Chart) o;
             	valid = chartObj.isActive();
@@ -481,7 +483,7 @@ public class ValidationUtils {
 		Map<String, String> fieldValues = new HashMap<String, String>();
 		fieldValues.put("calendarName", calendarName);
 		fieldValues.put("calendarTypes", calendarType);
-		int matches = KRADServiceLocator.getBusinessObjectService().countMatching(CalendarBo.class, fieldValues);
+		int matches = KNSServiceLocator.getBusinessObjectService().countMatching(CalendarBo.class, fieldValues);
 		
 		return matches > 0;
 	}
@@ -584,7 +586,7 @@ public class ValidationUtils {
 			fields.put("chartOfAccountsCode", chartOfAccountsCode);
 		}
 		fields.put("active", "true");
-		Account account = (Account) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, fields);
+		Account account = (Account) KRADServiceLocatorWeb.getLegacyDataAdapter().findByPrimaryKey(Account.class, fields);
 		if(account != null) {
 			return !account.isClosed();
 		}
@@ -603,7 +605,7 @@ public class ValidationUtils {
 		fields.put("subAccountNumber", subAccountNumber);
 		fields.put("accountNumber", accountNumber);
 		fields.put("chartOfAccountsCode", chartOfAccountsCode);
-		SubAccount subAccount = (SubAccount) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(SubAccount.class, fields);
+		SubAccount subAccount = (SubAccount) KRADServiceLocatorWeb.getLegacyDataAdapter().findByPrimaryKey(SubAccount.class, fields);
 		if(subAccount != null) {
 			return subAccount.isActive();
 		}
@@ -624,7 +626,7 @@ public class ValidationUtils {
 			fields.put("universityFiscalYear", universityFiscalYear.toString());
 		}
 		fields.put("active", "true");
-		Collection<ObjectCode> objectCodes = KRADServiceLocator.getBusinessObjectService().findMatching(ObjectCode.class, fields);
+		Collection<ObjectCode> objectCodes = KRADServiceLocatorWeb.getLegacyDataAdapter().findMatching(ObjectCode.class, fields);
 		if(objectCodes != null && objectCodes.size() >0) {
 			return true;
 		}
@@ -655,7 +657,7 @@ public class ValidationUtils {
 			fields.put("universityFiscalYear", universityFiscalYear.toString());
 		}
 		fields.put("active", "true");
-		Collection<SubObjectCode> subObjectCodes = KRADServiceLocator.getBusinessObjectService().findMatching(SubObjectCode.class, fields);
+		Collection<SubObjectCode> subObjectCodes = KRADServiceLocatorWeb.getLegacyDataAdapter().findMatching(SubObjectCode.class, fields);
 		if(subObjectCodes != null && subObjectCodes.size() > 0) {
 			return true;
 		}
@@ -674,7 +676,7 @@ public class ValidationUtils {
 		fields.put("organizationCode", organizationCode);
 		fields.put("chartOfAccountsCode", chartOfAccountsCode);
 		
-		Organization org = (Organization) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, fields);
+		Organization org = (Organization) KRADServiceLocatorWeb.getLegacyDataAdapter().findByPrimaryKey(Organization.class, fields);
 		if(org != null) {
 			return org.isActive();
 		}

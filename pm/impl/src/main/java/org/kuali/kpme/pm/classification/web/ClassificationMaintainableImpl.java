@@ -39,6 +39,7 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
@@ -81,12 +82,12 @@ public class ClassificationMaintainableImpl extends HrKeyedSetBusinessObjectMain
 	}
 
 	@Override
-	protected boolean performAddLineValidation(View view,
-		CollectionGroup collectionGroup, Object model, Object addLine) {
+	protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
+                                               String collectionPath) {
 		
-		boolean isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
-        if (model instanceof MaintenanceDocumentForm) {
-	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+		boolean isValid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+        if (viewModel instanceof MaintenanceDocumentForm) {
+	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) viewModel;
 	        MaintenanceDocument document = maintenanceForm.getDocument();
 	        LocalDate asOfDate = LocalDate.now();
 	        if (document.getNewMaintainableObject().getDataObject() instanceof ClassificationBo) {
@@ -94,16 +95,16 @@ public class ClassificationMaintainableImpl extends HrKeyedSetBusinessObjectMain
 	        	if(classificationObj.getEffectiveDate() != null) {
 	        		asOfDate = classificationObj.getEffectiveLocalDate();
 	        	}
-	        	if(addLine instanceof ClassificationQualificationBo) {
-		        	ClassificationQualificationBo cQualification = (ClassificationQualificationBo) addLine;
+	        	if(newLine instanceof ClassificationQualificationBo) {
+		        	ClassificationQualificationBo cQualification = (ClassificationQualificationBo) newLine;
 		        	PstnQlfrTypeContract qType = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(cQualification.getQualificationType());
 		        	if(qType == null || !qType.isActive()) {
 		        		GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.qualificationList'].qualificationType","error.existence", "Qualification Type '"+ cQualification.getQualificationValue() + "'");
 		        		isValid = false;
 		        		return isValid;
 		        	}
-	        	} else if (addLine instanceof ClassificationFlagBo) {
-	        		ClassificationFlagBo classificationFlag = (ClassificationFlagBo) addLine;
+	        	} else if (newLine instanceof ClassificationFlagBo) {
+	        		ClassificationFlagBo classificationFlag = (ClassificationFlagBo) newLine;
 	        		List<String> flagNames = classificationFlag.getNames();
 	        		String categoryNm = classificationFlag.getCategory();
 	        		for(String flagName : flagNames) {

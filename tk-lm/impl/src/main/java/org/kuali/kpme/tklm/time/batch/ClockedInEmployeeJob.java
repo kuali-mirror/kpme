@@ -78,10 +78,11 @@ public class ClockedInEmployeeJob extends BatchJob {
                     String principalId = timesheetDocumentHeader.getPrincipalId();
                     List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
                     for (Assignment assignment : assignments) {
+                    	String groupKeyCode = assignment.getGroupKeyCode();
                         String jobNumber = String.valueOf(assignment.getJobNumber());
                         String workArea = String.valueOf(assignment.getWorkArea());
                         String task = String.valueOf(assignment.getTask());
-                        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId, jobNumber, workArea, task, calendarEntry);
+                        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(groupKeyCode, principalId, jobNumber, workArea, task, calendarEntry);
                         if (lastClockLog != null && TkConstants.ON_THE_CLOCK_CODES.contains(lastClockLog.getClockAction())) {
                             DateTime lastClockLogDateTime = lastClockLog.getClockDateTime();
                             DateTime currentDate = new DateTime();

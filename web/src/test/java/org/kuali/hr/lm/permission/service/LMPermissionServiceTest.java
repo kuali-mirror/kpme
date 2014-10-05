@@ -29,6 +29,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @FunctionalTest
 public class LMPermissionServiceTest extends KPMEWebTestCase {
@@ -41,7 +42,7 @@ public class LMPermissionServiceTest extends KPMEWebTestCase {
 	    PrincipalHRAttributesBo phra = PrincipalHRAttributesBo.from(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes("2"));
 	    phra.setLeaveCalendar("BWS-LM");
 	    phra.setLeaveCalObj(CalendarBo.from(HrServiceLocator.getCalendarService().getCalendarByGroup("BWS-LM")));
-	    KRADServiceLocator.getBusinessObjectService().save(phra);
+	    KRADServiceLocatorWeb.getLegacyDataAdapter().save(phra);
 	}
 
 	@After
@@ -51,7 +52,7 @@ public class LMPermissionServiceTest extends KPMEWebTestCase {
 	    PrincipalHRAttributesBo phra = PrincipalHRAttributesBo.from(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes("2"));
 	    phra.setLeaveCalendar(null);
 	    phra.setLeaveCalObj(null);
-	    KRADServiceLocator.getBusinessObjectService().save(phra);
+	    KRADServiceLocatorWeb.getLegacyDataAdapter().save(phra);
 	}
 	
 	@Test

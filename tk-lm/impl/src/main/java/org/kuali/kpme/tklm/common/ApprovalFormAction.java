@@ -23,7 +23,6 @@ import java.util.TreeSet;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
-import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
@@ -115,7 +114,7 @@ public abstract class ApprovalFormAction extends KPMEAction {
 		
 		List<String> workAreas = new ArrayList<String>();
 		
-	    if (StringUtil.isEmpty(approvalForm.getSelectedWorkArea())) {
+	    if (StringUtils.isEmpty(approvalForm.getSelectedWorkArea())) {
 	    	for (Long workAreaKey : approvalForm.getWorkAreaDescr().keySet()) {
 	    		workAreas.add(workAreaKey.toString());
 	    	}

@@ -25,6 +25,7 @@ import org.kuali.kpme.core.kfs.coa.businessobject.*;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -82,7 +83,7 @@ public class AssignmentAccountBo extends PersistableBusinessObjectBase implement
 		Map<String, String> fields = new HashMap<String, String>();
 		fields.put("accountNumber", this.accountNbr);
 		fields.put("active", "true");
-		Account account = (Account) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, fields);
+		Account account = (Account) KRADServiceLocatorWeb.getLegacyDataAdapter().findByPrimaryKey(Account.class, fields);
 		if(account != null && !account.isClosed()) {
 			this.setFinCoaCd(account.getChartOfAccountsCode());
 		} else {

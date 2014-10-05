@@ -161,4 +161,6 @@ public interface WeeklyOvertimeRuleContract extends TkRuleContract {
 	 */
 	public Long getTkWeeklyOvertimeRuleGroupId();
 
+    public String getApplyToEarnGroup();
+
 }

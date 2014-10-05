@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.5"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>Edossier</display-name>
+
+	<context-param>
+		<param-name>environment</param-name>
+		<param-value>${env.code}</param-value>
+	</context-param>
+	<context-param>
+        <param-name>PathToSettings</param-name>
+        <param-value>/opt/java/settings</param-value>
+    </context-param>
+	
+	
+	<context-param>
+		<param-name>app.code</param-name>
+		<param-value>${app.code}</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>web.bootstrap.spring.file</param-name>
+		<param-value>classpath:edo-spring-beans.xml</param-value>
+	</context-param>
+
+	<!-- Begin Filters -->
+
+
+    <filter>
+        <filter-name>UserLoginFilter</filter-name>
+        <filter-class>edu.iu.uis.rice.web.IUUserLoginFilter</filter-class>
+    </filter>
+
+	  <filter>
+        <filter-name>EdoLoginFilter</filter-name>
+        <filter-class>org.kuali.kpme.edo.base.web.EdoLoginFilter</filter-class>
+       	<init-param>
+            <param-name>casproperties</param-name>
+            <param-value>/edo/${env.code}/cas.properties</param-value>
+        </init-param>
+
+    </filter>
+
+   
+	<filter-mapping>
+		<filter-name>EdoLoginFilter</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+
+
+
+	<filter-mapping>
+		<filter-name>UserLoginFilter</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+	<!-- End Filters -->
+
+	<!-- Begin Listeners -->
+	<listener>
+		<listener-class>org.kuali.kpme.edo.base.web.EdoInitializeListener</listener-class>
+	</listener>
+	<!-- End Listeners -->
+
+	<!-- Begin Servlets -->
+	<servlet>
+		<servlet-name>remoting</servlet-name>
+		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:org/kuali/rice/ksb/config/remoting-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>remoting</servlet-name>
+		<url-pattern>/remoting/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/edo-struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<!-- End Servlets -->
+</web-app>

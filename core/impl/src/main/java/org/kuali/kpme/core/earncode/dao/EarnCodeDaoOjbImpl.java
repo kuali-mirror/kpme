@@ -56,7 +56,7 @@ public class EarnCodeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements EarnC
 
 		Criteria root = new Criteria();
 
-		root.addEqualTo("earnCode", earnCode);
+		root.addEqualTo("UPPER(earnCode)", (earnCode!=null?earnCode.toUpperCase():earnCode));
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeBo.class, asOfDate, EarnCodeBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeBo.class, EarnCodeBo.BUSINESS_KEYS, false));
 

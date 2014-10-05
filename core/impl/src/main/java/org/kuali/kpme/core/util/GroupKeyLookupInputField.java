@@ -15,10 +15,12 @@
  */
 package org.kuali.kpme.core.util;
 
+import org.kuali.rice.krad.lookup.LookupInputField;
+
 /**
  * Created by mlemons on 5/21/14.
  */
-public class GroupKeyLookupInputField extends org.kuali.rice.krad.uif.field.LookupInputField  implements SingleGroupKeyField {
+public class GroupKeyLookupInputField extends LookupInputField  implements SingleGroupKeyField {
     String singleGroupKey = null;
     public void singleGroupKeyCheck()
     {
@@ -62,7 +64,7 @@ public class GroupKeyLookupInputField extends org.kuali.rice.krad.uif.field.Look
         return super.isAddHiddenWhenReadOnly();
     }
 
-    public String getDefaultValue() {
+    public Object getDefaultValue() {
         if (TKUtils.singleGroupKeyExists())
         {
             return singleGroupKey;

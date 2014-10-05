@@ -31,6 +31,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @FunctionalTest
 public class ShiftDifferentialRuleMaintTest extends KPMEWebTestCase{
@@ -133,14 +134,14 @@ public class ShiftDifferentialRuleMaintTest extends KPMEWebTestCase{
 		shiftDifferentialRule.setPyCalendarGroup("TEST");
         shiftDifferentialRule.setUserPrincipalId("admin");
 		
-		ShiftDifferentialRule rule = KRADServiceLocator.getBusinessObjectService().save(shiftDifferentialRule);
+		ShiftDifferentialRule rule = KRADServiceLocatorWeb.getLegacyDataAdapter().save(shiftDifferentialRule);
 		shiftDifferentialRuleId = rule.getTkShiftDiffRuleId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {				
-		ShiftDifferentialRule shiftDifferentialRuleObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ShiftDifferentialRule.class, shiftDifferentialRuleId);		 
-		KRADServiceLocator.getBusinessObjectService().delete(shiftDifferentialRuleObj);
+		ShiftDifferentialRule shiftDifferentialRuleObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(ShiftDifferentialRule.class, shiftDifferentialRuleId);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(shiftDifferentialRuleObj);
 		super.tearDown();
 	}
 }

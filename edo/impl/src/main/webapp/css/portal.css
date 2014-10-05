@@ -1,0 +1,229 @@
+/*
+ * Copyright 2005-2006 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#portlets-left-column
+{
+	margin: 0 0 0 12px;
+	padding: 0;
+	width: 49%;
+	float: left;
+}
+
+#portlets-right-column
+{
+	margin: 0 12px 0 0;
+	padding: 0;
+	width: 50%;
+	float: right;
+}
+
+.portlet
+{
+	margin: 20px 10px 0px;
+	padding: 0px;
+	border: 1px solid #999999;
+}
+
+
+.portlet-iframe
+{
+	margin:  0px;
+	padding: 0px;
+	border: 1px solid #999999;
+}
+
+
+.portlet .header
+{
+	padding-left: 0.25em;
+	background-color: #E5E5E5;
+	height: 22px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #999999;
+	font-family: "Arial Narrow";
+	font-size: 14px;
+	color: #990000;
+	text-align: left;
+}
+
+.portlet .header h2
+{
+	margin: 0px;
+	padding: 0px;
+	font-size: 100%;
+	float: left;
+	white-space: nowrap;
+}
+
+.portlet .header span
+{
+	width: 16px;
+	height: 16px;
+	float: right;
+}
+
+.portlet-nav { float: left; }
+
+#navcontainer
+{
+	margin: 0px;
+	width: 169px;
+}
+
+#identity table,td
+{
+    width: 100%;
+    margin: 0 0 0 0;
+    border: 1px solid;
+}
+
+#navcontainer a
+{
+	display: block;
+	width: 169px;
+	text-decoration: none;
+}
+
+html>body #navcontainer a
+{
+	display: block;
+	width: 157px;
+	text-decoration: none;
+}
+
+#navcontainer a.current
+{
+	display: block;
+	width: 169px;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+html>body #navcontainer a.current
+{
+	display: block;
+	width: 157px;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#navcontainer a:link, #navlist a:visited
+{
+	color: #EEE;
+	text-decoration: none;
+}
+
+#navcontainer a:hover
+{
+	color: #003399;
+    font-weight: bold;
+}
+
+#misclinks
+{
+	padding-top: 30px;
+	padding-left: 8px;
+}
+
+#misclinks a:link
+{
+	color: #000000;
+	text-decoration: none;
+}
+
+#misclinks a:visited
+{
+	color: #000000;
+	text-decoration: none;
+}
+
+#misclinks a:hover
+{
+	color: #990000;
+	text-decoration: underline;
+}
+
+#misclinks a:active
+{
+	color: #333333;
+	text-decoration: underline;
+}
+
+/** 'portlet' block: portlet mode and window state controls **/
+div.portlet-head { height: 40px; }
+div.portlet-title {
+	float: left;
+	padding: 3px;
+}
+
+h2.portlet-title
+{
+	font-family: "Arial Narrow";
+	font-size: 16px;
+	margin-right: 10px;
+	margin-left: 10px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	color: #003399;
+	white-space: nowrap;
+}
+
+div.portlet-modify
+{
+	float: right;
+	margin-right: 10px;
+	margin-left: 10px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+.dddlist
+{
+	width: 68px;
+	font-size: 10px;
+	background-color: #e5e5e5;
+	height: 14px;
+	border: 1px solid #999999;
+	float: right;
+}
+
+.portlet .body { padding: 10px; }
+.portlet .header span.min { background: url(../images/min.png) no-repeat; }
+.portlet .header span.max { background: url(../images/max.png) no-repeat; }
+.portlet .header span.norm { background: url(../images/norm.png) no-repeat; }
+.portlet .header span.view { background: url(../images/view.png) no-repeat; }
+.portlet .header span.edit { background: url(../images/edit.png) no-repeat; }
+.portlet .header span.help { background: url(../images/help.png) no-repeat; }
+
+
+.bord-lb {
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-bottom-color: #A8B2BC;
+	border-left-color: #A8B2BC;
+}
+.bord-rt {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-top-color: #A8B2BC;
+	border-right-color: #A8B2BC;
+}
+

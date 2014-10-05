@@ -25,7 +25,9 @@ import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainableImpl {
@@ -53,7 +55,7 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 					oldHrObj.setId(null);
                     customInactiveSaveLogicNewEffective(oldHrObj);
 				}
-				KRADServiceLocator.getBusinessObjectService().save(oldHrObj);
+                KRADServiceLocatorWeb.getLegacyDataAdapter().save(oldHrObj);
 			}
 		}
 		hrObj.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -61,7 +63,7 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 		hrObj.setId(null);
 		
 		customSaveLogic(hrObj);
-		KRADServiceLocator.getBusinessObjectService().save(hrObj);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(hrObj);
 
         //cache clearing?!?!
         try {

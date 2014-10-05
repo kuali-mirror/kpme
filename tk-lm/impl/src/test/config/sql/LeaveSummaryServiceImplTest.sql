@@ -20,7 +20,7 @@ delete from hr_principal_attributes_t where principal_id like('testUser%');
 delete from lm_leave_plan_t where lm_leave_plan_id >= '5000';
 delete from lm_accrual_category_t where lm_accrual_category_id >= '5000';
 delete from lm_accrual_category_rules_t where lm_accrual_category_rules_id >= '5000';
-delete from hr_earn_code_t where hr_earn_code_id >= '5000';
+delete from hr_earn_code_t where hr_earn_code_id >= 5000;
 delete from lm_leave_block_t where principal_id like('testUser%');
 
 INSERT INTO lm_leave_document_header_t (`document_id`,`principal_id`,`begin_date`,`end_date`,`document_status`,`obj_id`,`ver_nbr`) values ('5000', 'testUser', '2012-03-01 00:00:00','2012-03-15 00:00:00', 'F', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '1');

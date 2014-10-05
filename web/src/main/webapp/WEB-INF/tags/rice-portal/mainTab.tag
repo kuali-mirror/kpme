@@ -21,6 +21,9 @@
 </td>
 
 <td class="content" valign="top">
+    <admin:edoLinks />
+</td>
+<td class="content" valign="top">
     <admin:kohrChannel />
 </td>
 
