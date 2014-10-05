@@ -100,10 +100,10 @@ public class TkTestUtils {
 	 * @return
 	 */
 	public static List<TimeBlock> createUniformTimeBlocks(DateTime start, int days, BigDecimal hours, String earnCode, Long jobNumber, Long workArea) {
-		return TkTestUtils.createUniformTimeBlocks(start, days, hours, earnCode, jobNumber, workArea, null);
+		return TkTestUtils.createUniformTimeBlocks(start, days, hours, earnCode, jobNumber, workArea, null, null, null);
 	}
 
-	public static List<TimeBlock> createUniformTimeBlocks(DateTime start, int days, BigDecimal hours, String earnCode, Long jobNumber, Long workArea, Long task) {
+	public static List<TimeBlock> createUniformTimeBlocks(DateTime start, int days, BigDecimal hours, String earnCode, Long jobNumber, Long workArea, Long task, String groupKeyCode, String documentId) {
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 
 		for (int i=0; i<days; i++) {
@@ -111,7 +111,10 @@ public class TkTestUtils {
 			DateTime co = ci.plusHours(hours.intValue());
 			TimeBlockBo block = TkTestUtils.createDummyTimeBlock(ci, co, hours, earnCode, jobNumber, workArea);
 			block.setTask(task);
-			blocks.add(TimeBlockBo.to(block));
+            block.setGroupKeyCode(groupKeyCode);
+			block.setDocumentId(documentId);
+            blocks.add(TimeBlockBo.to(block));
+
 		}
 
 		return blocks;
@@ -205,12 +208,12 @@ public class TkTestUtils {
 	 * @param flsaWeek 0 indexed start week (pulling from aggregate)
 	 */
 	@SuppressWarnings("serial")
-	public static void verifyAggregateHourSums(String msg, final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate, int flsaWeek) {
+	public static void verifyAggregateHourSums(String principalId, String msg, final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate, int flsaWeek) {
 		// Initializes sum map to zeros, since we only care about the entires
 		// that were passed in.
 		Map<String,BigDecimal> ecToSumMap = new HashMap<String,BigDecimal>() {{ for (String ec : ecToHoursMap.keySet()) { put(ec, BigDecimal.ZERO); }}};
 
-		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks(HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback(), 0, false);
+		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks(DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(principalId)), 0, false);
 		Assert.assertTrue(msg + " >> Not enough FLSA weeks to verify aggregate hours, max: " + (flsaWeeks.size() - 1), flsaWeeks.size() > flsaWeek);
 
 		// Build our Sum Map.
@@ -238,7 +241,7 @@ public class TkTestUtils {
 
 
 	public static void verifyAggregateHourSums(final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate, int flsaWeek) {
-		TkTestUtils.verifyAggregateHourSums("", ecToHoursMap, aggregate, flsaWeek);
+		TkTestUtils.verifyAggregateHourSums("admin", "", ecToHoursMap, aggregate, flsaWeek);
 	}
 
 

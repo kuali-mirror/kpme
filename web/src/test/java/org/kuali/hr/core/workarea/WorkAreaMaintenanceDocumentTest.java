@@ -38,7 +38,7 @@ package org.kuali.hr.core.workarea;
 		department.setEffectiveLocalDate(TEST_DATE.toLocalDate());
 		department.setActive(true);
         department.setUserPrincipalId("admin");
-		KRADServiceLocator.getBusinessObjectService().save(department);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(department);
     }
     
 
@@ -113,8 +113,8 @@ package org.kuali.hr.core.workarea;
 		// which is the equivalent of getDepartmentWithDeptAndLocation(String department, LocalDate asOfDate)
 		DepartmentContract deptObj = HrServiceLocator.getDepartmentService().getDepartmentWithDeptAndLocation(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
 		WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workArea, LocalDate.now());
-		KRADServiceLocator.getBusinessObjectService().delete(workAreaObj);
-		KRADServiceLocator.getBusinessObjectService().delete(deptObj);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(workAreaObj);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(deptObj);
 		super.tearDown();
 	}*/
 //}

@@ -26,14 +26,11 @@
 
 	<bean id="EarnCodeGroupMaintenanceDocument" parent="EarnCodeGroupMaintenanceDocument-parentBean" />
 	
-	<bean id="EarnCodeGroupMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+	<bean id="EarnCodeGroupMaintenanceDocument-parentBean" abstract="true" parent="KPMEHrBusinessObjectMaintenanceDocument">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupBo"/>
     	<property name="businessRulesClass" value="org.kuali.kpme.core.earncode.group.validation.EarnCodeGroupValidation"/>
     	<property name="maintainableClass" value="org.kuali.kpme.core.earncode.group.web.EarnCodeGroupMaintainableImpl"/>
-		<property name="documentTypeName" value="EarnCodeGroupDocumentType" />
-        <property name="documentAuthorizerClass" value="org.kuali.kpme.core.earncode.group.authorization.EarnCodeGroupAuthorizer" />
+		<property name="documentTypeName" value="EarnCodeGroupDocumentType"/>
 	</bean>
 
 </beans>
-
-

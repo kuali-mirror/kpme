@@ -112,18 +112,23 @@
 		</property>
 	</bean>
 
-	<!-- KRAD Lookup View Definition -->
-	<bean id="Location-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+	<!-- KRAD Lookup View Definitions -->
+	
+	<bean id="Location-LookupView" parent="Location-LookupView-QuickFinder">
+		<property name="viewName" value="default" />
+	    <property name="resultsGroup">
+        	<bean parent="KPMEAttributes-LookupView-ViewLink"/>
+   		</property>       
+	</bean>
+	
+	<bean id="Location-LookupView-QuickFinder" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+		<property name="viewName" value="quickFinderView" />
 	    <property name="headerText" value="Location Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.core.location.LocationBo" />
 	    <property name="criteriaFields">
 		    <list>
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
-					<property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:render="false"/>
-                    </property>
-				</bean>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
@@ -141,6 +146,7 @@
 			</list>
 	    </property>
 	</bean>
+	
 	  
 	<!--  KNS Look up Definitions  -->
 

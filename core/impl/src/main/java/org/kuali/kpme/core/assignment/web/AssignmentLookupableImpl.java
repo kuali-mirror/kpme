@@ -15,18 +15,15 @@
  */
 package org.kuali.kpme.core.assignment.web;
 
-import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.lookup.KpmeHrGroupKeyedBusinessObjectLookupableImpl;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.kpme.core.assignment.AssignmentBo;
 
 import java.util.*;
 
@@ -37,19 +34,18 @@ public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLook
     protected List<AssignmentBo> filterLookupAssignments(List<AssignmentBo> rawResults, String userPrincipalId) {
         List<AssignmentBo> results = new ArrayList<AssignmentBo>();
         for (AssignmentBo assignmentObj : rawResults) {
-
-            String department = assignmentObj.getDept();
-            String groupKeyCode = assignmentObj.getGroupKeyCode();
-            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, assignmentObj.getEffectiveLocalDate());
-            String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
-
             Map<String, String> roleQualification = new HashMap<String, String>();
-
             roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
-            roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
-            roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
-            roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
-
+            roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), assignmentObj.getDept());
+        	roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), assignmentObj.getGroupKeyCode());
+        	roleQualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), assignmentObj.getWorkArea().toString());
+        	
+            HrGroupKeyBo groupKey = assignmentObj.getGroupKey();
+			if(groupKey != null) {
+				roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), groupKey.getLocationId());
+				roleQualification.put(KPMERoleMemberAttribute.INSTITUION.getRoleMemberAttributeName(), groupKey.getInstitutionCode());
+			}
+           
             if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
                     KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
                     || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
@@ -61,38 +57,13 @@ public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLook
         return results;
     }
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
+
         String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
 
-        Integer searchResultsLimit = null;
-
-        Collection<?> rawSearchResults;
-
-        // removed blank search values and decrypt any encrypted search values
-        Map<String, String> nonBlankSearchCriteria = processSearchCriteria(form, searchCriteria);
-
-        if (nonBlankSearchCriteria == null) {
-            return new ArrayList<Object>();
-        }
-
-        if (!unbounded) {
-            searchResultsLimit = LookupUtils.getSearchResultsLimit(getDataObjectClass(), form);
-        }
-
-        rawSearchResults = getLookupService().findCollectionBySearchHelper(getDataObjectClass(),
-                nonBlankSearchCriteria, unbounded, searchResultsLimit);
-
-        if (rawSearchResults == null) {
-            rawSearchResults = new ArrayList<Object>();
-        } else {
-            sortSearchResults(form, (List<?>) rawSearchResults);
-        }
-
-        List<AssignmentBo> filteredResults = filterLookupAssignments((List<AssignmentBo>)rawSearchResults, userPrincipalId);
-
-        generateLookupResultsMessages(form, nonBlankSearchCriteria, filteredResults, unbounded);
+        List<AssignmentBo> results = (List<AssignmentBo>) super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
+        List<AssignmentBo> filteredResults = filterLookupAssignments(results, userPrincipalId);
 
         return filteredResults;
 	}

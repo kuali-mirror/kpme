@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>EDO</name>
+            <applicationId>EDO</applicationId>
+            <parent>RiceDocument</parent>
+            <label>EDO Document Type</label>
+            <description>Document type used for EDO routing</description>
+<!--             <superUserGroupName namespace="EDO">SuperUsers</superUserGroupName>
+ -->            <defaultExceptionGroupName namespace="EDO">SuperUsers</defaultExceptionGroupName>
+<!--             <blanketApproveGroupName namespace="EDO">SuperUsers</blanketApproveGroupName>
+ -->            <notificationFromAddress>edossier@indiana.edu</notificationFromAddress>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+        </documentType>
+
+        <documentType>
+            <name>DossierProcessDocument</name>
+            <parent>EDO</parent>
+            <label>Dossier Process Document Type</label>
+            <description>Document type used for dossier routing</description>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <postProcessorName>org.kuali.kpme.edo.workflow.postprocessor.DossierPostProcessor</postProcessorName>
+            <docHandler>${EDO.DocHandlerURL}/EdoDossierRoute.do?methodToCall=docHandler</docHandler>
+            <emailStylesheet>eDossier.email.style</emailStylesheet>
+            <notificationFromAddress>edossier@indiana.edu</notificationFromAddress>
+
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" nextNode="Level1"/>
+                    <role name="Level1" nextNode="Level2"/>
+                    <role name="Level2" nextNode="Level3"/>
+                    <role name="Level3" nextNode="Level4"/>
+                    <role name="Level4" nextNode="Level5"/>
+                    <role name="Level5" nextNode="Level6"/>
+                    <role name="Level6" nextNode="Level7"/>
+                    <role name="Level7" nextNode="Level8"/>
+                    <role name="Level8"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <role name="Level1">
+                    <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.GenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+                <role name="Level2">
+                    <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.GenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+                <role name="Level3">
+                    <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.GenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+                <role name="Level4">
+                    <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.GenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+                <role name="Level5">
+                    <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.GenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+                <role name="Level6">
+                    <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.GenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+                <role name="Level7">
+                    <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.GenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+                <role name="Level8">
+                    <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.GenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>true</finalApproval>
+                </role>
+              
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>TenureProcessDocument</name>
+            <parent>DossierProcessDocument</parent>
+            <description>Document type used for tenure dossier routing</description>
+            <label>Tenure Dossier</label>
+            <active>true</active>
+            <emailStylesheet>eDossier.email.style</emailStylesheet>
+        </documentType>
+
+        <documentType>
+            <name>PromotionProcessDocument</name>
+            <parent>DossierProcessDocument</parent>
+            <description>Document type used for promotion dossier routing</description>
+            <label>Promotion Dossier</label>
+            <active>true</active>
+            <emailStylesheet>eDossier.email.style</emailStylesheet>
+        </documentType>
+
+        <documentType>
+            <name>ReviewLayerDefinitionDocument</name>
+            <parent>EDO</parent>
+            <description>Definitions for reviewer route levels.</description>
+            <label>Review Layer Definition Document Type</label>
+            <docHandler>${EDO.DocHandlerURL}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+            <active>true</active>
+        </documentType>
+
+        <documentType>
+            <name>SupplementalProcessDocument</name>
+            <parent>EDO</parent>
+            <label>Dossier Supplemental Materials</label>
+            <description>Document type used for Supplemental document routing</description>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <postProcessorName>org.kuali.kpme.edo.workflow.postprocessor.DossierPostProcessor</postProcessorName>
+            <docHandler>${EDO.DocHandlerURL}/EdoDossierRoute.do?methodToCall=docHandler</docHandler>
+            <notificationFromAddress>edossier@indiana.edu</notificationFromAddress>
+            <emailStylesheet>eDossier.email.style</emailStylesheet>
+          
+
+            <routePaths>
+                <routePath>
+                    <start name="initiated" nextNode="splitPrincipals"/>
+                    <split name="splitPrincipals">
+                        <branch name="supplDeptLevelAck" >
+                            <role name="supplDeptLevelAck" nextNode="joinPrincipals" />
+                        </branch>
+
+                        <branch name="supplSchoolLevelAck" >
+                            <role name="supplSchoolLevelAck" nextNode="joinPrincipals" />
+                        </branch>
+
+                        <branch name="supplDeanAck" >
+                            <role name="supplDeanAck" nextNode="joinPrincipals" />
+                        </branch>
+
+                        <branch name="supplCampusLevelAck" >
+                            <role name="supplCampusLevelAck" nextNode="joinPrincipals" />
+                        </branch>
+
+                        <branch name="supplViceProvostAck" >
+                            <role name="supplViceProvostAck" nextNode="joinPrincipals" />
+                        </branch>
+
+                        <branch name="supplDeptLevel" >
+                            <role name="supplDeptLevel" nextNode="joinPrincipals" />
+                        </branch>
+
+                        <branch name="supplSchoolLevel" >
+                            <role name="supplSchoolLevel" nextNode="joinPrincipals" />
+                        </branch>
+
+                        <branch name="supplDean" >
+                            <role name="supplDean" nextNode="joinPrincipals" />
+                        </branch>
+
+                        <branch name="supplCampusLevel" >
+                            <role name="supplCampusLevel" nextNode="joinPrincipals" />
+                        </branch>
+
+                        <branch name="supplViceProvost" >
+                            <role name="supplViceProvost" nextNode="joinPrincipals" />
+                        </branch>
+                        <join name="joinPrincipals" />
+                    </split>
+
+                </routePath>
+            </routePaths>
+
+            <routeNodes>
+                <start name="initiated">
+                    <activationType>S</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+
+                <!-- **************** Initial Split into Branches **************** -->
+                <split name="splitPrincipals">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                   	<type>org.kuali.kpme.edo.workflow.node.EdoSupplementalSplitChairsNode</type> 
+                </split>
+
+                <!-- **************** Dept Branch **************** -->
+                <role name="supplDeptLevelAck">
+                	 <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.SuppGenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+
+                <role name="supplDeptLevel">
+                	<qualifierResolverClass>org.kuali.kpme.edo.workflow.role.SuppGenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                   	<mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+
+                <!-- **************** School Branch **************** -->
+                <role name="supplSchoolLevelAck">
+                	<qualifierResolverClass>org.kuali.kpme.edo.workflow.role.SuppGenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+
+                <role name="supplSchoolLevel">
+                	<qualifierResolverClass>org.kuali.kpme.edo.workflow.role.SuppGenericQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+
+                <!-- **************** Dean Branch **************** -->
+                <role name="supplDeanAck">
+                	<qualifierResolverClass>org.kuali.kpme.edo.workflow.role.SuppGenericQualifierResolver</qualifierResolverClass>
+                	<activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+
+                <role name="supplDean">
+                    <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.SuppGenericQualifierResolver</qualifierResolverClass>
+                	<activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+
+                <!-- **************** Campus Branch **************** -->
+                <role name="supplCampusLevelAck">
+                	<qualifierResolverClass>org.kuali.kpme.edo.workflow.role.SuppGenericQualifierResolver</qualifierResolverClass>
+                	<activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+
+                <role name="supplCampusLevel">
+                	<qualifierResolverClass>org.kuali.kpme.edo.workflow.role.SuppGenericQualifierResolver</qualifierResolverClass>
+                	<activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+
+                <!-- **************** Vice Provost Branch **************** -->
+                <role name="supplViceProvostAck">
+                    <qualifierResolverClass>org.kuali.kpme.edo.workflow.role.SuppGenericQualifierResolver</qualifierResolverClass>
+                	<activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+
+                <role name="supplViceProvost">
+                   	<qualifierResolverClass>org.kuali.kpme.edo.workflow.role.SuppGenericQualifierResolver</qualifierResolverClass>
+                	<activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </role>
+
+                <!-- **************** Final Join **************** -->
+                <join name="joinPrincipals">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>true</finalApproval>
+                </join>
+
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>TenureSupplementalProcessDocument</name>
+            <parent>SupplementalProcessDocument</parent>
+            <description>Document type used for tenure dossier supplemental routing</description>
+            <label>Tenure Supplemental Process Document Type</label>
+            <active>true</active>
+            <emailStylesheet>eDossier.email.style</emailStylesheet>
+        </documentType>
+
+        <documentType>
+            <name>PromotionSupplementalProcessDocument</name>
+            <parent>SupplementalProcessDocument</parent>
+            <description>Document type used for promotion dossier supplemental routing</description>
+            <label>Promotion Supplemental Process Document Type</label>
+            <active>true</active>
+            <emailStylesheet>eDossier.email.style</emailStylesheet>
+        </documentType>
+
+    </documentTypes>
+</data>

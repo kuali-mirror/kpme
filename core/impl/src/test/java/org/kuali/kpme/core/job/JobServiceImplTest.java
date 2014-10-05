@@ -60,7 +60,7 @@ public class JobServiceImplTest extends CoreUnitTestCase {
 	@Test
 	public void testSearchJobs() throws Exception {
 		List<Job> allResults = HrServiceLocator.getJobService().getJobs("admin", null, null, null, null, null, null, null, null, null, "Y", "N");
-		Assert.assertEquals("Search returned the wrong number of results.", 9, allResults.size());
+		Assert.assertEquals("Search returned the wrong number of results.", 25, allResults.size());
 		
 		List<Job> restrictedResults = HrServiceLocator.getJobService().getJobs("testuser6", null, null, null, null, null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 5, restrictedResults.size());

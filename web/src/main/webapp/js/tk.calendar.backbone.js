@@ -179,7 +179,8 @@ $(function () {
             "click input[id^=lm-payout-button]" : "showOnDemandBalancePayoutDialog",
             "click #ts-route-button" : "forfeitBalanceOnSubmit",
             "click span[id^=weekSummary]" : "showWeekSummary",
-            "change #startDate" : "updateAssignmentsEarnCodesForDate"
+            "change #startDate" : "updateAssignmentsEarnCodesForDate",
+            "change #endDate" : "updateAssignmentsEarnCodesForDate"
         },
 
         initialize : function () {
@@ -342,7 +343,7 @@ $(function () {
             // That's why we call the fillInform() method below, so all the values will still be there when the form is submitted.
             dfd.done(self.fetchOvertimeEarnCode(key.id))
                     .done($("#overtimePref option[value='" + currentOvertimePref + "']").attr("selected", "selected"))
-                    .done(this.fetchAssignmentsForDay(timeBlock.get('startDate'), timeBlock.get("assignment")))
+                    .done(this.fetchAssignmentsForDay(timeBlock.get('startDate'), timeBlock.get("assignment"), true))
                     .done(_(timeBlock).fillInForm());
 
             $("#overtime-section").dialog({
@@ -398,7 +399,7 @@ $(function () {
             dfd.done(this.fetchEarnCode(timeBlock.get("assignment"), isTimeBlockReadOnly, timeBlock.get('startDate'), timeBlock.get('earnCode')))
                     .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected"))
                     .done(this.showFieldByEarnCodeType())
-                    .done(this.fetchAssignmentsForDay(timeBlock.get('startDate'), timeBlock.get("assignment")))
+                    .done(this.fetchAssignmentsForDay(timeBlock.get('startDate'), timeBlock.get("assignment"), true))
                     .done(_(timeBlock).fillInForm())
                     .done(this.applyRules(timeBlock));
         },
@@ -508,7 +509,7 @@ $(function () {
 				.done(this.fetchEarnCode(leaveBlock.get("assignment"), isLeaveBlockReadOnly))
 				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
 				.done(this.showFieldByEarnCodeType())
-                .done(this.fetchAssignmentsForDay(leaveBlock.get('leaveDate'), leaveBlock.get("assignment")))
+                .done(this.fetchAssignmentsForDay(leaveBlock.get('leaveDate'), leaveBlock.get("assignment"), true))
 				.done(_(leaveBlock).leaveBlockFillInForm());
         },
         /**
@@ -571,9 +572,21 @@ $(function () {
             var timeBlock = timeBlockCollection.get(key.id);
 
             if (this.checkPermissions()) {
-                if (confirm('You are about to delete a time block. Click OK to confirm the delete.')) {
-                    window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&documentId=" + timeBlock.get("documentId") + "&tkTimeBlockId=" + key.id;
-                }
+                $('#confirm-time-block-delete').dialog({
+                    autoOpen: true,
+                    height: 'auto',
+                    width: 'auto',
+                    modal: true,
+                    buttons : {
+                        "OK" : function () {
+                            window.location = 'TimeDetail.do?methodToCall=deleteTimeBlock&documentId=' + timeBlock.get("documentId") + '&tkTimeBlockId=' + key.id
+                            $(this).dialog("close");
+                        },
+                        Cancel : function () {
+                            $(this).dialog("close");
+                        }
+                    },
+                });
             }
         },
 
@@ -701,21 +714,26 @@ $(function () {
 
         },
         
-        fetchAssignmentsForDay : function(e, assignValue) {
+        fetchAssignmentsForDay : function(e, assignValue, suppressErrorCheck) {
             var assignment = assignValue;
             if (assignment == null) {
                 assignment = this.$('#selectedAssignment option:selected').val();
             }
             var asOfDate = _.isString(e) ? e : $('#startDate').val();
+            var asOfDateEnd = _.isString(e) ? e : $('#endDate').val();
+
             assignmentsForStartDay.fetch({
                 // Make the ajax call not async to be able to filter the assignments
                 async : false,
                 data : {
-                    startDate : asOfDate
+                    startDate : asOfDate,
+                    endDate : asOfDateEnd
                 }
             });
 
+
             var view = new AssignmentView({collection : assignmentsForStartDay});
+
             // Append the earn code to <select>
             $("#assignment-section")
                 .find('option')
@@ -792,9 +810,31 @@ $(function () {
         },
 
         updateAssignmentsEarnCodesForDate : function() {
-            this.fetchAssignmentsForDay();
-            if (_.getSelectedAssignmentValue() != '') {
-                this.fetchEarnCodeAndLoadFields();
+            this.resetState($("#validation"));
+
+            if (this.checkStartEndDateFields($("#startDate"), $("#endDate"), "Start Date", "End Date"))
+            {
+                this.fetchAssignmentsForDay();
+
+                this.resetState($("#validation"));
+                var errorExists = false;
+                assignmentsForStartDay.each(function(i) {
+                    if (i.get("error"))
+                    {
+                        errorExists = true;
+                    }
+                });
+
+                if (errorExists)
+                {
+                    this.displayErrorMessages("Both dates must fall within this pay period", $("#startDate"));
+                    return;
+                }
+
+
+                if (_.getSelectedAssignmentValue() != '') {
+                    this.fetchEarnCodeAndLoadFields();
+                }
             }
         },
 

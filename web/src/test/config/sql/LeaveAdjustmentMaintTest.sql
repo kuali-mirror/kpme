@@ -18,7 +18,7 @@ delete from hr_principal_attributes_t where principal_id = '111';
 delete from lm_accrual_category_t where lm_accrual_category_id = '3000';
 delete from lm_leave_plan_t where lm_leave_plan_id = '3000';
 delete from lm_leave_adjustment_t where lm_leave_adjustment_id = '3000';
-delete from hr_earn_code_t where hr_earn_code_id >= '5000';
+delete from hr_earn_code_t where hr_earn_code_id >= 5000;
 update hr_principal_attributes_t set leave_plan = NULL where principal_id = 'admin';
 
 update hr_principal_attributes_t set leave_plan = 'testLP' where principal_id = 'admin';

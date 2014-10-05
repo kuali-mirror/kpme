@@ -21,15 +21,15 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.web.form.LookupForm;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 public class CalendarEntryLookupableImpl extends KPMELookupableImpl {
-    
+
     @Override
-    public List<? extends BusinessObject> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
+    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
         String calendarName = searchCriteria.get("calendarName");
         String calendarTypes = searchCriteria.get("calendarTypes");
         String fromBeginPeriodDateTime = TKUtils.getFromDateString(searchCriteria.get("beginPeriodDateTime"));

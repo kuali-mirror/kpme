@@ -28,6 +28,7 @@ import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @IntegrationTest
 public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
@@ -40,12 +41,12 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(0.1));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -65,7 +66,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(3));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -80,7 +81,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("rounded to 1:56", derivedDateTime.getMinuteOfHour() == 57);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -97,7 +98,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(0));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -107,7 +108,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("no rounding should have been done.", derivedDateTime.compareTo(beginDateTime) == 0);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -118,7 +119,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(15));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -127,7 +128,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 
 		Assert.assertTrue("should round down to 12:00", derivedDateTime.getMinuteOfHour() == 0);
 		
-		KRADServiceLocator.getBusinessObjectService().delete(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -138,7 +139,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(15));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -148,7 +149,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("should round up to 12:00", derivedDateTime.getMinuteOfHour() == 0);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -159,7 +160,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(15));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -169,7 +170,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("should round down to 12:45", derivedDateTime.getMinuteOfHour() == 45);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -180,7 +181,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(15));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -190,7 +191,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("should round up to 12:15", derivedDateTime.getMinuteOfHour() == 15);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -201,7 +202,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(6));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -211,7 +212,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("should round to 12:00", derivedDateTime.getMinuteOfHour() == 0);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -222,7 +223,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(6));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -232,7 +233,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("should round to 12:00", derivedDateTime.getMinuteOfHour() == 0);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -243,7 +244,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(6));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -253,7 +254,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("should round to 12:06", derivedDateTime.getMinuteOfHour() == 6);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -264,7 +265,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(6));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -274,7 +275,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("should round to 12:06", derivedDateTime.getMinuteOfHour() == 6);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 
 	@Test
@@ -285,7 +286,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(6));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -295,7 +296,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("should round to 12:12", derivedDateTime.getMinuteOfHour() == 12);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 	
 	@Test
@@ -306,7 +307,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		gpr.setHourFactor(new BigDecimal(6));
         gpr.setUserPrincipalId("admin");
 		
-		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -316,7 +317,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
 		Assert.assertTrue("should round to 12::06", derivedDateTime.getMinuteOfHour() == 6);
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
 	}
 
     @Test
@@ -327,7 +328,7 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
         gpr.setHourFactor(new BigDecimal(3));
         gpr.setUserPrincipalId("admin");
 
-        KRADServiceLocator.getBusinessObjectService().save(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
         gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
         Assert.assertTrue("fetched one rule", gpr != null);
 
@@ -341,6 +342,6 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
         Assert.assertTrue("rounded to midnight",derivedDateTime.equals(new DateTime(2012,10,16,0,0,0,0,TKUtils.getSystemDateTimeZone())));
 
         //cleanup
-        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(gpr);
     }
 }

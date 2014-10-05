@@ -1,0 +1,16 @@
+<config>
+  <!-- Application Configuration -->
+  <param name="application.url">https://test.uisapp2.iu.edu/@app@-@env@</param>
+
+  <!-- Datasource Configuration -->
+  <param name="datasource.url">@datasource.url@</param>
+  <param name="datasource.username">@datasource.username@</param>
+  <param name="datasource.password">@datasource.password@</param>
+
+  <!-- Keystore Configuration -->
+  <param name="keystore.file">@keystore.file@</param>
+  <param name="keystore.alias">@keystore.alias@</param>
+  <param name="keystore.password">@keystore.password@</param>
+  
+  <param name="application.id">@app@</param>
+</config>

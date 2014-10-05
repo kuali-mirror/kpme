@@ -40,7 +40,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
         earnGroup.setActive(true);
         earnGroup.setEarnCodeGroups(earnGroups);
         earnGroup.setUserPrincipalId("admin");
-        KRADServiceLocator.getBusinessObjectService().save(earnGroup);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().save(earnGroup);
         hrEarnGroupId = earnGroup.getHrEarnCodeGroupId();
 
         // Set up earn code RGG in tk-earn_code_t
@@ -62,7 +62,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
         earnCode.setInflateMinHours(BigDecimal.ZERO);
         earnCode.setInflateFactor(BigDecimal.ZERO);
         earnCode.setUserPrincipalId("admin");
-        earnCode = KRADServiceLocator.getBusinessObjectService().save(earnCode);
+        earnCode = KRADServiceLocatorWeb.getLegacyDataAdapter().save(earnCode);
         hrEarnCodeId = earnCode.getHrEarnCodeId();
 
         // Set up earn group RGG in tk-earn_group_t
@@ -73,21 +73,21 @@ public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
         earnGroupRGG.setShowSummary(true);
         earnGroupRGG.setActive(true);
         earnGroupRGG.setUserPrincipalId("admin");
-        earnGroupRGG = KRADServiceLocator.getBusinessObjectService().save(earnGroupRGG);
+        earnGroupRGG = KRADServiceLocatorWeb.getLegacyDataAdapter().save(earnGroupRGG);
         hrEarnGroupIdRGG = earnGroupRGG.getHrEarnCodeGroupId();
     }
 
     @Override
     public void tearDown() throws Exception {
-        EarnCodeGroup earnGroupObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCodeGroup.class, hrEarnGroupId);
-        KRADServiceLocator.getBusinessObjectService().delete(earnGroupObj);
+        EarnCodeGroup earnGroupObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(EarnCodeGroup.class, hrEarnGroupId);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(earnGroupObj);
 
-        EarnCodeGroup earnGroupObjRGG = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCodeGroup.class, hrEarnGroupIdRGG);
-        KRADServiceLocator.getBusinessObjectService().delete(earnGroupObjRGG);
+        EarnCodeGroup earnGroupObjRGG = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(EarnCodeGroup.class, hrEarnGroupIdRGG);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(earnGroupObjRGG);
 
         if (StringUtils.isNotBlank(hrEarnCodeId)) {
-            EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(EarnCode.class, Collections.singletonMap("hrEarnCodeId", hrEarnCodeId));
-            KRADServiceLocator.getBusinessObjectService().delete(earnCodeObj);
+            EarnCode earnCodeObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findByPrimaryKey(EarnCode.class, Collections.singletonMap("hrEarnCodeId", hrEarnCodeId));
+            KRADServiceLocatorWeb.getLegacyDataAdapter().delete(earnCodeObj);
         }
         super.tearDown();
     }

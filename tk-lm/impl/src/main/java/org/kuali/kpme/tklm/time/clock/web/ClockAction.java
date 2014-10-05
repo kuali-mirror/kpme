@@ -75,6 +75,7 @@ public class ClockAction extends TimesheetAction {
     public static final String DOCUMENT_NOT_INITIATE_ERROR = "New Timesheet document could not be found. Please initiate the document first.";
     public static final String TIME_BLOCK_OVERLAP_ERROR = "User has already logged time for this clock period.";
 
+
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
@@ -197,7 +198,10 @@ public class ClockAction extends TimesheetAction {
 		        // handled in else statement
 		        if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), HrContext.getTargetPrincipalId())) {
 		        	clockActionForm.setClockButtonEnabled(true);
+                    clockActionForm.setProxyClockAction(false);
 		        } else {
+                    clockActionForm.setProxyClockAction(true);
+                    clockActionForm.setProxyClockActionTargetUser(HrContext.getTargetName());
 		        	boolean isApproverOrReviewerForCurrentAssignment = false;
 		        	String selectedAssignment = StringUtils.EMPTY;
 		        	if (clockActionForm.getAssignmentDescriptions() != null) {
@@ -216,10 +220,20 @@ public class ClockAction extends TimesheetAction {
 		        			Long workArea = assignment.getWorkArea();
                             String dept = assignment.getJob().getDept();
                             String groupKeyCode = assignment.getJob().getGroupKeyCode();
+                            //String location = assignment.getJob().getGroupKey().getLocation().getLocation();
+
 		        			/*String principalId = HrContext.getPrincipalId();*/
 		        			DateTime startOfToday = LocalDate.now().toDateTimeAtStartOfDay();
+
+                            String location = HrServiceLocator.getHrGroupKeyService().getHrGroupKey(groupKeyCode, startOfToday.toLocalDate()).getLocationId();
+
+
                             isApproverOrReviewerForCurrentAssignment =
                                     HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, startOfToday)
+
+                                    || HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_SYSTEM_ADMINISTRATOR.getRoleName(), startOfToday)
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, startOfToday)
+
 		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, startOfToday)
 		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, startOfToday)
                                     || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, groupKeyCode, startOfToday)
@@ -266,9 +280,13 @@ public class ClockAction extends TimesheetAction {
     	caf.setShowDistrubuteButton(false);
     	
     	TimesheetDocument timesheetDocument = caf.getTimesheetDocument();
-        if (timesheetDocument != null) {
+    	List<Assignment> listOfAssignments = caf.getTimesheetDocument().getAssignmentMap().get(LocalDate.now());
+    	if(listOfAssignments == null || listOfAssignments.isEmpty()) {
+    		listOfAssignments = caf.getTimesheetDocument().getAssignmentMap().get(timesheetDocument.getDocEndDate());
+    	}
+        if (timesheetDocument != null && listOfAssignments != null) {
             int eligibleAssignmentCount = 0;
-            for (Assignment a : timesheetDocument.getAssignmentMap().get(LocalDate.now())) {
+            for (Assignment a : listOfAssignments) {
                 WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(a.getWorkArea(), timesheetDocument.getDocEndDate());
                 if(aWorkArea != null && aWorkArea.isHrsDistributionF()) {
                     eligibleAssignmentCount++;
@@ -335,11 +353,15 @@ public class ClockAction extends TimesheetAction {
         clockTimeWithGraceRule = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeWithGraceRule, beginDate);
        
         // validate if there's any overlapping with existing time blocks
-        if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN)) {
+        if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
             ClockLog lastLog = null;
             if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN)) {
                 lastLog = TkServiceLocator.getClockLogService().getLastClockLog(pId, TkConstants.LUNCH_OUT);
             } else if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN)) {
+                lastLog = TkServiceLocator.getClockLogService().getLastClockLog(pId);
+            }else if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
+                lastLog = TkServiceLocator.getClockLogService().getLastClockLog(pId, TkConstants.LUNCH_IN);
+            } else if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
                 lastLog = TkServiceLocator.getClockLogService().getLastClockLog(pId);
             }
             if (lastLog != null) {
@@ -361,6 +383,12 @@ public class ClockAction extends TimesheetAction {
 	        		 if((isRegularEarnCode || regularEarnCodes.contains(earnCodeObj.getEarnCode())) && clockInterval.contains(clockTimeWithGraceRule.getMillis())) {
 	        			 caf.setErrorMessage(TIME_BLOCK_OVERLAP_ERROR);
 	        			 return mapping.findForward("basic");
+	        		 }else if(StringUtils.equals(caf.getCurrentClockAction(),TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT) && (isRegularEarnCode || regularEarnCodes.contains(earnCodeObj.getEarnCode()))){
+	        			 Interval currentClockInterval = new Interval(lastLog.getClockDateTime(),clockTimeWithGraceRule);
+	        			 if(clockInterval.contains(currentClockInterval) || currentClockInterval.contains(clockInterval)){
+		        			 caf.setErrorMessage(TIME_BLOCK_OVERLAP_ERROR);
+		        			 return mapping.findForward("basic");
+	        			 }
 	        		 }
 	        	 }
 	         }

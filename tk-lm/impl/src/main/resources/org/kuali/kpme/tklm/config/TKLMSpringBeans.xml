@@ -42,6 +42,7 @@
                            http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
     <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/kpme/tklm/config/_TKLMJpaSpringBeans.xml"/>
 	
     <!-- caching setup -->
     <bean id="kpmeTklmCacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"

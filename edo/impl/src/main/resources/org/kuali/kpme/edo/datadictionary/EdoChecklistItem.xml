@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  
+	<bean name="EdoChecklistItem" parent="EdoChecklistItem-parentBean" />
+	<bean id="EdoChecklistItem-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="dataObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistItemBo" />
+		<property name="objectLabel" value="Checklist Item" />
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="EdoChecklistItem-edoChecklistItemId" />
+				<ref bean="EdoChecklistItem-edoChecklistSectionId" />
+				<ref bean="EdoChecklistItem-checklistItemName" />
+				<ref bean="EdoChecklistItem-itemDescription" />
+				<ref bean="EdoChecklistItem-required" />
+				<ref bean="EdoChecklistItem-checklistItemOrdinal" />
+			</list>
+		</property>
+	</bean>
+
+    <!-- Attribute Definitions -->
+    
+	<bean id="EdoChecklistItem-edoChecklistItemId" parent="EdoChecklistItem-edoChecklistItemId-parentBean" />
+	<bean id="EdoChecklistItem-edoChecklistItemId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="shortLabel" value="id"/>
+	    <property name="maxLength" value="60" />
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="60"/>
+	    </property>
+		<property name="name" value="edoChecklistItemId" />
+		<property name="label" value="Checklist Item Id" />
+	</bean>
+	
+	<bean id="EdoChecklistItem-edoChecklistSectionId" parent="EdoChecklistItem-edoChecklistSectionId-parentBean" />
+	<bean id="EdoChecklistItem-edoChecklistSectionId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="shortLabel" value="section id"/>
+	    <property name="maxLength" value="60" />
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="10"/>
+	    </property>
+		<property name="name" value="edoChecklistSectionId" />
+		<property name="label" value="Checklist Section Id" />
+	</bean>
+
+	<bean id="EdoChecklistItem-checklistItemName" parent="EdoChecklistItem-checklistItemName-parentBean" />
+	<bean id="EdoChecklistItem-checklistItemName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Item Name" />
+		<property name="maxLength" value="255" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+		<property name="name" value="checklistItemName" />
+		<property name="label" value="Checklist Item Name" />
+	</bean>
+
+	<bean id="EdoChecklistItem-itemDescription" parent="EdoChecklistItem-itemDescription-parentBean" />
+	<bean id="EdoChecklistItem-itemDescription-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Item Description" />
+		<property name="maxLength" value="255" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="80" />
+		</property>
+		 <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+		<property name="name" value="itemDescription" />
+		<property name="label" value="Item Description" />
+	</bean>
+	
+	<bean id="EdoChecklistItem-required" parent="EdoChecklistItem-required-parentBean"/>
+ 	<bean id="EdoChecklistItem-required-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
+    	<property name="name" value="required" />
+ 		<property name="label" value="Required" />
+  	</bean>
+
+	<bean id="EdoChecklistItem-checklistItemOrdinal" parent="EdoChecklistItem-checklistItemOrdinal-parentBean" />
+	<bean id="EdoChecklistItem-checklistItemOrdinal-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Item Ordinal" />
+		<property name="maxLength" value="6" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="6" />
+		</property>
+		<property name="name" value="checklistItemOrdinal" />
+		<property name="label" value="Checklist Item Ordinal" />
+	</bean>
+
+	<!-- Inquiry ChecklistItem -->
+  	<bean id="EdoChecklistSection-checklistItemsInquiry" parent="Uif-TableSubCollection-WithinSection">
+        <property name="headerText" value="Checklist Items"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistItemBo"/>
+        <property name="propertyName" value="checklistItems"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="checklistItemName"/>
+                <bean parent="Uif-InputField" p:propertyName="itemDescription"/>
+                <bean parent="Uif-InputField" p:propertyName="required"/>
+                <bean parent="Uif-InputField" p:propertyName="checklistItemOrdinal"/>
+            </list>				
+        </property>
+  	</bean>	
+  	 	
+  <!-- Maintenance View -->
+  <bean id="EdoChecklistSection-checklistItemsMaint" parent="Uif-TableSubCollection-WithinSection">
+    <property name="headerText" value="Checklist Item"/>
+    <property name="collectionObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistItemBo"/>
+    <property name="propertyName" value="checklistItems" />
+    <property name="layoutManager.renderSequenceField" value="false" />
+    <property name="layoutManager.richTable.render" value="false" />
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="checklistItemName" p:required="true" />
+        <bean parent="Uif-InputField" p:propertyName="itemDescription" />
+       	<bean parent="Uif-InputField" p:propertyName="required" />
+       	<bean parent="Uif-InputField" p:propertyName="checklistItemOrdinal" p:required="true" p:exclusiveMin="0" >
+      		<property name="validCharactersConstraint">
+				<bean parent="IntegerPatternConstraint"/>
+			</property>
+       	</bean>
+      </list>
+    </property>
+  </bean>
+
+</beans>

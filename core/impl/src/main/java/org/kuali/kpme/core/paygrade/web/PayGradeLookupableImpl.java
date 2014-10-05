@@ -31,6 +31,7 @@
  */
 package org.kuali.kpme.core.paygrade.web;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ import org.kuali.kpme.core.paygrade.PayGradeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 
 public class PayGradeLookupableImpl extends KPMELookupableImpl {
 
@@ -51,8 +52,9 @@ public class PayGradeLookupableImpl extends KPMELookupableImpl {
                     return PayGradeBo.from(input);
                 };
             };
+
     @Override
-    public List<? extends BusinessObject> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
         String payGrade = searchCriteria.get("payGrade");
         String descr = searchCriteria.get("description");
         String active = searchCriteria.get("active");

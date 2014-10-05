@@ -1,0 +1,4 @@
+<config>
+    <param name="filter.caskerb.loginURL">@cas.login.url@</param>
+    <param name="filter.caskerb.validationURL">@cas.validation.url@</param>
+</config>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType"
+                   xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">            
+		<documentType>
+            <name>EdoDossierDocumentType</name>
+            <parent>KpmeDocument</parent>
+            <applicationId>KPME</applicationId>
+            <!-- 
+            <superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
+            <blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
+            -->
+            <description>Dossier Document</description>
+            <label>DossierDocument</label>
+            <docHandler>${kuali.docHandler.url.prefix}/kpme/edoDossier?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>1</routingVersion>
+            <!-- 
+            <security>
+                <securityAttribute name="MissedPunchSecurityFilterAttribute" />
+            </security>
+            <attributes>
+                <attribute>
+                    <name>MissedPunchDataDictionarySearchableAttribute</name>
+                </attribute>
+			</attributes>
+            <routePaths>
+                <routePath>
+                    <start name="adhoc" nextNode="PeopleFlows" />
+          			<requests name="PeopleFlows" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="adhoc">
+                    <exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                   	<rulesEngine executorClass="org.kuali.kpme.tklm.time.missedpunch.rules.MissedPunchRulesEngineExecutor"/>
+                </requests>
+            </routeNodes>
+            -->
+		</documentType>
+	</documentTypes>
+	
+	<!-- 
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+                    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+                    
+    	<ruleAttribute>
+            <name>MissedPunchDataDictionarySearchableAttribute</name>
+            <className>{http://kpme.kuali.org/tklm/v2_0}missedPunchDocSearchCustomizer</className>
+            <label>Test Data Dictionary Searchable Attribute</label>
+            <description>DD searchable attribute for testing purposes</description>
+            <type>SearchableAttribute</type>
+            <applicationId>KPME</applicationId>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>MissedPunchSecurityFilterAttribute</name>
+            <className>{http://kpme.kuali.org/tklm/v2_0}missedPunchDocSearchSecurity</className>
+            <label>MissedPunchSecurityFilterAttribute</label>
+            <description>MissedPunchSecurityFilterAttribute</description>
+            <type>DocumentSecurityAttribute</type>
+            <applicationId>KPME</applicationId>
+        </ruleAttribute>
+        
+    </ruleAttributes>
+    -->
+</data>

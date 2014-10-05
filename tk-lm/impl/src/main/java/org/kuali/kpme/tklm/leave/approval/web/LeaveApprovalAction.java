@@ -24,7 +24,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
-import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -208,7 +207,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	
 	protected List<String> getPrincipalIds(LeaveApprovalActionForm leaveApprovalActionForm) {
         List<String> workAreas = new ArrayList<String>();
-        if (StringUtil.isEmpty(leaveApprovalActionForm.getSelectedWorkArea())) {
+        if (StringUtils.isEmpty(leaveApprovalActionForm.getSelectedWorkArea())) {
         	for (Long workAreaKey : leaveApprovalActionForm.getWorkAreaDescr().keySet()) {
         		workAreas.add(workAreaKey.toString());
         	}

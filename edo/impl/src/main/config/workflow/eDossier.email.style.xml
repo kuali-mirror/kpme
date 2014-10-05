@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<styles xmlns="ns:workflow/Style" xsi:schemaLocation="ns:workflow/Style resource:Style">
+		<style name="eDossier.email.style">
+			<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+				version="1.0">
+				<xsl:template match="immediateReminder">
+
+					<xsl:variable name="docHeaderId"
+						select="/documentContent/documentState/docId" />
+					<xsl:variable name="NodeName"
+						select="actionItem/routeNodeInstance/currentNodes" />
+					<xsl:variable name="dossierStatus"
+						select="actionItem/doc/documentContent/applicationContent/dossier/dossierStatus" />
+						<xsl:variable name="docTitle"
+						select="actionItem/docTitle" />
+
+					<email xmlns="">
+						<subject>
+							eDossier Notification
+							<xsl:value-of select="actionItem/customSubject" />
+
+						</subject>
+						<body>
+						<xsl:choose>
+								<xsl:when test="$dossierStatus = 'RECONSIDER'">
+eDossier status <xsl:value-of select="$dossierStatus" />
+Candidate <xsl:value-of select="actionItem/docInitiatorDisplayName"/> has asked for a reconsideration and has added material(s) to their reconsideration folder. Please consider these materials and notify others at your level (i.e., committee members) to do so as well. 
+For additional help or feedback, email <![CDATA[<mailto:]]><xsl:value-of select="actionItem/documentType/notificationFromAddress"/><![CDATA[>]]>.
+								</xsl:when>
+								<xsl:otherwise>
+
+									<xsl:value-of select="$NodeName" />
+									<xsl:choose>
+										<xsl:when test="$NodeName = 'Initiated'">
+<xsl:value-of select="actionItem/docInitiatorDisplayName"/>: Your Department Chair has returned your dossier to you for updates/modifications. Please login at http://edossier.iu.edu to review.
+
+For additional help or feedback, email <![CDATA[<mailto:]]><xsl:value-of select="actionItem/documentType/notificationFromAddress"/><![CDATA[>]]>.
+										</xsl:when>
+										<xsl:when test="$NodeName = 'LevelX'">
+Candidate <xsl:value-of select="actionItem/docInitiatorDisplayName"/> has submitted their dossier for review at http://edossier.iu.edu.
+
+In your role, following the guidelines for tenure and promotion reviews, please review the e-dossier Ҵo ensure that all pertinent materials listed on the checklist are included in the proper categoriesҮ If you approve, the dossier will be formally entered into the review process and eligible departmental reviewers will be notified. If you disapprove, please return the dossier to the candidate and meet with the candidate to discuss what is missing or misclassified.
+
+For additional help or feedback, email <![CDATA[<mailto:]]><xsl:value-of select="actionItem/documentType/notificationFromAddress"/><![CDATA[>]]>.
+										</xsl:when>
+
+										<xsl:when
+											test="contains($NodeName, 'supplDeptLevelAck') or contains($NodeName, 'supplSchoolLevelAck') or contains($NodeName, 'supplCampusLevelAck')">
+Candidate <xsl:value-of select="actionItem/docInitiatorDisplayName"/>, for whom you have already voted on, has added material(s) to their supplemental folder. Please consider these materials and notify others at your level (i.e., committee members) to do so as well.
+
+    i.   Choosing ҁcknowledgeҠmeans that upon review, no further action will be taken.
+    ii.  Choosing ҁcknowledge with ActionҠmeans that upon review, a formal response (e.g., letter and possible re-vote) will be uploaded.
+
+For additional help or feedback, email <![CDATA[<mailto:]]><xsl:value-of select="actionItem/documentType/notificationFromAddress"/><![CDATA[>]]>.
+										</xsl:when>
+
+										<xsl:when
+											test="contains($NodeName, 'supplDeanAck') or contains($NodeName, 'supplViceProvostAck')">
+Candidate <xsl:value-of select="actionItem/docInitiatorDisplayName"/>, for whom you have already voted on, has added material(s) to their supplemental folder. Please consider these materials.
+
+    i.   Choosing ҁcknowledgeҠmeans that upon review, no further action will be taken.
+    ii.  Choosing ҁcknowledge with ActionҠmeans that upon review, a formal response (e.g., letter and possible re-vote) will be uploaded.
+
+For additional help or feedback, email <![CDATA[<mailto:]]><xsl:value-of select="actionItem/documentType/notificationFromAddress"/><![CDATA[>]]>.
+										</xsl:when>
+
+										<xsl:when
+											test="contains($NodeName, 'supplDeptLevel') or contains($NodeName, 'supplSchoolLevel') or contains($NodeName, 'supplCampusLevel')">
+You are being informed that Candidate <xsl:value-of select="actionItem/docInitiatorDisplayName"/>, whose e-dossier is currently under review at your level, has added material(s) to the supplemental folder.
+
+Please notify others at your level (i.e., committee members) of these materials. No other action is required.
+
+For additional help or feedback, email <![CDATA[<mailto:]]><xsl:value-of select="actionItem/documentType/notificationFromAddress"/><![CDATA[>]]>.
+										</xsl:when>
+
+										<xsl:when
+											test="contains($NodeName, 'supplDean') or contains($NodeName, 'supplViceProvost')">
+You are being informed that Candidate <xsl:value-of select="actionItem/docInitiatorDisplayName"/>, whose e-dossier is currently under review at your level, has added material(s) to the supplemental folder. No other action is required.
+
+For additional help or feedback, email <![CDATA[<mailto:]]><xsl:value-of select="actionItem/documentType/notificationFromAddress"/><![CDATA[>]]>.
+										</xsl:when>
+
+										<xsl:otherwise>
+Candidate <xsl:value-of select="actionItem/docInitiatorDisplayName"/> has submitted their dossier for review at http://edossier.iu.edu.
+
+For additional help or feedback, email <![CDATA[<mailto:]]><xsl:value-of select="actionItem/documentType/notificationFromAddress"/><![CDATA[>]]>.
+										</xsl:otherwise>
+
+									</xsl:choose>
+								</xsl:otherwise>
+							</xsl:choose>
+
+						</body>
+					</email>
+				</xsl:template>
+			</xsl:stylesheet>
+		</style>
+	</styles>
+</data>
+

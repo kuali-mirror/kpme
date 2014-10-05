@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Adding Rice group bootstrap data</comment>
+        <insert tableName="KRNS_NMSPC_T">
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="NM" value="KPME Workflow Group" />
+            <column name="APPL_NMSPC_CD" value="KPME" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+        
+        <modifySql dbms="mysql">
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="2" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Adding Rice group bootstrap data</comment>
+        <insert tableName="KRIM_GRP_T">
+            <column name="GRP_ID" value="KPME0001" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="GRP_NM" value="TK_SYSTEM_ADMIN" />
+            <column name="GRP_DESC" value="KPME TK System Administrator Group" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+        
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="3" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Adding Rice group bootstrap data</comment>
+        <insert tableName="KRIM_GRP_MBR_T">
+            <column name="GRP_MBR_ID" value="KPME0001" />
+            <column name="GRP_ID" valueComputed="(SELECT GRP_ID FROM KRIM_GRP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND GRP_NM = 'TK_SYSTEM_ADMIN')" />
+            <column name="MBR_TYP_CD" value="P" />
+            <column name="MBR_ID" value="admin" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+        
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+</databaseChangeLog>

@@ -166,24 +166,21 @@
   	
   <!-- Salary Group Lookup View -->
  
-  <bean id="SalaryGroup-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+  <bean id="SalaryGroup-LookupView" parent="SalaryGroup-LookupView-QuickFinder">
+    <property name="viewName" value="default" />
+	<property name="resultsGroup">
+      	<bean parent="KPMEAttributes-LookupView-ViewLink"/>
+   	</property>       
+  </bean> 
+ 
+ 
+ <bean id="SalaryGroup-LookupView-QuickFinder" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+ 	<property name="viewName" value="quickFinderView" />
     <property name="headerText" value="Salary Group Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroupBo" />
     <property name="criteriaFields">
       <list merge="true">
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />       
-        <!-- <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-	    	<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-	        		 p:fieldConversions="institutionCode:institution"/>
-	   		</property>
-        </bean>
-         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
-       		<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-	        		 p:fieldConversions="location:location" />
-	   		 </property>
-        </bean>  -->
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
@@ -197,13 +194,11 @@
 	        	 p:inquiryParameters="hrSalGroupId:hrSalGroupId"/>
     		</property>
         </bean>
-        <!-- <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="location" /> -->
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
   </bean> 
- 
+  
  
  <!-- SalGroup look up for KNS -->
  <bean id="SalaryGroup-lookupDefinition" parent="SalaryGroup-lookupDefinition-parentBean" />
@@ -216,9 +211,7 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"  />
-		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />       
-		        <!-- <bean parent="FieldDefinition" p:attributeName="institution"/>
-		        <bean parent="FieldDefinition" p:attributeName="location"/> -->
+		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 		        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N" />
 		        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
@@ -227,8 +220,6 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup"/>
-		        <!-- <bean parent="FieldDefinition" p:attributeName="institution" />
-		        <bean parent="FieldDefinition" p:attributeName="location" /> -->
 		        <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
@@ -318,18 +309,6 @@
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
 		        <bean parent="Uif-InputField" p:propertyName="hrSalGroup" p:readOnly="@{#view.readOnly || (maintenanceAction eq 'Edit')}" />
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
-		        <!-- <bean parent="Uif-InputField" p:propertyName="institution" >
-			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-		        			 p:fieldConversions="institutionCode:institution"/>
-		   			</property>
-		        </bean>
-		        <bean parent="Uif-InputField" p:propertyName="location">
-				        <property name="quickfinder">
-			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-			        		 p:fieldConversions="location:location" />
-			   		 </property>
-		        </bean> -->
 		        <bean parent="Uif-InputField" p:propertyName="percentTime" p:exclusiveMin="0" p:inclusiveMax="100"
 		        	 p:constraintText="Must be a number between 0 and 100.">
 		        	<property name="validCharactersConstraint">

@@ -28,7 +28,8 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 
 public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements ClockLogDao {
 
-    private static final Logger LOG = Logger.getLogger(ClockLogDaoOjbImpl.class);
+    @SuppressWarnings("unused")
+	private static final Logger LOG = Logger.getLogger(ClockLogDaoOjbImpl.class);
     
     public void saveOrUpdate(ClockLogBo clockLog) {
 	this.getPersistenceBrokerTemplate().store(clockLog);
@@ -102,14 +103,17 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
     }
 
     @Override
-    public ClockLogBo getLastClockLog(String principalId, String jobNumber, String workArea, String task, String timesheetId) {
+    public ClockLogBo getLastClockLog(String groupKeyCode, String principalId, String jobNumber, String workArea, String task, String timesheetId) {
         Criteria criteria = new Criteria();
+        criteria.addEqualTo("groupKeyCode", groupKeyCode);
         criteria.addEqualTo("principalId", principalId);
         criteria.addEqualTo("jobNumber", jobNumber);
         criteria.addEqualTo("workArea", workArea);
         criteria.addEqualTo("task", task);
         criteria.addEqualTo("documentId", timesheetId);
+        
         Criteria clockTimeJoinCriteria = new Criteria();
+        clockTimeJoinCriteria.addEqualToField("groupKeyCode", Criteria.PARENT_QUERY_PREFIX + "groupKeyCode");
         clockTimeJoinCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
         clockTimeJoinCriteria.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
         clockTimeJoinCriteria.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
@@ -120,6 +124,7 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
         criteria.addEqualTo("clockTimestamp", clockTimeSubQuery);
 
         Criteria timestampJoinCriteria = new Criteria();
+        timestampJoinCriteria.addEqualToField("groupKeyCode", Criteria.PARENT_QUERY_PREFIX + "groupKeyCode");
         timestampJoinCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
         timestampJoinCriteria.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
         timestampJoinCriteria.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");

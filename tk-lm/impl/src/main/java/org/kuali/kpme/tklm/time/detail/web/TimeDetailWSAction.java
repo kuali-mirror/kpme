@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
@@ -308,18 +309,39 @@ public class TimeDetailWSAction extends TimesheetAction {
     }
 
     public ActionForward getAssignmentJson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        /*
+        http://ci.kpme.kuali.org/kpme-trunk/TimeDetailWS.do?methodToCall=getAssignmentJson&documentId=3194&startDate=7%2F7%2F2014&_=1405538575193
+         */
+
+
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
+
+        String chosenStartDate = tdaf.getStartDate();
+        String chosenEndDate = tdaf.getEndDate();
+
+        DateTime calendarBeginDate = tdaf.getTimesheetDocument().getCalendarEntry().getBeginPeriodFullDateTime();
+        DateTime calendarEndDate = tdaf.getTimesheetDocument().getCalendarEntry().getEndPeriodFullDateTime();
+
+        //tdaf.getEndDate();
 
         String earnCode = tdaf.getSelectedEarnCode();
         LocalDate asOfDate = null;
+        LocalDate asOfEndDate = null;
+        DateTime utilDate = null;
+        DateTime utilEndDate = null;
+
         if (tdaf.getStartDate() != null) {
             try {
-                DateTime utilDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseDateTime(tdaf.getStartDate());
+                utilDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseDateTime(tdaf.getStartDate());
                 asOfDate = utilDate.toLocalDate();
+
+                utilEndDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseDateTime(tdaf.getEndDate());
+                asOfEndDate = utilDate.toLocalDate();
             } catch (Exception ex) {
                 //ignore and use the timesheet as of date.
             }
         }
+
         List<Map<String, Object>> assignments = new ArrayList<Map<String, Object>>();
         if (asOfDate == null) {
             Map<String, Object> assignmentMap = new HashMap<String, Object>(2);
@@ -327,6 +349,36 @@ public class TimeDetailWSAction extends TimesheetAction {
             assignmentMap.put("desc", "-- enter valid date range --");
             assignments.add(assignmentMap);
         }
+
+        boolean invalidStartOrEndDates = false;
+
+        if ( (utilDate.isBefore(calendarBeginDate)) || (utilDate.isAfter(calendarEndDate)))
+        {
+            invalidStartOrEndDates = true;
+        }
+
+        if ( (utilEndDate != null) &&
+                ( (utilEndDate.isAfter(calendarEndDate)) || (utilEndDate.isBefore(calendarBeginDate) )) )
+        {
+            invalidStartOrEndDates = true;
+        }
+
+        if ( (utilDate.isEqual(calendarEndDate)) || (utilEndDate.isEqual(calendarEndDate)))
+        {
+            invalidStartOrEndDates = true;
+        }
+
+        if (invalidStartOrEndDates)
+        {
+            Map<String, Object> assignmentMap = new HashMap<String, Object>(2);
+            assignmentMap.put("assignment", "");
+            assignmentMap.put("error", "invalid");
+            assignmentMap.put("desc", "");
+
+            tdaf.setOutputString(JSONValue.toJSONString(assignmentMap));
+            return mapping.findForward("ws");
+        }
+
         if (tdaf.getTimesheetDocument() != null
                 && asOfDate != null) {
             //check date to see if assignment is active

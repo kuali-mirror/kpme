@@ -24,6 +24,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class TimeHourDetailDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TimeHourDetailDao {
@@ -67,7 +68,7 @@ public class TimeHourDetailDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
         Query query = QueryFactory.newQuery(TimeHourDetailBo.class, removalCriteria);
         List<TimeHourDetailBo> deleteList = (List<TimeHourDetailBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if(CollectionUtils.isNotEmpty(deleteList)) {
-        	KRADServiceLocator.getBusinessObjectService().delete(deleteList);
+        	KNSServiceLocator.getBusinessObjectService().delete(deleteList);
         }
 //        this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(TimeHourDetailBo.class, removalCriteria));
     }

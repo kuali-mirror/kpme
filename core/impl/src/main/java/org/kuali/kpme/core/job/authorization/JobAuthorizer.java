@@ -17,11 +17,10 @@ package org.kuali.kpme.core.job.authorization;
 
 import java.util.Map;
 
-import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 
-@SuppressWarnings("deprecation")
 public class JobAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
 	private static final long serialVersionUID = -3394846347988987267L;
@@ -29,7 +28,10 @@ public class JobAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 	protected void addRoleQualification(Object dataObject, Map<String, String> attributes) {
 		super.addRoleQualification(dataObject, attributes);
 
-		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
+		// put in the department qualifier for the role membership attributes
+		if (dataObject instanceof JobBo && dataObject != null) {
+			attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ((JobBo) dataObject).getDept());
+		}
 	}
 	
 }

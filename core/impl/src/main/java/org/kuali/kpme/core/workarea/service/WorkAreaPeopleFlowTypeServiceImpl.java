@@ -32,6 +32,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -76,24 +77,45 @@ public class WorkAreaPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowT
             try {
                 org.kuali.rice.krad.document.Document doc = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentId());
                 if (doc instanceof MaintenanceDocument) {
-                    MaintenanceDocument md =  (MaintenanceDocument)doc;
+                    MaintenanceDocument md = (MaintenanceDocument) doc;
                     if (md.getNewMaintainableObject().getDataObject() instanceof Assignable) {
-                        Assignable assignable = (Assignable)(md.getNewMaintainableObject().getDataObject());
-                        assignments =  assignable.getAssignments();
+                        Assignable assignable = (Assignable) (md.getNewMaintainableObject().getDataObject());
+                        assignments = assignable.getAssignments();
 
                     }
                 } else {
                     // If doc itself is instance of Assignable
                     if (doc instanceof Assignable) {
-                        assignments = ((Assignable)doc).getAssignments();
+                        assignments = ((Assignable) doc).getAssignments();
+                    }
+
+                    //fall back to pre 2.1 logic for older docs
+                    List<String> workAreas = getElementValues(documentContent.getApplicationContent(), "//WORKAREA/@value");
+                    if (CollectionUtils.isNotEmpty(workAreas)) {
+                        for (String workArea : workAreas) {
+                            workAreaQualifiers.add(
+                                    Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(),
+                                            workArea));
+                        }
+                    }
+                }
+            } catch (UnknownDocumentTypeException udte) {
+                //fall back to pre 2.1 logic for older docs
+                List<String> workAreas = getElementValues(documentContent.getApplicationContent(), "//WORKAREA/@value");
+                if (CollectionUtils.isNotEmpty(workAreas)) {
+                    for (String workArea : workAreas) {
+                        workAreaQualifiers.add(
+                                Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(),
+                                        workArea));
                     }
                 }
             } catch (WorkflowException e) {
-                LOG.error("Unable to retrieve document with documemnt ID: " + document.getDocumentId());
+                LOG.error("Unable to retrieve document with document ID: " + document.getDocumentId());
             }
         }
 
-        if (CollectionUtils.isNotEmpty(assignments)) {
+        if (CollectionUtils.isNotEmpty(assignments)
+                && CollectionUtils.isEmpty(workAreaQualifiers)) {
             for (Assignment ac : assignments) {
                 workAreaQualifiers.add(
                         Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(ac.getWorkArea()))
