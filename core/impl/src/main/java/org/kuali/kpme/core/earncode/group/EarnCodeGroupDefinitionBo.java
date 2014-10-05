@@ -87,12 +87,10 @@ public class EarnCodeGroupDefinitionBo extends PersistableBusinessObjectBase imp
 		
 	// this is for the maintenance screen
 	public String getEarnCodeDesc() {
-		if(this.earnCode != null){
-			EarnCodeContract earnCode =getEarnCodeService().getEarnCode(this.earnCode, LocalDate.now());
-			
-			if(earnCode != null && StringUtils.isNotBlank(earnCode.getDescription())) {
-				return earnCode.getDescription();
-			}
+		EarnCodeContract earnCode =getEarnCodeService().getEarnCode(this.earnCode, LocalDate.now());
+		
+		if(earnCode != null && StringUtils.isNotBlank(earnCode.getDescription())) {
+			return earnCode.getDescription();
 		}
 		return "";
 	}

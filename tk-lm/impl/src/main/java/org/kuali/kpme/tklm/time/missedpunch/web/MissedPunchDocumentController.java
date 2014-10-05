@@ -28,7 +28,6 @@ import org.kuali.kpme.tklm.time.missedpunch.validation.MissedPunchDocumentRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.document.Document;
@@ -70,7 +69,7 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
 	
 	@Override
     @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
     	
     	MissedPunchForm missedPunchForm = (MissedPunchForm) form;
     	MissedPunchBo missedPunch = missedPunchForm.getMissedPunch();
@@ -99,7 +98,7 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
         
         missedPunchForm.setAssignmentReadOnly(isAssignmentReadOnly(missedPunch));
 
-        return super.start(missedPunchForm, request, response);
+        return super.start(missedPunchForm, result, request, response);
 	}
 	
 	@Override
@@ -199,7 +198,7 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
 	
     protected SequenceAccessorService getSequenceAccessorService() {
         if (sequenceAccessorService == null) {
-            sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            sequenceAccessorService = KRADServiceLocator.getSequenceAccessorService();
         }
         return sequenceAccessorService;
     }
@@ -215,8 +214,7 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
         ModelAndView mav = super.docHandler(form, result, request, response);
 
         //return getUIFModelAndView(form);
-        //List<? extends Component> pageComponents = ((MissedPunchForm)form).getView().getItems().get(0).getItems();
-        List<? extends Component> pageComponents = ((CollectionGroup) form.getView().getItems().get(0)).getItems();
+        List<? extends Component> pageComponents = ((MissedPunchForm)form).getView().getItems().get(0).getItems();
         for (Component c : pageComponents)  {
             if (c instanceof CollectionGroup) {
                 CollectionGroup collGroup = (CollectionGroup)c;

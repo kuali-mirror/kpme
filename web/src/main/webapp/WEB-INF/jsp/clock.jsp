@@ -43,10 +43,7 @@
 
 <tk:tkHeader tabId="clock">
 
-    <script type="text/javascript" src="themes/kboot/scripts/kboot.2.4.2.min.js"></script>
-    <script src="${ConfigProperties.js.dir}/underscore-1.3.1.min.js"></script>
-    <script src="${ConfigProperties.js.dir}/backbone-0.9.1.min.js"></script>
-    <script src="${ConfigProperties.js.dir}/clock.js"></script>
+    <script type="text/javascript" src="themes/kboot/scripts/kboot.2.3.6.min.js"></script>
 
 
 	<html:form action="/Clock.do">
@@ -82,23 +79,13 @@
         					<tk:assignment assignments="${Form.assignmentDescriptions}"/>
         				</td>
         			</tr>
-
-                    <c:choose>
-                        <c:when test="${Form.proxyClockAction}">
-                            <c:set var="clockActionIdSuffix" value = "-proxy"></c:set>
-                        </c:when>
-                        <c:otherwise>
-                            <c:set var="clockActionIdSuffix" value = "-actualuser"></c:set>
-                        </c:otherwise>
-                    </c:choose>
-
         			<tr class="footer">
         				<td colspan="2" align="center">
 	        				<c:choose>
 	        					<c:when test="${Form.showClockButton}">
 		                            <c:choose>
 		                                <c:when test="${Form.clockButtonEnabled}">
-		                                    <input id="clock-button${clockActionIdSuffix}" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';return false;"/>
+		                                    <input id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
 		                                </c:when>
 		                                <c:otherwise>
 		                                    <input disabled id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" />
@@ -112,7 +99,7 @@
                                         <c:when test="${Form.showLunchButton}">
                                             <c:choose>
                                                 <c:when test="${Form.clockButtonEnabled}">
-                                                    <input id = "clockout-button${clockActionIdSuffix}" type="submit" class="button" value="Take Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';return false;"/>
+                                                    <input type="submit" class="button" value="Take Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <input disabled type="submit" class="button" value="Take Lunch" name="lunchOut" />
@@ -158,13 +145,6 @@
         	</div>
             <tk:note/>
         	<div id="missed-punch-dialog" title="Missed Punch" style="display:none;" />
-
-            <div id="confirm-proxy-clock-action-dialog" title="Confirm Action" class="dialog-form">
-                    This Clock Action will be done on behalf of ${Form.proxyClockActionTargetUser}
-
-                    ${proxyClockActionCssClass}
-            </div>
-
         </c:if>
 	</html:form>
 </tk:tkHeader>

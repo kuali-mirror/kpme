@@ -34,11 +34,14 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.core.api.search.Range;
 import org.kuali.rice.core.api.search.SearchExpressionUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.lookup.LookupForm;
-import org.kuali.rice.krad.lookup.LookupView;
+import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.form.LookupForm;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class LeaveBlockHistoryLookupableHelperServiceImpl extends KPMELookupableImpl  {
 	/**
@@ -52,9 +55,11 @@ public class LeaveBlockHistoryLookupableHelperServiceImpl extends KPMELookupable
 	private static final String BEGIN_TIMESTAMP = "beginTimestamp";
 
 	private static final Logger LOG = Logger.getLogger(LeaveBlockHistoryLookupableHelperServiceImpl.class);
+	
 
-    @Override
-    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
+	@Override
+	protected List<?> getSearchResults(LookupForm form,
+			Map<String, String> searchCriteria, boolean unbounded) {
 		// TODO Auto-generated method stub
 		 if (searchCriteria.containsKey(BEGIN_DATE_ID)) {
 			 //beginDate = searchCriteria.get(BEGIN_DATE);
@@ -270,9 +275,9 @@ public class LeaveBlockHistoryLookupableHelperServiceImpl extends KPMELookupable
 	 
 
 	@Override
-	protected String getMaintenanceActionUrl(LookupForm lookupForm, Object dataObject,
+	protected String getActionUrlHref(LookupForm lookupForm, Object dataObject,
 			String methodToCall, List<String> pkNames) {
-		String actionUrlHref = super.getMaintenanceActionUrl(lookupForm, dataObject, methodToCall, pkNames);
+		String actionUrlHref = super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
 		LeaveBlockHistory lbh = null;
 		String concreteBlockId = null;
 		if(dataObject instanceof LeaveBlockHistory) {
@@ -286,19 +291,9 @@ public class LeaveBlockHistoryLookupableHelperServiceImpl extends KPMELookupable
 		return actionUrlHref;
 	}
 
-    @Override
-    public boolean allowsMaintenanceNewOrCopyAction() {
-        return false;
-    }
-
-    @Override
-    public boolean allowsMaintenanceEditAction(Object dataObject) {
-        return false;
-    }
-
-    @Override
-    public boolean allowsMaintenanceDeleteAction(Object dataObject) {
-        return false;
-    }
+	@Override
+	public void initSuppressAction(LookupForm lookupForm) {
+		((LookupView) lookupForm.getView()).setSuppressActions(false);
+	}
 
 }

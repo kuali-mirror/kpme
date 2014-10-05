@@ -76,7 +76,4 @@ public class KPMEForm extends KualiForm {
     			|| HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithEStatus();
     }
 
-    public boolean isEdossirEnabled() {
-    	return HrServiceLocator.getHRPermissionService().canViewEdossierTabs();
-    }
 }

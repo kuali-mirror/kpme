@@ -15,8 +15,6 @@
  */
 package org.kuali.kpme.core.util;
 
-import org.kuali.rice.krad.uif.field.InputField;
-
 /**
  * Created by mlemons on 5/22/14.
  */

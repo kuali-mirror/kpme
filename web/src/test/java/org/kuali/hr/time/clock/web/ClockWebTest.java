@@ -48,14 +48,12 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 
 @FunctionalTest
@@ -64,7 +62,7 @@ public class ClockWebTest extends KPMEWebTestCase {
     private String tbId;
 
     public Long maxDocumentId() {
-        Collection aCol = KRADServiceLocatorWeb.getLegacyDataAdapter().findAll(TimesheetDocumentHeader.class);
+        Collection aCol = KRADServiceLocator.getBusinessObjectService().findAll(TimesheetDocumentHeader.class);
         Long maxId = new Long(-1);
         Iterator<TimesheetDocumentHeader> itr = aCol.iterator();
         while (itr.hasNext()) {
@@ -78,7 +76,7 @@ public class ClockWebTest extends KPMEWebTestCase {
     }
 
     public Long maxTimeBlockId() {
-        Collection aCol = KRADServiceLocatorWeb.getLegacyDataAdapter().findAll(TimeBlockBo.class);
+        Collection aCol = KRADServiceLocator.getBusinessObjectService().findAll(TimeBlockBo.class);
         Long maxId = new Long(-1);
         Iterator<TimeBlockBo> itr = aCol.iterator();
         while (itr.hasNext()) {
@@ -186,7 +184,7 @@ public class ClockWebTest extends KPMEWebTestCase {
         GracePeriodRule gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
         if (gpr != null && gpr.isActive()) {
             gpr.setActive(false);
-            KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
+            KRADServiceLocator.getBusinessObjectService().save(gpr);
         }
 
         // Clock in
@@ -208,7 +206,7 @@ public class ClockWebTest extends KPMEWebTestCase {
 	@Test
 	public void testClockActionWithGracePeriodRule() throws Exception {
 		// clean clock logs
-		KNSServiceLocator.getBusinessObjectService().deleteMatching(
+		KRADServiceLocator.getBusinessObjectService().deleteMatching(
 				ClockLogBo.class,
 				Collections.singletonMap("principalId", "admin"));
 		GracePeriodRule gpr = new GracePeriodRule();
@@ -219,7 +217,7 @@ public class ClockWebTest extends KPMEWebTestCase {
 		gpr.setUserPrincipalId("admin");
 
 		gpr.setActive(true);
-        KNSServiceLocator.getBusinessObjectService().save(gpr);
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
 
 		// Clock in
 		clockIn();

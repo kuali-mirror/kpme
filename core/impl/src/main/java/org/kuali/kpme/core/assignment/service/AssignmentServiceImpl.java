@@ -30,7 +30,6 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.task.TaskContract;
-import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.assignment.dao.AssignmentDao;
@@ -164,7 +163,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     public List<Assignment> getAllAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntry payCalendarEntry){
         Map<LocalDate, List<Assignment>> history = getAssignmentsByCalEntryForTimeCalendar(principalId, payCalendarEntry);
-        return KpmeUtils.getUniqueAssignments(history);
+        return getUniqueAssignments(history);
     }
     
     public Map<LocalDate, List<Assignment>> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry payCalendarEntry){
@@ -177,7 +176,18 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     public List<Assignment> getAllAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry payCalendarEntry){
         Map<LocalDate, List<Assignment>> history = getAssignmentsByCalEntryForLeaveCalendar(principalId, payCalendarEntry);
-        return KpmeUtils.getUniqueAssignments(history);
+        return getUniqueAssignments(history);
+    }
+
+    protected List<Assignment> getUniqueAssignments(Map<LocalDate, List<Assignment>> history) {
+        if (MapUtils.isEmpty(history)) {
+            return Collections.emptyList();
+        }
+        Set<Assignment> allAssignments = new HashSet<Assignment>();
+        for (List<Assignment> assignList : history.values()) {
+            allAssignments.addAll(assignList);
+        }
+        return new ArrayList<Assignment>(allAssignments);
     }
 
     public List<Assignment> filterAssignments(List<Assignment> assignments, String flsaStatus, boolean chkForLeaveEligible) {

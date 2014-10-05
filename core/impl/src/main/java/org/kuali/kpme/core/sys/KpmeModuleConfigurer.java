@@ -49,4 +49,16 @@ public class KpmeModuleConfigurer extends ModuleConfigurer {
     protected String getDefaultConfigPackagePath() {
         return "classpath:org/kuali/kpme/" + getModuleName().toLowerCase() + "/config/";
     }
+
+    private List<String> parseFileList(String files) {
+        final List<String> parsedFiles = new ArrayList<String>();
+        for (String file : Arrays.asList(files.split(","))) {
+            final String trimmedFile = file.trim();
+            if (!trimmedFile.isEmpty()) {
+                parsedFiles.add(trimmedFile);
+            }
+        }
+
+        return parsedFiles;
+    }
 }

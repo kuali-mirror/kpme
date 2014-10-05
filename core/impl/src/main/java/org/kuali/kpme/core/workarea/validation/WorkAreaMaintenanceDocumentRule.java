@@ -37,9 +37,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -57,7 +55,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			
 			valid &= validateDefaultOvertimeEarnCode(workArea.getDefaultOvertimeEarnCode(), workArea.getEffectiveLocalDate());
 			valid &= validateDepartment(workArea.getDept(), workArea.getGroupKeyCode(), workArea.getEffectiveLocalDate());
-			valid &= validateRoleMembers(workArea, workArea.getPrincipalRoleMembers(), workArea.getPositionRoleMembers(), workArea.getEffectiveLocalDate(), "principalRoleMembers", "positionRoleMembers");
+			valid &= validateRoleMembers(workArea.getPrincipalRoleMembers(), workArea.getPositionRoleMembers(), workArea.getEffectiveLocalDate(), "principalRoleMembers", "positionRoleMembers");
 			valid &= validateActive(workArea);
 		}
 
@@ -65,11 +63,11 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 	}
 
 	@Override
-	protected boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, Object line) {
+	public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
 		boolean valid = true;
 
 		PersistableBusinessObject pboWorkArea = (WorkAreaBo)document.getDocumentDataObject();
-		Object pboTask = line;
+		PersistableBusinessObject pboTask = line;
 
 		if (pboWorkArea instanceof WorkAreaBo && pboTask instanceof TaskBo) {
 			WorkAreaBo workArea = (WorkAreaBo) pboWorkArea;
@@ -238,26 +236,23 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 
-	protected boolean validateRoleMembers(WorkAreaBo wa, List<? extends PrincipalRoleMemberBo> principalRoleMembers, List<? extends PositionRoleMemberBo> positionRoleMembers, LocalDate effectiveDate, String principalPrefix, String positionPrefix) {
+	protected boolean validateRoleMembers(List<? extends PrincipalRoleMemberBo> principalRoleMembers, List<? extends PositionRoleMemberBo> positionRoleMembers, LocalDate effectiveDate, String principalPrefix, String positionPrefix) {
 		boolean valid = true;
 		
 		boolean activeRoleMember = false;
-
-        Date efftDt = wa.getEffectiveDate();
-        Timestamp efftTs = new Timestamp(efftDt.getYear(), efftDt.getMonth(), efftDt.getDate(), 0, 0, 0, 0);
-
 		for (ListIterator<? extends KPMERoleMemberBo> iterator = principalRoleMembers.listIterator(); iterator.hasNext(); ) {
 			int index = iterator.nextIndex();
 			KPMERoleMemberBo roleMember = iterator.next();
+			
+			activeRoleMember |= roleMember.isActive();
 
-
-            activeRoleMember |= roleMember.isActive(efftTs);
+			valid &= validateRoleMember(roleMember, effectiveDate, principalPrefix, index);
 		}
 		for (ListIterator<? extends KPMERoleMemberBo> iterator = positionRoleMembers.listIterator(); iterator.hasNext(); ) {
 			int index = iterator.nextIndex();
 			KPMERoleMemberBo roleMember = iterator.next();
-
-            activeRoleMember |= roleMember.isActive(efftTs);
+			
+			activeRoleMember |= roleMember.isActive();
 
 			valid &= validateRoleMember(roleMember, effectiveDate, positionPrefix, index);
 		}

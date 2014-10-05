@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.core.paytype.web;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
-import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PayTypeLookupableImpl extends KpmeHrBusinessObjectLookupableImpl {
 
@@ -38,9 +37,10 @@ public class PayTypeLookupableImpl extends KpmeHrBusinessObjectLookupableImpl {
                 };
             };
 
-    @Override
-    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
-        String payType = searchCriteria.get("payType");
+	@Override
+	protected List<?> getSearchResults(LookupForm form,
+			Map<String, String> searchCriteria, boolean unbounded) {
+		String payType = searchCriteria.get("payType");
         String regEarnCode = searchCriteria.get("regEarnCode");
         String descr = searchCriteria.get("descr");
         String groupKeyCode = searchCriteria.get("groupKeyCode"); // KPME-2701
@@ -54,9 +54,9 @@ public class PayTypeLookupableImpl extends KpmeHrBusinessObjectLookupableImpl {
         if (StringUtils.equals(payType, "%")) {
             payType = "";
         }
-
+        
         return ModelObjectUtils.transform(HrServiceLocator.getPayTypeService().getPayTypes(payType, regEarnCode, descr, groupKeyCode, flsaStatus, payFrequency,
                 TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist), toPayTypeBo);
-    }
+	}
     
 }

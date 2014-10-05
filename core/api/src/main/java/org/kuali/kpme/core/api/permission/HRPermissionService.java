@@ -228,8 +228,6 @@ public interface HRPermissionService {
 	boolean canViewLeaveTabsWithEStatus();
 
 	boolean canViewLeaveTabsWithNEStatus();
-	
-	boolean canViewEdossierTabs();
 
     @Cacheable(value= CalendarBlockPermissions.CACHE_NAME, key="'{time}' + #p0")
     CalendarBlockPermissions getTimeBlockPermissions(String blockId);

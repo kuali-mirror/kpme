@@ -36,8 +36,6 @@ import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -51,12 +49,12 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     private static final String IP_ADDRESS_ONE = "127.0.0.1";
     private static final String IP_ADDRESS_TWO = "127.0.1.1";
 
-    private LegacyDataAdapter boService;
+    private BusinessObjectService boService;
 
     @Before
     public void setUp() throws Exception {
     	super.setUp();
-    	boService = KRADServiceLocatorWeb.getLegacyDataAdapter();
+    	boService = KRADServiceLocator.getBusinessObjectService();
     	clearBusinessObjects(ClockLocationRule.class);
     }
 

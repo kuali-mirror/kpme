@@ -64,9 +64,10 @@ public class LeaveBlockController extends UifControllerBase {
 
 	@Override
     @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
     	LeaveBlockForm leaveBlockForm = (LeaveBlockForm) form;
-        return super.start(leaveBlockForm, request, response);
+        ModelAndView modelAndView = super.start(leaveBlockForm, result, request, response);
+        return modelAndView;
 	}
 	
 	@RequestMapping(params = "methodToCall=download")

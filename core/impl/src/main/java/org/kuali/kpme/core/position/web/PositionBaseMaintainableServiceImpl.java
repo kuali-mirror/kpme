@@ -27,7 +27,6 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -61,7 +60,7 @@ public class PositionBaseMaintainableServiceImpl extends HrBusinessObjectMaintai
         	position.setTimestamp(null);
         }
         
-        KRADServiceLocatorWeb.getLegacyDataAdapter().save(position);
+        KRADServiceLocator.getBusinessObjectService().save(position);
         CacheUtils.flushCache(PositionBaseContract.CACHE_NAME);
     }
     

@@ -69,8 +69,6 @@ import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.api.action.ActionTaken;
-import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
@@ -140,14 +138,10 @@ public class TimeDetailAction extends TimesheetAction {
 		            //if the timesheet has been approved by at least one of the approvers, the employee should not be able to edit it
 		            if (StringUtils.equals(timesheetDocument.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
 		            		&& timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)) {
-                        List<ActionTaken> actionsTaken = KewApiServiceLocator.getWorkflowDocumentService().getAllActionsTaken(timesheetDocument.getDocumentId());
-
-                        for (ActionTaken at : actionsTaken) {
-                            if (ActionType.APPROVE.equals(at.getActionTaken())) {
-                                timeDetailActionForm.setDocEditable("false");
-                                break;
-                            }
-                        }
+			        	Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(timesheetDocument.getDocumentHeader().getDocumentId(), HrConstants.DOCUMENT_ACTIONS.APPROVE);
+		        		if (!actions.isEmpty()) {
+		        			timeDetailActionForm.setDocEditable("false");  
+		        		}
 			        }
 	            } else if (DocumentStatus.FINAL.equals(documentStatus)) {
 	            	if(HrContext.isSystemAdmin()) {
@@ -235,12 +229,12 @@ public class TimeDetailAction extends TimesheetAction {
         	PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 
         	Interval calendarInterval = new Interval(calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
-        	Map<String,Set<LeaveBlock>> maxBalInfractions = new HashMap<String,Set<LeaveBlock>>();
+        	Map<String,Set<LeaveBlockContract>> maxBalInfractions = new HashMap<String,Set<LeaveBlockContract>>();
 	        
         	if (principalCalendar != null) {
         		maxBalInfractions = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
    	        
-        		for (Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
+        		for (Entry<String,Set<LeaveBlockContract>> entry : maxBalInfractions.entrySet()) {
         			for (LeaveBlockContract lb : entry.getValue()) {
         				if (calendarInterval.contains(lb.getLeaveDateTime())) {
 	    	        		AccrualCategoryContract accrualCat = lb.getAccrualCategoryObj();
@@ -377,8 +371,6 @@ public class TimeDetailAction extends TimesheetAction {
         // Add a row to the history table
         TimeBlockHistory tbh = new TimeBlockHistory(TimeBlockBo.from(deletedTimeBlock));
         tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
-        tbh.setPrincipalIdModified(principalId);
-        tbh.setTimestampModified(TKUtils.getCurrentTimestamp());
         TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 
 

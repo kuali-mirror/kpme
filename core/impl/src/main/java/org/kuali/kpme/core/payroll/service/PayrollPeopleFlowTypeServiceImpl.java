@@ -31,7 +31,6 @@ import org.kuali.rice.kew.api.document.DocumentContent;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl;
@@ -72,25 +71,15 @@ public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTy
             try {
                 org.kuali.rice.krad.document.Document doc = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentId());
                 if (doc instanceof MaintenanceDocument) {
-                    MaintenanceDocument md = (MaintenanceDocument) doc;
+                    MaintenanceDocument md =  (MaintenanceDocument)doc;
                     if (md.getNewMaintainableObject().getDataObject() instanceof Assignable) {
-                        Assignable assignable = (Assignable) (md.getNewMaintainableObject().getDataObject());
+                        Assignable assignable = (Assignable)(md.getNewMaintainableObject().getDataObject());
                         assignments = assignable.getAssignments();
                     }
                 } else {
                     // If doc itself is instance of Assignable
                     if (doc instanceof Assignable) {
-                        assignments = ((Assignable) doc).getAssignments();
-                    }
-                }
-            } catch (UnknownDocumentTypeException udte) {
-                    //fall back to pre 2.1 logic for older docs
-                List<String> departments = getElementValues(documentContent.getApplicationContent(), "//DEPARTMENT/@value");
-                if (CollectionUtils.isNotEmpty(departments)) {
-                    for (String dept : departments) {
-                        deptQualifiers.add(
-                                Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(),
-                                        dept));
+                        assignments = ((Assignable)doc).getAssignments();
                     }
                 }
             } catch (WorkflowException e) {
@@ -98,8 +87,7 @@ public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTy
             }
         }
 
-        if (CollectionUtils.isNotEmpty(assignments)
-                && CollectionUtils.isEmpty(deptQualifiers)) {
+        if (CollectionUtils.isNotEmpty(assignments)) {
             for (Assignment ac : assignments) {
                 Map<String, String> qualifiers = new HashMap<String, String>();
                 qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ac.getDept());

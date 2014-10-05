@@ -26,7 +26,6 @@ import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
@@ -78,16 +77,17 @@ public class AssignmentMaintainableServiceImpl extends HrDataObjectMaintainableI
     }
 
 	@Override
-	protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId, String collectionPath) {
-        boolean isValid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
-        if (viewModel instanceof MaintenanceDocumentForm) {
-	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) viewModel;
+	protected boolean performAddLineValidation(View view,
+			CollectionGroup collectionGroup, Object model, Object addLine) {
+        boolean isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
+        if (model instanceof MaintenanceDocumentForm) {
+	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
 	        MaintenanceDocument document = maintenanceForm.getDocument();
 	        if (document.getNewMaintainableObject().getDataObject() instanceof AssignmentBo) {
 	        	AssignmentBo assignment = (AssignmentBo) document.getNewMaintainableObject().getDataObject();
 	        	// Duty line validation
-		        if (newLine instanceof AssignmentAccountBo) {
-		        	AssignmentAccountBo assignmentAccount = (AssignmentAccountBo) newLine;
+		        if (addLine instanceof AssignmentAccountBo) {
+		        	AssignmentAccountBo assignmentAccount = (AssignmentAccountBo) addLine;
 		        	boolean results = this.validateAssignmentAccount(assignmentAccount, assignment);
 		        	if(!results) {
 		        		return false;

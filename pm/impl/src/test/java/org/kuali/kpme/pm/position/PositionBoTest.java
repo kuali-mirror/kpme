@@ -138,14 +138,14 @@ public class PositionBoTest {
     	ClassificationBo classificationBo = new ClassificationBo();
     	bo.getRequiredQualList().get(0).setOwner(classificationBo);
     	
-    	//bo.getFundingList().get(0).setBusinessObjectService(mockBusinessObjectService);
+    	bo.getFundingList().get(0).setBusinessObjectService(mockBusinessObjectService);
         Position im2 = PositionBo.to(bo);
         PositionBo bo2 = PositionBo.from(im2);
         
         // this is simply to prevent invocations of refresh reference 
         bo2.getRequiredQualList().get(0).setOwner(classificationBo);
         
-        //bo2.getFundingList().get(0).setBusinessObjectService(mockBusinessObjectService);
+        bo2.getFundingList().get(0).setBusinessObjectService(mockBusinessObjectService);
         Position im3 = PositionBo.to(bo2);
         
         Assert.assertEquals(im2, im3);

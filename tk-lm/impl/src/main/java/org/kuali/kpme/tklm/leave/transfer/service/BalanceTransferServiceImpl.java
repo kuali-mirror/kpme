@@ -41,7 +41,6 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.dao.BalanceTransferDao;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -169,7 +168,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				}
 			}
 			
-			//assert(adjustedMaxBalance.compareTo(accruedBalance.subtract(bt.getTransferAmount().add(bt.getForfeitedAmount()))) == 0);
+			assert(adjustedMaxBalance.compareTo(accruedBalance.subtract(bt.getTransferAmount().add(bt.getForfeitedAmount()))) == 0);
 
 			// Max Carry Over logic for Year End transfers.
 			if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
@@ -214,11 +213,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			bt.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			bt.setPrincipalId(principalId);
             bt.setUserPrincipalId(HrContext.getPrincipalId());
-			if(ObjectUtils.isNotNull(transferConversionFactor)) {
-                bt.setAmountTransferred(bt.getTransferAmount().multiply(transferConversionFactor).setScale(2, RoundingMode.HALF_UP));
-            } else {
-                bt.setAmountTransferred(bt.getTransferAmount());
-            }
+			if(ObjectUtils.isNotNull(transferConversionFactor))
+				bt.setAmountTransferred(bt.getTransferAmount().multiply(transferConversionFactor).setScale(2, RoundingMode.HALF_UP));
+			else
+				bt.setAmountTransferred(bt.getTransferAmount());
 		}
 		return bt;
 	}
@@ -408,7 +406,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 
 	@Override
 	public void saveOrUpdate(BalanceTransfer balanceTransfer) {
-        KNSServiceLocator.getBusinessObjectService().save(balanceTransfer);
+        KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
 	}
 	
     public List<BalanceTransfer> getBalanceTransfers(String principalId, String fromAccrualCategory, String transferAmount, String toAccrualCategory, String amountTransferred, String forfeitedAmount, LocalDate fromEffdt, LocalDate toEffdt) {

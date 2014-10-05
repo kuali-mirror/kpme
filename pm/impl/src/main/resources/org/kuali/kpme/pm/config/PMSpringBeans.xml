@@ -43,7 +43,6 @@
 
 
     <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kpme/pm/config/_PMJpaSpringBeans.xml"/>
 
     <!-- caching setup -->
     <bean id="kpmePmCacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"

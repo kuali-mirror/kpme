@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+   
+    <changeSet id="1" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_DEPT_EARN_CODE_T" columnName="HR_DEPT_EARN_CODE_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_DEPT_EARN_CODE_T" columnName="HR_DEPT_EARN_CODE_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_DEPT_EARN_CODE_T" columnName="HR_DEPT_EARN_CODE_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="2" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_DEPT_T" columnName="HR_DEPT_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_DEPT_T" columnName="HR_DEPT_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_DEPT_T" columnName="HR_DEPT_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="3" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_EARN_CODE_T" columnName="HR_EARN_CODE_ID" columnDataType="INT" />
+        <modifyDataType tableName="HR_EARN_CODE_T" columnName="HR_EARN_CODE_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_EARN_CODE_T" columnName="HR_EARN_CODE_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="4" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_EARN_GROUP_DEF_T" columnName="HR_EARN_GROUP_DEF_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_EARN_GROUP_DEF_T" columnName="HR_EARN_GROUP_DEF_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_EARN_GROUP_DEF_T" columnName="HR_EARN_GROUP_DEF_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="5" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="HR_EARN_GROUP_DEF_T" columnName="HR_EARN_GROUP_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_EARN_GROUP_DEF_T" columnName="HR_EARN_GROUP_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="6" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_EARN_GROUP_T" columnName="HR_EARN_GROUP_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_EARN_GROUP_T" columnName="HR_EARN_GROUP_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_EARN_GROUP_T" columnName="HR_EARN_GROUP_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="7" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_HOLIDAY_CALENDAR_DATES_T" columnName="HR_HOLIDAY_CALENDAR_DATES_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_HOLIDAY_CALENDAR_DATES_T" columnName="HR_HOLIDAY_CALENDAR_DATES_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_HOLIDAY_CALENDAR_DATES_T" columnName="HR_HOLIDAY_CALENDAR_DATES_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="8" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_HOLIDAY_CALENDAR_DATES_T" columnName="HR_HOLIDAY_CALENDAR_ID" columnDataType="INT" />
+        <modifyDataType tableName="HR_HOLIDAY_CALENDAR_DATES_T" columnName="HR_HOLIDAY_CALENDAR_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_HOLIDAY_CALENDAR_DATES_T" columnName="HR_HOLIDAY_CALENDAR_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="9" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_HOLIDAY_CALENDAR_T" columnName="HR_HOLIDAY_CALENDAR_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_HOLIDAY_CALENDAR_T" columnName="HR_HOLIDAY_CALENDAR_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_HOLIDAY_CALENDAR_T" columnName="HR_HOLIDAY_CALENDAR_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="10" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_JOB_T" columnName="HR_JOB_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_JOB_T" columnName="HR_JOB_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_JOB_T" columnName="HR_JOB_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="11" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="HR_JOB_T" columnName="FTE" newDataType="CHAR(1)" />
+    </changeSet>
+    <changeSet id="12" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_LOCATION_T" columnName="HR_LOCATION_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_LOCATION_T" columnName="HR_LOCATION_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_LOCATION_T" columnName="HR_LOCATION_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="13" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_PAY_GRADE_T" columnName="HR_PAY_GRADE_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_PAY_GRADE_T" columnName="HR_PAY_GRADE_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_PAY_GRADE_T" columnName="HR_PAY_GRADE_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="14" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_PAYTYPE_T" columnName="HR_PAYTYPE_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_PAYTYPE_T" columnName="HR_PAYTYPE_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_PAYTYPE_T" columnName="HR_PAYTYPE_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="15" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_POSITION_T" columnName="HR_POSITION_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_POSITION_T" columnName="HR_POSITION_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_POSITION_T" columnName="HR_POSITION_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="16" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_PY_CALENDAR_ENTRIES_T" columnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_PY_CALENDAR_ENTRIES_T" columnName="HR_PY_CALENDAR_ENTRY_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_PY_CALENDAR_ENTRIES_T" columnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="17" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="HR_PY_CALENDAR_ENTRIES_T" columnName="HR_PY_CALENDAR_ID" newDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="18" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_PY_CALENDAR_T" columnName="HR_PY_CALENDAR_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_PY_CALENDAR_T" columnName="HR_PY_CALENDAR_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_PY_CALENDAR_T" columnName="HR_PY_CALENDAR_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="19-pre" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE HR_ROLES_T_TMP AS SELECT * FROM HR_ROLES_T;
+            TRUNCATE TABLE HR_ROLES_T;
+        </sql>
+    </changeSet>
+    <changeSet id="19" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_ROLES_T" columnName="HR_ROLES_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_ROLES_T" columnName="HR_ROLES_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_ROLES_T" columnName="HR_ROLES_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="19-post" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <sql>
+            INSERT INTO HR_ROLES_T SELECT * FROM HR_ROLES_T_TMP;
+            DROP TABLE HR_ROLES_T_TMP;
+        </sql>
+    </changeSet>
+    <changeSet id="20" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="HR_SAL_GROUP_T" columnName="HR_SAL_GROUP_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_SAL_GROUP_T" columnName="HR_SAL_GROUP_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_SAL_GROUP_T" columnName="HR_SAL_GROUP_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="21" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="LM_ACCRUAL_CATEGORIES_T" columnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="LM_ACCRUAL_CATEGORIES_T" columnName="LM_ACCRUAL_CATEGORY_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="LM_ACCRUAL_CATEGORIES_T" columnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="22" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="LM_ACCRUALS_T" columnName="LM_ACCRUALS_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="LM_ACCRUALS_T" columnName="LM_ACCRUALS_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="LM_ACCRUALS_T" columnName="LM_ACCRUALS_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="23" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_ASSIGN_ACCT_T" columnName="TK_ASSIGN_ACCT_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_ASSIGN_ACCT_T" columnName="TK_ASSIGN_ACCT_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_ASSIGN_ACCT_T" columnName="TK_ASSIGN_ACCT_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="24" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_ASSIGNMENT_T" columnName="TK_ASSIGNMENT_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_ASSIGNMENT_T" columnName="TK_ASSIGNMENT_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_ASSIGNMENT_T" columnName="TK_ASSIGNMENT_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="25" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_CLOCK_LOCATION_RL_T" columnName="TK_CLOCK_LOC_RULE_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_CLOCK_LOCATION_RL_T" columnName="TK_CLOCK_LOC_RULE_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOCATION_RL_T" columnName="TK_CLOCK_LOC_RULE_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="26" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="HR_JOB_ID" newDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="27" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="JOB_NUMBER" newDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="28" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="TK_CLOCK_LOG_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="TK_CLOCK_LOG_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="TK_CLOCK_LOG_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="29" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="TK_TASK_ID" newDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="30" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="31" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_DAILY_OVERTIME_RL_T" columnName="TK_DAILY_OVERTIME_RL_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_DAILY_OVERTIME_RL_T" columnName="TK_DAILY_OVERTIME_RL_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_DAILY_OVERTIME_RL_T" columnName="TK_DAILY_OVERTIME_RL_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="32" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_DEPT_LUNCH_RL_T" columnName="TK_DEPT_LUNCH_RL_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_DEPT_LUNCH_RL_T" columnName="TK_DEPT_LUNCH_RL_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_DEPT_LUNCH_RL_T" columnName="TK_DEPT_LUNCH_RL_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="33" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="TK_GRACE_PERIOD_RL_T" columnName="TK_GRACE_PERIOD_RULE_ID" newDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="34" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_SHIFT_DIFFERENTIAL_RL_T" columnName="TK_SHIFT_DIFF_RL_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_SHIFT_DIFFERENTIAL_RL_T" columnName="TK_SHIFT_DIFF_RL_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_SHIFT_DIFFERENTIAL_RL_T" columnName="TK_SHIFT_DIFF_RL_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="35" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_SYSTEM_LUNCH_RL_T" columnName="TK_SYSTEM_LUNCH_RL_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_SYSTEM_LUNCH_RL_T" columnName="TK_SYSTEM_LUNCH_RL_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_SYSTEM_LUNCH_RL_T" columnName="TK_SYSTEM_LUNCH_RL_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="36" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_TASK_T" columnName="TK_TASK_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_TASK_T" columnName="TK_TASK_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TASK_T" columnName="TK_TASK_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="37" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_TASK_T" columnName="TK_WORK_AREA_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_TASK_T" columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TASK_T" columnName="TK_WORK_AREA_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="38" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_TIME_BLOCK_HIST_T" columnName="TK_TIME_BLOCK_HIST_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_TIME_BLOCK_HIST_T" columnName="TK_TIME_BLOCK_HIST_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_HIST_T" columnName="TK_TIME_BLOCK_HIST_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="39" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="TK_TIME_BLOCK_HIST_T" columnName="TK_TIME_BLOCK_ID" newDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="40" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="TK_TIME_BLOCK_T" columnName="HR_JOB_ID" newDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="41" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="TK_TIME_BLOCK_T" columnName="TK_TASK_ID" newDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="42" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_TIME_BLOCK_T" columnName="TK_TIME_BLOCK_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_TIME_BLOCK_T" columnName="TK_TIME_BLOCK_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_T" columnName="TK_TIME_BLOCK_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="43" author="djunk" context="kpme-client-bootstrap">
+        <modifyDataType tableName="TK_TIME_BLOCK_T" columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="44" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_TIME_COLLECTION_RL_T" columnName="TK_TIME_COLL_RULE_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_TIME_COLLECTION_RL_T" columnName="TK_TIME_COLL_RULE_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_COLLECTION_RL_T" columnName="TK_TIME_COLL_RULE_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="45" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_TIME_SHEET_INIT_T" columnName="TK_TIME_SHEET_INIT_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_TIME_SHEET_INIT_T" columnName="TK_TIME_SHEET_INIT_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_SHEET_INIT_T" columnName="TK_TIME_SHEET_INIT_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="46" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_WEEKLY_OVERTIME_RL_T" columnName="TK_WEEKLY_OVERTIME_RL_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_WEEKLY_OVERTIME_RL_T" columnName="TK_WEEKLY_OVERTIME_RL_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_WEEKLY_OVERTIME_RL_T" columnName="TK_WEEKLY_OVERTIME_RL_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="47" author="djunk" context="kpme-client-bootstrap">
+        <dropNotNullConstraint tableName="TK_WORK_AREA_T" columnName="TK_WORK_AREA_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_WORK_AREA_T" columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_WORK_AREA_T" columnName="TK_WORK_AREA_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    <changeSet id="48" author="djunk" context="kpme-client-bootstrap">
+        <dropForeignKeyConstraint baseTableName="CA_PROJECT_T" constraintName="CA_PROJECT_TI2" />
+        <addForeignKeyConstraint baseTableName="CA_PROJECT_T" constraintName="CA_PROJECT_TR2" baseColumnNames="FIN_COA_CD, ORG_CD" referencedTableName="CA_ORG_T" referencedColumnNames="FIN_COA_CD, ORG_CD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencesUniqueColumn="false" />
+    </changeSet>
+    
+</databaseChangeLog>

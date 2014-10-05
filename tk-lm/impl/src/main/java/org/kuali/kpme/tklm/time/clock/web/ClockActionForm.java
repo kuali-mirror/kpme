@@ -80,8 +80,6 @@ public class ClockActionForm extends TimesheetActionForm {
 	private String errorMessage;
 	private String distributionPeriod;
 
-    private Boolean proxyClockAction;
-    private String proxyClockActionTargetUser;
 
  // this is for the ajax call
 	private String outputString;
@@ -481,19 +479,4 @@ public class ClockActionForm extends TimesheetActionForm {
 		this.distributionPeriod = distributionPeriod;
 	}
 
-    public Boolean getProxyClockAction() {
-        return proxyClockAction;
-    }
-
-    public void setProxyClockAction(Boolean proxyAction) {
-        this.proxyClockAction = proxyAction;
-    }
-
-    public String getProxyClockActionTargetUser() {
-        return proxyClockActionTargetUser;
-    }
-
-    public void setProxyClockActionTargetUser(String proxyClockActionTargetUser) {
-        this.proxyClockActionTargetUser = proxyClockActionTargetUser;
-    }
 }

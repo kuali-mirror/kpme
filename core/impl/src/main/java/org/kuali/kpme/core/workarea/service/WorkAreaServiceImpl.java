@@ -22,7 +22,6 @@ import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.kpme.core.workarea.dao.WorkAreaDao;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -111,7 +110,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
             return null;
         }
         WorkAreaBo bo = WorkAreaBo.from(workArea);
-		return WorkAreaBo.to(KRADServiceLocatorWeb.getLegacyDataAdapter().save(bo));
+		return WorkAreaBo.to(KRADServiceLocator.getBusinessObjectService().save(bo));
 	}
     
 }

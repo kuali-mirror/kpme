@@ -15,7 +15,10 @@
  */
 package org.kuali.kpme.core.department.web;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
@@ -25,6 +28,7 @@ import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.form.LookupForm;
 
 public class DepartmentLookupableImpl  extends KpmeHrGroupKeyedBusinessObjectLookupableImpl {
 	
@@ -50,11 +54,11 @@ public class DepartmentLookupableImpl  extends KpmeHrGroupKeyedBusinessObjectLoo
         return returnList;
 	}
 	
-    @Override
-    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
-
-            String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
-		 List<DepartmentBo> results = (List<DepartmentBo>) super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
+	@SuppressWarnings("unchecked")
+	@Override
+	protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+		String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+		 List<DepartmentBo> results = (List<DepartmentBo>) super.getSearchResults(form, searchCriteria, unbounded);
 	        List<DepartmentBo> filteredResults = filterLookupDepartments(results, userPrincipalId);
 	        return filteredResults;
 	}

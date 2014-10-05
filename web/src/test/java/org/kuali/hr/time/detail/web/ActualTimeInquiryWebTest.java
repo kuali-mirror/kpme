@@ -38,7 +38,6 @@ import org.kuali.kpme.tklm.utils.TkTestConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @FunctionalTest
 public class ActualTimeInquiryWebTest extends KPMEWebTestCase {
@@ -103,7 +102,7 @@ public class ActualTimeInquiryWebTest extends KPMEWebTestCase {
 	public void changeGracePeriodRule() {
 		GracePeriodRule gracePeriodRule = TkServiceLocator.getGracePeriodService().getGracePeriodRule(timeBlock.getBeginDateTime().toLocalDate());
 		gracePeriodRule.setHourFactor(new BigDecimal("1"));
-		KRADServiceLocatorWeb.getLegacyDataAdapter().save(gracePeriodRule);
+		KRADServiceLocator.getBusinessObjectService().save(gracePeriodRule);
 	}
 
 }

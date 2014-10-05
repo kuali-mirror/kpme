@@ -253,10 +253,5 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     public CalendarBlockPermissions updateLeaveBlockPermissions(CalendarBlockPermissions calendarBlockPermissions) {
         return calendarBlockPermissions;
     }
-
-	@Override
-	public boolean canViewEdossierTabs() {
-		return true;
-	}
 	
 }

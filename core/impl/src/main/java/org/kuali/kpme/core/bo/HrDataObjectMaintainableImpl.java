@@ -23,10 +23,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -56,7 +54,7 @@ public abstract class HrDataObjectMaintainableImpl extends MaintainableImpl {
                     customInactiveSaveLogicNewEffective(oldHrObj);
 				}
 
-                KRADServiceLocatorWeb.getLegacyDataAdapter().save(oldHrObj);
+				KRADServiceLocator.getBusinessObjectService().save(oldHrObj);
 			}
 		}
 		hrObj.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -64,7 +62,7 @@ public abstract class HrDataObjectMaintainableImpl extends MaintainableImpl {
 		hrObj.setId(null);
 		
 		customSaveLogic(hrObj);
-		KRADServiceLocatorWeb.getLegacyDataAdapter().save(hrObj);
+		KRADServiceLocator.getBusinessObjectService().save(hrObj);
 
         //cache clearing?!?!
         try {

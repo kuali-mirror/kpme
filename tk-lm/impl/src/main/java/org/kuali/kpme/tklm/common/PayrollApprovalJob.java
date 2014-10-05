@@ -38,16 +38,26 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.actionitem.ActionItemActionListExtension;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.role.RoleMember;
-import org.quartz.*;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PayrollApprovalJob extends BatchJob {
 
@@ -185,6 +195,21 @@ public class PayrollApprovalJob extends BatchJob {
 		}
 		String [] roleMemberIds = new String [roleMemberIdList.size()];
 		HrServiceLocator.getKPMENotificationService().sendNotification(subject, message, roleMemberIdList.toArray(roleMemberIds));
+	}
+	
+	private boolean documentNotEnroute(String documentId) {
+		//TODO: Determine if the document has been approved by the "work area"
+		boolean documentNotInAStateToBeApproved = false;
+		
+		Collection<ActionItemActionListExtension> actionItems = KEWServiceLocator.getActionListService().getActionListForSingleDocument(documentId);
+		for (ActionItemActionListExtension actionItem : actionItems) {
+			if (!actionItem.getRouteHeader().isEnroute()) {
+				documentNotInAStateToBeApproved = true;
+				break;
+			}
+		}
+		
+		return documentNotInAStateToBeApproved;
 	}
 	
 	private void rescheduleJob(JobExecutionContext context) throws JobExecutionException {

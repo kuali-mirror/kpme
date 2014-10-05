@@ -35,10 +35,6 @@ public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleCont
 	private String maxHoursEarnGroup;
 	private String convertFromEarnGroup;
 	private String convertToEarnCode;
-    private String applyToEarnGroup;
-
-    private boolean overrideWorkAreaDefaultOvertime;
-
 	private BigDecimal step;
 	private BigDecimal maxHours;
 	private boolean ovtEarnCode;
@@ -47,10 +43,7 @@ public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleCont
 	
 	private EarnCodeGroupBo maxHoursEarnGroupObj;
 	private EarnCodeGroupBo convertFromEarnGroupObj;
-	private EarnCodeGroupBo applyToEarnGroupObj;
-
-    private EarnCodeBo convertToEarnCodeObj;
-
+	private EarnCodeBo convertToEarnCodeObj;
 	
 	// TODO returning an empty map for the time-being, until the BK is finalized
 	@Override
@@ -162,31 +155,4 @@ public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleCont
 	public void setId(String id) {
 		setTkWeeklyOvertimeRuleId(id);
 	}
-
-    @Override
-    public String getApplyToEarnGroup() {
-        return applyToEarnGroup;
-    }
-
-    public void setApplyToEarnGroup(String applyToEarnGroup) {
-        this.applyToEarnGroup = applyToEarnGroup;
-    }
-
-
-
-    public EarnCodeGroupBo getApplyToEarnGroupObj() {
-        return applyToEarnGroupObj;
-    }
-
-    public void setApplyToEarnGroupObj(EarnCodeGroupBo applyToEarnGroupObj) {
-        this.applyToEarnGroupObj = applyToEarnGroupObj;
-    }
-
-    public boolean isOverrideWorkAreaDefaultOvertime() {
-        return overrideWorkAreaDefaultOvertime;
-    }
-
-    public void setOverrideWorkAreaDefaultOvertime(boolean overrideWorkAreaDefaultOvertime) {
-        this.overrideWorkAreaDefaultOvertime = overrideWorkAreaDefaultOvertime;
-    }
 }

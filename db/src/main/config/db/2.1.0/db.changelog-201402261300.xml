@@ -1,0 +1,1102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="tkagata" context="kpme-server-bootstrap">
+	    <comment>KPME-3198: Adding KIM permissions for Maintenance Documents</comment>
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0125" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Classification" />
+            <column name="DESC_TXT" value="Allows users to create a Position Classification" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0131" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0125" />
+            <column name="ATTR_VAL" value="ClassificationMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0126" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Classification" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Classification" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0132" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0126" />
+            <column name="ATTR_VAL" value="ClassificationMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0127" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Classification" />
+            <column name="DESC_TXT" value="Allows users to view a Position Classification" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0133" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0127" />
+            <column name="ATTR_VAL" value="ClassificationMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0128" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Salary Group" />
+            <column name="DESC_TXT" value="Allows users to create a Salary Group" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0134" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0128" />
+            <column name="ATTR_VAL" value="SalaryGroupMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0129" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Salary Group" />
+            <column name="DESC_TXT" value="Allows users to edit a Salary Group" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0135" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0129" />
+            <column name="ATTR_VAL" value="SalaryGroupMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0130" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Salary Group" />
+            <column name="DESC_TXT" value="Allows users to view a Salary Group" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0136" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+			<column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0130" />
+            <column name="ATTR_VAL" value="SalaryGroupMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0131" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Pay Step" />
+            <column name="DESC_TXT" value="Allows users to create a Pay Step" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0137" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0131" />
+            <column name="ATTR_VAL" value="PayStepMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0132" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Pay Step" />
+            <column name="DESC_TXT" value="Allows users to edit a Pay Step" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0138" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0132" />
+            <column name="ATTR_VAL" value="PayStepMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0133" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Pay Step" />
+            <column name="DESC_TXT" value="Allows users to view a Pay Step" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0139" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0133" />
+            <column name="ATTR_VAL" value="PayStepMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0134" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Pay Grade" />
+            <column name="DESC_TXT" value="Allows users to create a Pay Grade" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0140" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0134" />
+            <column name="ATTR_VAL" value="PayGradeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0135" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Pay Grade" />
+            <column name="DESC_TXT" value="Allows users to edit a Pay Grade" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0141" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0135" />
+            <column name="ATTR_VAL" value="PayGradeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0136" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Pay Grade" />
+            <column name="DESC_TXT" value="Allows users to view a Pay Grade" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0142" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0136" />
+            <column name="ATTR_VAL" value="PayGradeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+	    <modifySql dbms="mysql">
+	        <replace replace="SYSDATE" with="NOW()" />
+	        <replace replace="SYS_GUID()" with="UUID()" />
+	    </modifySql>
+    </changeSet>
+    
+    <changeSet id="2" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Adding KIM permissions for Setup Documents</comment>
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0137" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Appointment" />
+            <column name="DESC_TXT" value="Allows users to create a Position Appointment" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0143" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0137" />
+            <column name="ATTR_VAL" value="PositionAppointmentMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0138" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Appointment" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Appointment" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0144" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0138" />
+            <column name="ATTR_VAL" value="PositionAppointmentMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0139" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Appointment" />
+            <column name="DESC_TXT" value="Allows users to view a Position Appointment" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0145" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0139" />
+            <column name="ATTR_VAL" value="PositionAppointmentMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0140" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Responsibility Option" />
+            <column name="DESC_TXT" value="Allows users to create a Position Responsibility Option" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0146" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0140" />
+            <column name="ATTR_VAL" value="PositionResponsibilityOptionMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0141" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Responsibility Option" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Responsibility Option" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0147" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0141" />
+            <column name="ATTR_VAL" value="PositionResponsibilityOptionMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0142" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Responsibility Option" />
+            <column name="DESC_TXT" value="Allows users to view a Position Responsibility Option" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0148" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0142" />
+            <column name="ATTR_VAL" value="PositionResponsibilityOptionMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0143" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Contract Type" />
+            <column name="DESC_TXT" value="Allows users to create a Position Contract Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0149" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0143" />
+            <column name="ATTR_VAL" value="PstnContractTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0144" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Contract Type" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Contract Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0150" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0144" />
+            <column name="ATTR_VAL" value="PstnContractTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0145" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Contract Type" />
+            <column name="DESC_TXT" value="Allows users to view a Position Contract Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0151" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0145" />
+            <column name="ATTR_VAL" value="PstnContractTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0146" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Type" />
+            <column name="DESC_TXT" value="Allows users to create a Position Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0152" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0146" />
+            <column name="ATTR_VAL" value="PositionTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0147" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Type" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0153" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0147" />
+            <column name="ATTR_VAL" value="PositionTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0148" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Type" />
+            <column name="DESC_TXT" value="Allows users to view a Position Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0154" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0148" />
+            <column name="ATTR_VAL" value="PositionTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0149" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Flag" />
+            <column name="DESC_TXT" value="Allows users to create a Position Flag" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0155" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0149" />
+            <column name="ATTR_VAL" value="PositionFlagMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0150" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Flag" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Flag" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0156" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0150" />
+            <column name="ATTR_VAL" value="PositionFlagMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0151" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Flag" />
+            <column name="DESC_TXT" value="Allows users to view a Position Flag" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0157" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0151" />
+            <column name="ATTR_VAL" value="PositionFlagMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0152" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Qualifier Type" />
+            <column name="DESC_TXT" value="Allows users to create a Position Qualifier Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0158" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0152" />
+            <column name="ATTR_VAL" value="PstnQlfrTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0153" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Qualifier Type" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Qualifier Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0159" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0153" />
+            <column name="ATTR_VAL" value="PstnQlfrTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0154" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Qualifier Type" />
+            <column name="DESC_TXT" value="Allows users to view a Position Qualifier Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0160" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0154" />
+            <column name="ATTR_VAL" value="PstnQlfrTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+     
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="3" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Adding KIM permissions for Report Documents</comment>
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0155" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Report Group" />
+            <column name="DESC_TXT" value="Allows users to create a Position Report Group" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0161" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0155" />
+            <column name="ATTR_VAL" value="PositionReportGroupMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0156" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Report Group" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Report Group" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0162" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0156" />
+            <column name="ATTR_VAL" value="PositionReportGroupMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0157" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Report Group" />
+            <column name="DESC_TXT" value="Allows users to view a Position Report Group" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0163" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0157" />
+            <column name="ATTR_VAL" value="PositionReportGroupMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0158" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Report Group Sub Category" />
+            <column name="DESC_TXT" value="Allows users to create a Position Report Group Sub Category" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0164" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0158" />
+            <column name="ATTR_VAL" value="PstnRptGrpSubCatMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0159" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Report Group Sub Category" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Report Group Sub Category" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0165" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0159" />
+            <column name="ATTR_VAL" value="PstnRptGrpSubCatMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0160" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Report Group Sub Category" />
+            <column name="DESC_TXT" value="Allows users to view a Position Report Group Sub Category" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0166" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0160" />
+            <column name="ATTR_VAL" value="PstnRptGrpSubCatMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0161" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Report Sub Category" />
+            <column name="DESC_TXT" value="Allows users to create a Position Report Sub Category" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0167" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0161" />
+            <column name="ATTR_VAL" value="PositionReportSubCatMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0162" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Report Sub Category" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Report Sub Category" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0168" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0162" />
+            <column name="ATTR_VAL" value="PositionReportSubCatMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0163" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Report Sub Category" />
+            <column name="DESC_TXT" value="Allows users to view a Position Report Sub Category" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0169" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0163" />
+            <column name="ATTR_VAL" value="PositionReportSubCatMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0164" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Report Category" />
+            <column name="DESC_TXT" value="Allows users to create a Position Report Category" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0170" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0164" />
+            <column name="ATTR_VAL" value="PositionReportCatMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0165" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Report Category" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Report Category" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0171" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0165" />
+            <column name="ATTR_VAL" value="PositionReportCatMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0166" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Report Category" />
+            <column name="DESC_TXT" value="Allows users to view a Position Report Category" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0172" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0166" />
+            <column name="ATTR_VAL" value="PositionReportCatMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0167" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position Report Type" />
+            <column name="DESC_TXT" value="Allows users to create a Position Report Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0173" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0167" />
+            <column name="ATTR_VAL" value="PositionReportTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0168" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Edit KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Position Report Type" />
+            <column name="DESC_TXT" value="Allows users to edit a Position Report Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0174" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0168" />
+            <column name="ATTR_VAL" value="PositionReportTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0169" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position Report Type" />
+            <column name="DESC_TXT" value="Allows users to view a Position Report Type" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0175" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0169" />
+            <column name="ATTR_VAL" value="PositionReportTypeMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+     
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+     
+    <changeSet id="4" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Adding KIM permissions for Position Maintenance document</comment>
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0170" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Create Position" />
+            <column name="DESC_TXT" value="Allows users to create a Position" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0176" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0170" />
+            <column name="ATTR_VAL" value="PositionMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0171" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Saved Position" />
+            <column name="DESC_TXT" value="Allows users to edit a saved Position" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0177" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0171" />
+            <column name="ATTR_VAL" value="PositionMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0178" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0171" />
+            <column name="ATTR_VAL" value="S" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0172" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Enroute Position" />
+            <column name="DESC_TXT" value="Allows users to edit an enroute Position" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0179" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0172" />
+            <column name="ATTR_VAL" value="PositionMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0180" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0172" />
+            <column name="ATTR_VAL" value="R" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0173" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Edit Final Position" />
+            <column name="DESC_TXT" value="Allows users to edit a final Position" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0181" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0173" />
+            <column name="ATTR_VAL" value="PositionMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0182" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0173" />
+            <column name="ATTR_VAL" value="F" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0174" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Administer Routing for Document')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="Super User Administer Position" />
+            <column name="DESC_TXT" value="Allows super users to administer a Position" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0183" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0174" />
+            <column name="ATTR_VAL" value="PositionMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0175" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'View KPME Record')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="View Position" />
+            <column name="DESC_TXT" value="Allows users to view a Position" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0184" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0175" />
+            <column name="ATTR_VAL" value="PositionMaintenanceDocumentType" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+</databaseChangeLog>

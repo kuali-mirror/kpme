@@ -51,7 +51,7 @@ public class LeaveActionFormUtils {
         List<Map<String, Object>> leaveBlockList = new LinkedList<Map<String, Object>>();
         String timezone = HrServiceLocator.getTimezoneService().getUserTimezone();
 
-        for (LeaveBlock leaveBlock : leaveBlocks) {
+        for (LeaveBlockContract leaveBlock : leaveBlocks) {
             Map<String, Object> LeaveBlockMap = new LinkedHashMap<String, Object>();
             
             if(leaveBlock.getBeginDateTime() != null && leaveBlock.getEndDateTime() != null) {

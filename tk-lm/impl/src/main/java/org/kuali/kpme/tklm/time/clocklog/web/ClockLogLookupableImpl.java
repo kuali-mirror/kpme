@@ -15,53 +15,71 @@
  */
 package org.kuali.kpme.tklm.time.clocklog.web;
 
+import java.util.*;
+
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import java.util.*;
+import org.kuali.rice.krad.lookup.LookupUtils;
+import org.kuali.rice.krad.uif.view.LookupView;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.form.LookupForm;
 
 public class ClockLogLookupableImpl extends KPMELookupableImpl {
 
-
 	@Override
-    public boolean allowsMaintenanceNewOrCopyAction() {
-        return false;
+	public void initSuppressAction(LookupForm lookupForm) {
+		((LookupView) lookupForm.getView()).setSuppressActions(false);
 	}
 
-    @Override
-    public boolean allowsMaintenanceEditAction(Object dataObject) {
-        return false;
-    }
+	@Override
+	public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+        String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
 
-    @Override
-    public boolean allowsMaintenanceDeleteAction(Object dataObject) {
-        return false;
-    }
+        Integer searchResultsLimit = null;
 
-    @Override
-    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
+        Collection<?> rawSearchResults;
 
-        List<ClockLogBo> results = new ArrayList<ClockLogBo>();
-        Collection<?> searchResults = super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
-        for (Object searchResult : searchResults) {
-            if(searchResult != null) {
-                ClockLogBo aClockLog = (ClockLogBo) searchResult;
-                aClockLog.setClockedByMissedPunch(TkServiceLocator.getClockLogService().isClockLogCreatedByMissedPunch(aClockLog.getTkClockLogId()));
-                results.add(aClockLog);
-            }
+        // removed blank search values and decrypt any encrypted search values
+        Map<String, String> nonBlankSearchCriteria = processSearchCriteria(form, searchCriteria);
+
+        if (nonBlankSearchCriteria == null) {
+            return new ArrayList<Object>();
         }
 
-        return filterLookupResults(results, HrContext.getPrincipalId()) ;
-    }
+        if (!unbounded) {
+            searchResultsLimit = LookupUtils.getSearchResultsLimit(getDataObjectClass(), form);
+        }
+
+        rawSearchResults = getLookupService().findCollectionBySearchHelper(getDataObjectClass(),
+                nonBlankSearchCriteria, unbounded, searchResultsLimit);
+
+        if (rawSearchResults == null) {
+            rawSearchResults = new ArrayList<Object>();
+        } else {
+            sortSearchResults(form, (List<?>) rawSearchResults);
+        }
+
+        List<ClockLogBo> filteredResults = filterLookupResults((List<ClockLogBo>)rawSearchResults, userPrincipalId);
+
+        generateLookupResultsMessages(form, nonBlankSearchCriteria, filteredResults, unbounded);
+
+		for (ClockLogBo searchResult : filteredResults) {
+			if(searchResult != null) {
+                searchResult.setClockedByMissedPunch(TkServiceLocator.getClockLogService().isClockLogCreatedByMissedPunch(searchResult.getTkClockLogId()));
+			}
+		}
+
+		return filteredResults;
+	}
 
     protected List<ClockLogBo> filterLookupResults(List<ClockLogBo> rawResults, String userPrincipalId) {
         List<ClockLogBo> results = new ArrayList<ClockLogBo>();

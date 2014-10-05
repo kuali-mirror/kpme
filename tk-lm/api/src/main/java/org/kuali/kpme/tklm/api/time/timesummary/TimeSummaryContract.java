@@ -96,7 +96,5 @@ public interface TimeSummaryContract {
 	 * @return flsaWeekTotalMap for TimeSummaryContract
 	 */
 	public Map<String, BigDecimal> getFlsaWeekTotalMap();
-	
-	public Map<String, Map<Integer, Boolean>> getWeeklyClockLogs();
 
 }

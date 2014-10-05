@@ -42,7 +42,6 @@
                            http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
     <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kpme/core/config/_CoreJpaSpringBeans.xml"/>
 
     <!--<aop:aspectj-autoproxy/>-->
 

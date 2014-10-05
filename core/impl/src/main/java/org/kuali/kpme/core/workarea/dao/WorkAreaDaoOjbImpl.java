@@ -27,7 +27,6 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class WorkAreaDaoOjbImpl extends PlatformAwareDaoBaseOjb implements WorkAreaDao {
@@ -144,7 +143,7 @@ public class WorkAreaDaoOjbImpl extends PlatformAwareDaoBaseOjb implements WorkA
 	}
 	
 	public Long getNextWorkAreaKey(){
-		 return KNSServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("tk_work_area_key_s");
+		 return KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("tk_work_area_key_s");
 	}
 
 	@Override

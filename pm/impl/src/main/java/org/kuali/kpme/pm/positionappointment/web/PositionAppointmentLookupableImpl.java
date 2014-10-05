@@ -17,7 +17,6 @@ package org.kuali.kpme.pm.positionappointment.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +33,7 @@ import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
 
@@ -59,8 +59,8 @@ public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
         return returnList;
     }
 
-    @Override
-    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
+	@Override
+	public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
 
 		//return super.getSearchResults(form, searchCriteria, bounded);
 /*
@@ -78,7 +78,7 @@ public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
 				(positionAppointment, description, groupKeyCode, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist), toPositionAppointmentBo);
 */
 
-        List<PositionAppointmentBo> posApptContrasts = (List<PositionAppointmentBo>)super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
+        List<PositionAppointmentBo> posApptContrasts = (List<PositionAppointmentBo>)super.getSearchResults(form, searchCriteria, bounded);
 
         List<PositionAppointmentBo> filteredResults = filterLookupPositionAppointments(posApptContrasts, GlobalVariables.getUserSession().getPerson());
 		// TODO: Filter the result by institution and location here

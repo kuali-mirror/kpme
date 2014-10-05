@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="tkagata" context="kpme-server-bootstrap">
+	    <comment>KPME-3198: Adding Position Management Namespace</comment>
+        <insert tableName="KRCR_NMSPC_T">
+            <column name="APPL_ID" value="KPME" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="NM" value="KPME Position Management" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+	        
+	    <modifySql dbms="mysql">
+	        <replace replace="SYSDATE" with="NOW()" />
+	        <replace replace="SYS_GUID()" with="UUID()" />
+	    </modifySql>
+    </changeSet>
+    
+    <changeSet id="2" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Adding KIM Attribute Definitions</comment>
+        <insert tableName="KRIM_ATTR_DEFN_T">
+            <column name="KIM_ATTR_DEFN_ID" value="KPME0005" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="NM" value="institution" />
+            <column name="CMPNT_NM" value="org.kuali.kpme.core.KPMEAttributes" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ATTR_DEFN_T">
+            <column name="KIM_ATTR_DEFN_ID" value="KPME0006" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="NM" value="organization" />
+            <column name="CMPNT_NM" value="org.kuali.kpme.core.KPMEAttributes" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ATTR_DEFN_T">
+            <column name="KIM_ATTR_DEFN_ID" value="KPME0007" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="NM" value="positionType" />
+            <column name="CMPNT_NM" value="org.kuali.kpme.core.KPMEAttributes" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+     
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="3" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Adding KIM Types</comment> 
+        <insert tableName="KRIM_TYP_T">
+            <column name="KIM_TYP_ID" value="KPME0008" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="NM" value="Institution" />
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/core/v2_0}institutionRoleTypeService" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_TYP_ATTR_T">
+            <column name="KIM_TYP_ATTR_ID" value="KPME0006" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Institution')" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'institution')" />
+            <column name="SORT_CD" value="a" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_TYP_T">
+            <column name="KIM_TYP_ID" value="KPME0009" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="NM" value="Organization" />
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/core/v2_0}organizationRoleTypeService" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_TYP_ATTR_T">
+            <column name="KIM_TYP_ATTR_ID" value="KPME0007" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Organization')" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'organization')" />
+            <column name="SORT_CD" value="a" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_TYP_T">
+            <column name="KIM_TYP_ID" value="KPME0010" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="NM" value="Institution &amp; Position Type" />
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/core/v2_0}institutionPositionTypeRoleTypeService" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_TYP_ATTR_T">
+            <column name="KIM_TYP_ATTR_ID" value="KPME0008" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Institution &amp; Position Type')" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'institution')" />
+            <column name="SORT_CD" value="a" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_TYP_ATTR_T">
+            <column name="KIM_TYP_ATTR_ID" value="KPME0009" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Institution &amp; Position Type')" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'positionType')" />
+            <column name="SORT_CD" value="a" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_TYP_T">
+            <column name="KIM_TYP_ID" value="KPME0011" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="NM" value="Location &amp; Position Type" />
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/core/v2_0}locationPositionTypeRoleTypeService" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_TYP_ATTR_T">
+            <column name="KIM_TYP_ATTR_ID" value="KPME0010" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Location &amp; Position Type')" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'location')" />
+            <column name="SORT_CD" value="a" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_TYP_ATTR_T">
+            <column name="KIM_TYP_ATTR_ID" value="KPME0011" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Location &amp; Position Type')" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'positionType')" />
+            <column name="SORT_CD" value="a" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+     
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="4" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Adding KIM Roles</comment>
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0022" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="ROLE_NM" value="Position System Administrator" />
+            <column name="DESC_TXT" value="The system administrator role for the Position Management system" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0023" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+            <column name="ROLE_NM" value="Position System View Only" />
+            <column name="DESC_TXT" value="The system view only role for the Position Management system" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0024" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Institution')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="KOHR Institution Administrator" />
+            <column name="DESC_TXT" value="The institution administrator role for the KOHR system" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0025" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Institution &amp; Position Type')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="KOHR Academic HR Administrator" />
+            <column name="DESC_TXT" value="The institution administrator role for academic position types for the KOHR system" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+  
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0026" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Institution')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="KOHR Institution View Only" />
+            <column name="DESC_TXT" value="The institution view only role for the the KOHR system" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0027" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Location')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="KOHR Location Administrator" />
+            <column name="DESC_TXT" value="The location administrator role for the KOHR system" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+  
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0028" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Location')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="KOHR Location View Only" />
+            <column name="DESC_TXT" value="The location view only role for the KOHR system" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0029" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Organization')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="KOHR Organization Administrator" />
+            <column name="DESC_TXT" value="The organization administrator role for the KOHR system" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+  
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0030" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Organization')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="KOHR Organization View Only" />
+            <column name="DESC_TXT" value="The organization view only role for the KOHR system" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0031" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Department')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="HR Department Administrator" />
+            <column name="DESC_TXT" value="The department human resources administrator role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0032" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Department')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="HR Department View Only" />
+            <column name="DESC_TXT" value="The department human resources view only role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <!-- Workflow roles -->
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0033" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Institution')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="HR Institution Approver" />
+            <column name="DESC_TXT" value="The institution human resources approver role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0034" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Institution &amp; Position Type')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="Academic HR Institution Approver" />
+            <column name="DESC_TXT" value="The institution academic human resources approver" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0035" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Institution')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="Budget Approver" />
+            <column name="DESC_TXT" value="The institution budget office approver role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0036" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Institution')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="Payroll Approver" />
+            <column name="DESC_TXT" value="The institution payroll approver role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0037" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Location')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="HR Location Approver" />
+            <column name="DESC_TXT" value="The loation human resources approver role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0038" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Location &amp; Position Type')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="Academic HR Location Approver" />
+            <column name="DESC_TXT" value="The location academic human resources approver" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0039" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Location')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="Fiscal Location Approver" />
+            <column name="DESC_TXT" value="The loation academic fiscal approver role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0040" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Organization')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="HR Organization Approver" />
+            <column name="DESC_TXT" value="The organization human resources approver role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0041" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Organization')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="Fiscal Organization Approver" />
+            <column name="DESC_TXT" value="The organization fiscal approver role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0042" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Department')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="Department Approver" />
+            <column name="DESC_TXT" value="The department approver role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_T">
+            <column name="ROLE_ID" value="KPME0043" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Department')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="ROLE_NM" value="Fiscal Department Approver" />
+            <column name="DESC_TXT" value="The department fiscal approver role" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+            
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="5" author="tkagata" context="kpme-server-bootstrap">
+        <comment>KPME-3198: Adding Global System Admin/View Only group to Position Management System Admin/View Only role</comment>
+        <insert tableName="KRIM_ROLE_MBR_T">
+            <column name="ROLE_MBR_ID" value="KPME0005" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
+            <column name="MBR_ID" valueComputed="(SELECT GRP_ID FROM KRIM_GRP_T WHERE NMSPC_CD = 'KPME-HR' AND GRP_NM = 'System Administrator')" />
+            <column name="MBR_TYP_CD" value="G" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_MBR_T">
+            <column name="ROLE_MBR_ID" value="KPME0006" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System View Only')" />
+            <column name="MBR_ID" valueComputed="(SELECT GRP_ID FROM KRIM_GRP_T WHERE NMSPC_CD = 'KPME-HR' AND GRP_NM = 'System View Only')" />
+            <column name="MBR_TYP_CD" value="G" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+   
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+</databaseChangeLog>
